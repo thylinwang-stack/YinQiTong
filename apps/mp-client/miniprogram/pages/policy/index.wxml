@@ -1,0 +1,22 @@
+<view class="page safe-bottom">
+  <view class="tabs card">
+    <view class="tab {{activeTab === 'service' ? 'active' : ''}}" bindtap="switchTab" data-tab="service">服务协议</view>
+    <view class="tab {{activeTab === 'privacy' ? 'active' : ''}}" bindtap="switchTab" data-tab="privacy">隐私政策</view>
+  </view>
+
+  <view class="card content" wx:if="{{activeTab === 'service'}}">
+    <view class="h2">服务边界协议</view>
+    <view class="paragraph">平台提供商务社交氛围协同、餐前准备、饭局陪同和礼宾接待服务，服务目标是提升正式接待体验、现场沟通顺畅度和商务体面感。</view>
+    <view class="paragraph">平台不提供任何越界服务，所有沟通均通过平台客服或受控消息系统完成，不展示或交换助理私人联系方式。客户需求如包含不合规内容，平台有权拒绝服务、取消订单或提交风控处理。</view>
+    <view class="paragraph">支付对象为商务接待氛围服务预约金、商务社交助理服务费、餐前准备与现场协同服务费，不代表购买、指定或占有任何具体人员。</view>
+    <view class="paragraph">平台不承诺商业结果，不保证项目签约、客户成交或关系结果。</view>
+  </view>
+
+  <view class="card content" wx:else>
+    <view class="h2">隐私政策</view>
+    <view class="paragraph">平台仅在服务履约、订单沟通、风控合规和财务结算需要时收集必要信息。</view>
+    <view class="paragraph">商务助理对外仅展示编号、工作名、城市、风格标签、擅长场景、商务能力和合规形象照。</view>
+    <view class="paragraph">平台不会在客户端公开助理真实手机号、微信号、身份证号、住址、紧急联系人等隐私字段。</view>
+    <view class="paragraph">所有支付、退款、派单、状态变更和敏感资料查看会写入审计日志。</view>
+  </view>
+</view>

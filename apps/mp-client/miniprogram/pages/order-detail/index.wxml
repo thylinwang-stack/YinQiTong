@@ -1,0 +1,58 @@
+<view class="page safe-bottom" wx:if="{{order}}">
+  <view class="card header-card">
+    <view class="order-no">{{order.orderNo}}</view>
+    <view class="status-pill">{{statusText}}</view>
+    <view class="muted">{{order.sceneName}} · {{order.city}}</view>
+  </view>
+
+  <view class="section card">
+    <view class="h2">订单进度</view>
+    <view class="timeline">
+      <view class="step {{index <= activeStep ? 'done' : ''}}" wx:for="{{steps}}" wx:key="name">
+        <view class="dot"></view>
+        <view class="step-content">
+          <view class="step-name">{{item.name}}</view>
+          <view class="muted">{{item.desc}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="section card">
+    <view class="h2">服务信息</view>
+    <view class="info-line">
+      <text>服务时间</text>
+      <text>{{order.serviceTime}}</text>
+    </view>
+    <view class="info-line">
+      <text>商务助理</text>
+      <text>{{order.assistantCount}} 人</text>
+    </view>
+    <view class="info-line">
+      <text>服务费</text>
+      <text>¥{{order.serviceFee}}</text>
+    </view>
+    <view class="info-line">
+      <text>预约金</text>
+      <text class="gold-text">¥{{order.depositAmount}}</text>
+    </view>
+    <view class="info-line">
+      <text>已支付</text>
+      <text>¥{{order.paidAmount}}</text>
+    </view>
+  </view>
+
+  <view class="section card compliance">
+    <view class="h2">服务边界</view>
+    <view class="muted">该订单沟通通过平台客服或受控消息系统完成。服务内容仅限商务接待氛围服务、商务社交助理服务、餐前准备与现场协同服务。</view>
+  </view>
+
+  <view class="actions">
+    <button class="btn ghost" bindtap="contactService">联系平台客服</button>
+    <button class="btn gold" wx:if="{{order.status === 'pending_payment'}}" bindtap="payAgain">继续支付</button>
+  </view>
+</view>
+
+<view class="page" wx:else>
+  <view class="card empty">未找到订单</view>
+</view>

@@ -1,0 +1,82 @@
+<view class="page safe-bottom" wx:if="{{brief}}">
+  <view class="card header-card">
+    <view>
+      <view class="eyebrow">STAFF BRIEF</view>
+      <view class="h1">{{brief.banquetTheme}}</view>
+      <view class="muted">{{brief.orderNo}} · {{brief.sceneName}} · {{brief.city}}</view>
+    </view>
+    <view class="status-pill">{{statusText}}</view>
+  </view>
+
+  <view class="section card">
+    <view class="h2">服务信息</view>
+    <view class="info-line">
+      <text>服务时间</text>
+      <text>{{brief.serviceTime}}</text>
+    </view>
+    <view class="info-line">
+      <text>到场人数</text>
+      <text>{{brief.attendeeCount}} 人</text>
+    </view>
+    <view class="info-line">
+      <text>着装要求</text>
+      <text>{{brief.dressCode}}</text>
+    </view>
+  </view>
+
+  <view class="section card">
+    <view class="h2">助理可见 Brief</view>
+    <view class="brief-text">{{brief.assistantVisibleBrief}}</view>
+  </view>
+
+  <view class="section card">
+    <view class="h2">推荐话题</view>
+    <view class="tag-row compact">
+      <view class="tag" wx:for="{{brief.recommendedTopics}}" wx:key="*this">{{item}}</view>
+    </view>
+    <view class="divider"></view>
+    <view class="h2">禁忌话题</view>
+    <view class="tag-row compact">
+      <view class="tag warning" wx:for="{{brief.tabooTopics}}" wx:key="*this">{{item}}</view>
+    </view>
+  </view>
+
+  <view class="section card">
+    <view class="h2">角色分工</view>
+    <view class="role-item" wx:for="{{brief.roleAssignments}}" wx:key="owner">
+      <view class="role-head">{{item.role}} · {{item.owner}}</view>
+      <view class="muted">{{item.responsibility}}</view>
+    </view>
+  </view>
+
+  <view class="section card">
+    <view class="h2">注意事项</view>
+    <view class="point" wx:for="{{brief.attentionPoints}}" wx:key="*this">{{index + 1}}. {{item}}</view>
+  </view>
+
+  <view class="section card">
+    <view class="h2">服务边界确认</view>
+    <view class="muted">我确认仅执行平台派发的商务社交氛围协同、餐前准备与礼宾接待任务；不展示或交换私人联系方式，异常情况通过平台客服或运营处理。</view>
+    <checkbox-group bindchange="onProtocolChange">
+      <label class="checkbox-line">
+        <checkbox value="protocol" checked="{{protocolChecked}}" color="#D8B76A" />
+        <text>我已阅读并确认服务边界协议</text>
+      </label>
+    </checkbox-group>
+  </view>
+
+  <view class="section card feedback-card">
+    <view class="h2">服务后反馈</view>
+    <textarea class="textarea" value="{{feedback}}" bindinput="onFeedbackInput" placeholder="填写现场执行反馈、异常情况或客户反馈摘要" />
+    <button class="btn ghost feedback-btn" bindtap="submitFeedback">提交反馈</button>
+  </view>
+
+  <view class="actions">
+    <button class="btn ghost" bindtap="openTasks">任务清单</button>
+    <button class="btn gold" disabled="{{brief.status !== 'approved'}}" bindtap="confirmBrief">确认 Brief</button>
+  </view>
+</view>
+
+<view class="page" wx:else>
+  <view class="card empty">未找到餐前 brief</view>
+</view>

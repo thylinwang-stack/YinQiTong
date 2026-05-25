@@ -1,0 +1,43 @@
+<view class="page safe-bottom">
+  <view class="section-head top">
+    <view>
+      <view class="eyebrow">Orders</view>
+      <view class="h2">我的订单</view>
+    </view>
+  </view>
+
+  <scroll-view class="tabs" scroll-x>
+    <view class="tab {{activeStatus === item.value ? 'active' : ''}}" wx:for="{{tabs}}" wx:key="value" bindtap="changeTab" data-status="{{item.value}}">
+      {{item.label}}
+    </view>
+  </scroll-view>
+
+  <view class="order-card card" wx:for="{{visibleOrders}}" wx:key="id" bindtap="openDetail" data-id="{{item.id}}">
+    <view class="order-head">
+      <view>
+        <view class="order-no">{{item.orderNo}}</view>
+        <view class="muted">{{item.sceneName}} · {{item.city}}</view>
+      </view>
+      <view class="status-pill">{{item.statusText}}</view>
+    </view>
+    <view class="divider"></view>
+    <view class="order-line">
+      <text>服务时间</text>
+      <text>{{item.serviceTime}}</text>
+    </view>
+    <view class="order-line">
+      <text>助理人数</text>
+      <text>{{item.assistantCount}} 人</text>
+    </view>
+    <view class="order-line">
+      <text>预约金</text>
+      <text class="gold-text">¥{{item.depositAmount}}</text>
+    </view>
+  </view>
+
+  <view class="empty card" wx:if="{{visibleOrders.length === 0}}">
+    <view class="h2">暂无订单</view>
+    <view class="muted">提交需求后，可在这里查看进度。</view>
+    <button class="btn gold" bindtap="goBooking">提交需求</button>
+  </view>
+</view>

@@ -1,0 +1,61 @@
+.profile-hero {
+  display: flex;
+  gap: 20rpx;
+  padding: 22rpx;
+}
+
+.portrait {
+  width: 210rpx;
+  height: 280rpx;
+  border-radius: 16rpx;
+  background: #101d30;
+}
+
+.profile-main {
+  flex: 1;
+  min-width: 0;
+  padding-top: 12rpx;
+}
+
+.city {
+  margin: 12rpx 0 18rpx;
+  color: #cbd5e4;
+  font-size: 24rpx;
+}
+
+.intro {
+  margin-top: 18rpx;
+}
+
+.block {
+  margin-top: 22rpx;
+}
+
+.skill-list {
+  margin-top: 14rpx;
+  color: #cbd5e4;
+  font-size: 24rpx;
+  line-height: 1.75;
+}
+
+.compliance {
+  margin-bottom: 116rpx;
+  border-color: rgba(216, 183, 106, 0.22);
+}
+
+.privacy {
+  margin-top: 16rpx;
+}
+
+.fixed-btn {
+  position: fixed;
+  left: 24rpx;
+  right: 24rpx;
+  bottom: calc(28rpx + env(safe-area-inset-bottom));
+}
+
+.empty {
+  margin-top: 80rpx;
+  color: #cbd5e4;
+  text-align: center;
+}

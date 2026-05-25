@@ -1,0 +1,102 @@
+.header-card {
+  position: relative;
+}
+
+.order-no {
+  margin-bottom: 14rpx;
+  color: #ffffff;
+  font-size: 28rpx;
+  font-weight: 600;
+}
+
+.header-card .status-pill {
+  position: absolute;
+  top: 28rpx;
+  right: 28rpx;
+}
+
+.timeline {
+  margin-top: 14rpx;
+}
+
+.step {
+  display: flex;
+  gap: 12rpx;
+  position: relative;
+  padding-bottom: 18rpx;
+}
+
+.step::before {
+  content: "";
+  position: absolute;
+  left: 8rpx;
+  top: 22rpx;
+  bottom: 0;
+  width: 2rpx;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.step:last-child::before {
+  display: none;
+}
+
+.dot {
+  width: 18rpx;
+  height: 18rpx;
+  margin-top: 5rpx;
+  border-radius: 50%;
+  background: #39465a;
+}
+
+.step.done .dot {
+  background: #d8b76a;
+}
+
+.step-content {
+  flex: 1;
+}
+
+.step-name {
+  color: #ffffff;
+  font-size: 22rpx;
+  font-weight: 600;
+}
+
+.info-line {
+  display: flex;
+  justify-content: space-between;
+  gap: 24rpx;
+  padding: 14rpx 0;
+  color: #cbd5e4;
+  font-size: 24rpx;
+}
+
+.info-line text:last-child {
+  color: #ffffff;
+  text-align: right;
+}
+
+.gold-text {
+  color: #e2c77e !important;
+  font-weight: 700;
+}
+
+.compliance {
+  margin-bottom: 116rpx;
+}
+
+.actions {
+  position: fixed;
+  left: 24rpx;
+  right: 24rpx;
+  bottom: calc(28rpx + env(safe-area-inset-bottom));
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14rpx;
+}
+
+.empty {
+  margin-top: 80rpx;
+  color: #cbd5e4;
+  text-align: center;
+}

@@ -1,0 +1,44 @@
+<view class="page safe-bottom" wx:if="{{assistant}}">
+  <view class="profile-hero card">
+    <image class="portrait" src="{{assistant.avatarUrl}}" mode="aspectFill" />
+    <view class="profile-main">
+      <view class="eyebrow">{{assistant.assistantNo}}</view>
+      <view class="h1">{{assistant.workName}}</view>
+      <view class="city">{{assistant.city}} · 商务社交助理</view>
+      <view class="tag-row">
+        <view class="tag gold" wx:for="{{assistant.styleTags}}" wx:key="*this">{{item}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="section card">
+    <view class="h2">公开简介</view>
+    <view class="muted intro">{{assistant.intro}}</view>
+  </view>
+
+  <view class="section card">
+    <view class="h2">擅长场景</view>
+    <view class="tag-row block">
+      <view class="tag" wx:for="{{assistant.sceneSkills}}" wx:key="*this">{{item}}</view>
+    </view>
+  </view>
+
+  <view class="section card">
+    <view class="h2">商务能力</view>
+    <view class="skill-list">
+      <view wx:for="{{assistant.businessSkills}}" wx:key="*this">· {{item}}</view>
+    </view>
+  </view>
+
+  <view class="section card compliance">
+    <view class="h2">服务说明</view>
+    <view class="muted">{{assistant.complianceNote}}</view>
+    <view class="muted privacy">为保护双方隐私，平台不展示真实手机号、微信号、身份证、住址等信息。</view>
+  </view>
+
+  <button class="btn gold fixed-btn" bindtap="goBooking">提交需求</button>
+</view>
+
+<view class="page" wx:else>
+  <view class="card empty">未找到该商务助理资料</view>
+</view>

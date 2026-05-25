@@ -1,0 +1,39 @@
+<view class="page safe-bottom">
+  <view class="section-head top">
+    <view>
+      <view class="eyebrow">Packages</view>
+      <view class="h2">场景套餐</view>
+    </view>
+  </view>
+
+  <view class="package-card card" wx:for="{{packages}}" wx:key="id">
+    <view class="package-head">
+      <view>
+        <view class="name">{{item.name}}</view>
+        <view class="muted">{{item.subtitle}}</view>
+      </view>
+      <view class="price">¥{{item.serviceFee}}</view>
+    </view>
+
+    <view class="metrics">
+      <view>
+        <view class="metric-value">{{item.durationHours}}h</view>
+        <view class="metric-label">服务时长</view>
+      </view>
+      <view>
+        <view class="metric-value">{{item.assistantCount}}</view>
+        <view class="metric-label">助理人数</view>
+      </view>
+      <view>
+        <view class="metric-value">¥{{item.depositAmount}}</view>
+        <view class="metric-label">预约金</view>
+      </view>
+    </view>
+
+    <view class="divider"></view>
+    <view class="includes">
+      <view wx:for="{{item.includes}}" wx:key="*this">· {{item}}</view>
+    </view>
+    <button class="btn gold" bindtap="choosePackage" data-id="{{item.id}}">选择套餐</button>
+  </view>
+</view>

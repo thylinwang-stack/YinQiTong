@@ -1,0 +1,26 @@
+.top {
+  margin-top: 8rpx;
+}
+
+.form-card {
+  margin-top: 18rpx;
+}
+
+.notice {
+  margin: 20rpx 0 116rpx;
+  border-color: rgba(216, 183, 106, 0.2);
+}
+
+.notice-title {
+  margin-bottom: 10rpx;
+  color: #e2c77e;
+  font-size: 25rpx;
+  font-weight: 600;
+}
+
+.submit {
+  position: fixed;
+  left: 24rpx;
+  right: 24rpx;
+  bottom: calc(28rpx + env(safe-area-inset-bottom));
+}

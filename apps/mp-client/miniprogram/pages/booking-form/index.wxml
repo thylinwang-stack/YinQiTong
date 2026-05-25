@@ -1,0 +1,77 @@
+<view class="page safe-bottom">
+  <view class="section-head top">
+    <view>
+      <view class="eyebrow">Request</view>
+      <view class="h2">提交饭局需求</view>
+    </view>
+  </view>
+
+  <view class="card form-card">
+    <view class="field">
+      <view class="label">城市</view>
+      <picker mode="selector" range="{{cityOptions}}" bindchange="onCityChange">
+        <view class="picker">{{form.city || '请选择服务城市'}}</view>
+      </picker>
+    </view>
+
+    <view class="grid-2">
+      <view class="field">
+        <view class="label">日期</view>
+        <picker mode="date" bindchange="onDateChange">
+          <view class="picker">{{form.date || '选择日期'}}</view>
+        </picker>
+      </view>
+      <view class="field">
+        <view class="label">时间</view>
+        <picker mode="time" bindchange="onTimeChange">
+          <view class="picker">{{form.time || '选择时间'}}</view>
+        </picker>
+      </view>
+    </view>
+
+    <view class="field">
+      <view class="label">饭局类型</view>
+      <picker mode="selector" range="{{dinnerTypes}}" bindchange="onDinnerTypeChange">
+        <view class="picker">{{form.dinnerType || '请选择饭局类型'}}</view>
+      </picker>
+    </view>
+
+    <view class="grid-2">
+      <view class="field">
+        <view class="label">到场人数</view>
+        <input class="input" type="number" value="{{form.guestCount}}" data-field="guestCount" bindinput="onNumberInput" />
+      </view>
+      <view class="field">
+        <view class="label">助理人数</view>
+        <input class="input" type="number" value="{{form.assistantCount}}" data-field="assistantCount" bindinput="onNumberInput" />
+      </view>
+    </view>
+
+    <view class="field">
+      <view class="label">预算</view>
+      <input class="input" type="number" placeholder="请输入服务预算" value="{{form.budget}}" data-field="budget" bindinput="onNumberInput" />
+    </view>
+
+    <view class="field">
+      <view class="label">偏好</view>
+      <textarea class="textarea" maxlength="120" placeholder="例如：希望助理风格沉稳、适合正式客户晚宴" value="{{form.preference}}" data-field="preference" bindinput="onTextInput" />
+    </view>
+
+    <view class="field">
+      <view class="label">禁忌</view>
+      <textarea class="textarea" maxlength="120" placeholder="例如：避免讨论某些行业、隐私或敏感话题" value="{{form.taboos}}" data-field="taboos" bindinput="onTextInput" />
+    </view>
+
+    <view class="field">
+      <view class="label">备注</view>
+      <textarea class="textarea" maxlength="200" placeholder="补充接待目标、嘉宾背景、餐厅偏好等" value="{{form.remark}}" data-field="remark" bindinput="onTextInput" />
+    </view>
+  </view>
+
+  <view class="notice card">
+    <view class="notice-title">服务边界提示</view>
+    <view class="muted">平台只提供正规商务社交氛围协同、餐前准备与礼宾接待服务。提交后需在订单确认页勾选服务边界协议。</view>
+  </view>
+
+  <button class="btn gold submit" bindtap="submit">下一步</button>
+</view>

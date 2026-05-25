@@ -1,0 +1,1008 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>商务礼宾小程序 Demo</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #04070b;
+        --panel: rgba(8, 13, 21, 0.94);
+        --panel-2: rgba(10, 18, 29, 0.9);
+        --line: rgba(205, 219, 236, 0.1);
+        --text: #edf2f8;
+        --muted: #8c96a6;
+        --blue: #4c8dff;
+        --blue-soft: #96c7ff;
+        --cyan: #5fd3ff;
+        --gold: #c7a663;
+        --gold-soft: #ead69b;
+        --danger: #e99090;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        min-height: 100vh;
+        margin: 0;
+        background:
+          linear-gradient(90deg, rgba(255, 255, 255, 0.022) 1px, transparent 1px),
+          linear-gradient(180deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+          linear-gradient(135deg, #04070b 0%, #08111a 48%, #020305 100%);
+        background-size: 48px 48px, 48px 48px, auto;
+        color: var(--text);
+        font-family: "PingFang SC", "HarmonyOS Sans SC", -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: geometricPrecision;
+      }
+
+      .shell {
+        display: grid;
+        grid-template-columns: 390px minmax(0, 1fr);
+        gap: 44px;
+        width: min(1160px, calc(100vw - 32px));
+        min-height: 100vh;
+        margin: 0 auto;
+        padding: 24px 0;
+        align-items: center;
+      }
+
+      .phone {
+        width: 390px;
+        height: 812px;
+        overflow: hidden;
+        border: 1px solid rgba(219, 228, 241, 0.16);
+        border-radius: 28px;
+        background: #05080d;
+        box-shadow: 0 34px 100px rgba(0, 0, 0, 0.55), inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+      }
+
+      .status-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 32px;
+        padding: 0 20px;
+        background: #060a10;
+        color: #d7e0ec;
+        font-size: 11px;
+        font-weight: 500;
+      }
+
+      .screen {
+        position: relative;
+        height: calc(100% - 34px);
+        overflow: hidden;
+        background:
+          linear-gradient(90deg, rgba(255, 255, 255, 0.028) 1px, transparent 1px),
+          linear-gradient(180deg, #07111d 0%, #05080d 46%, #030508 100%);
+        background-size: 32px 32px, auto;
+      }
+
+      .page {
+        display: none;
+        height: calc(100% - 58px);
+        overflow-y: auto;
+        padding: 14px 14px 22px;
+      }
+
+      .page.active {
+        display: block;
+      }
+
+      .page::-webkit-scrollbar {
+        width: 0;
+      }
+
+      .bottom-nav {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        height: 58px;
+        border-top: 1px solid rgba(213, 222, 235, 0.09);
+        background: rgba(5, 8, 13, 0.98);
+      }
+
+      .nav-item {
+        border: 0;
+        background: transparent;
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 500;
+        cursor: pointer;
+      }
+
+      .nav-item.active {
+        color: var(--gold);
+      }
+
+      .hero {
+        min-height: 226px;
+        padding: 0;
+        overflow: hidden;
+        border: 1px solid rgba(202, 168, 101, 0.2);
+        border-radius: 8px;
+        background:
+          linear-gradient(180deg, rgba(4, 7, 11, 0.08) 0%, rgba(4, 7, 11, 0.56) 54%, rgba(4, 7, 11, 0.98) 100%),
+          url("https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=900&q=82");
+        background-size: cover;
+        background-position: center bottom;
+        box-shadow: 0 14px 42px rgba(0, 0, 0, 0.32);
+      }
+
+      .hero-top {
+        display: flex;
+        justify-content: space-between;
+        padding: 14px 14px 0;
+      }
+
+      .signal {
+        padding: 5px 7px;
+        border: 1px solid rgba(95, 211, 255, 0.22);
+        border-radius: 999px;
+        background: rgba(4, 10, 18, 0.62);
+        color: #d6efff;
+        font-size: 10px;
+        backdrop-filter: blur(10px);
+      }
+
+      .hero-body {
+        margin-top: 68px;
+        padding: 0 16px 16px;
+      }
+
+      .eyebrow {
+        color: var(--blue-soft);
+        font-size: 9px;
+        letter-spacing: 1.7px;
+        text-transform: uppercase;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin: 0;
+      }
+
+      .h1 {
+        margin-top: 7px;
+        color: #fff;
+        font-size: 20px;
+        line-height: 1.22;
+        font-weight: 600;
+      }
+
+      .h2 {
+        color: #fff;
+        font-size: 15px;
+        font-weight: 600;
+      }
+
+      .muted {
+        color: var(--muted);
+        font-size: 11.5px;
+        line-height: 1.6;
+      }
+
+      .hero .muted {
+        margin-top: 10px;
+      }
+
+      .section {
+        margin-top: 14px;
+      }
+
+      .section-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 10px;
+      }
+
+      .card {
+        padding: 13px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: linear-gradient(180deg, rgba(13, 22, 34, 0.9), rgba(7, 12, 20, 0.94));
+        box-shadow: 0 14px 42px rgba(0, 0, 0, 0.22);
+      }
+
+      .card + .card {
+        margin-top: 10px;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 36px;
+        padding: 0 14px;
+        border: 0;
+        border-radius: 8px;
+        font-size: 11.5px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      .btn.gold {
+        background: linear-gradient(135deg, var(--gold), var(--gold-soft));
+        color: #141414;
+      }
+
+      .btn.primary {
+        background: linear-gradient(135deg, var(--blue), #7ab8ff);
+        color: #fff;
+      }
+
+      .btn.ghost {
+        border: 1px solid rgba(216, 183, 106, 0.34);
+        background: transparent;
+        color: var(--gold-soft);
+      }
+
+      .btn.full {
+        width: 100%;
+      }
+
+      .tag-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 10px;
+      }
+
+      .tag {
+        padding: 4px 8px;
+        border-radius: 999px;
+        background: rgba(47, 125, 246, 0.12);
+        color: #9fc8ff;
+        font-size: 10.5px;
+        line-height: 1;
+      }
+
+      .insight-row {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+        margin-top: 10px;
+      }
+
+      .insight {
+        padding: 10px 8px;
+        border: 1px solid rgba(205, 219, 236, 0.09);
+        border-radius: 8px;
+        background: rgba(8, 14, 23, 0.78);
+      }
+
+      .insight strong {
+        display: block;
+        color: #fff;
+        font-size: 15px;
+        font-weight: 600;
+      }
+
+      .insight span {
+        display: block;
+        margin-top: 4px;
+        color: var(--muted);
+        font-size: 10px;
+      }
+
+      .tag.gold {
+        background: rgba(216, 183, 106, 0.13);
+        color: var(--gold-soft);
+      }
+
+      .tag.red {
+        background: rgba(255, 143, 143, 0.13);
+        color: #ffb9b9;
+      }
+
+      .scene {
+        display: grid;
+        grid-template-columns: 92px 1fr;
+        gap: 12px;
+        align-items: center;
+      }
+
+      .scene-art,
+      .avatar-art {
+        width: 92px;
+        height: 84px;
+        border-radius: 8px;
+        background:
+          linear-gradient(180deg, rgba(5, 8, 13, 0.08), rgba(5, 8, 13, 0.42)),
+          url("https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=420&q=78");
+        background-size: cover;
+        background-position: center;
+      }
+
+      .avatar-art {
+        border-radius: 8px;
+        background:
+          linear-gradient(180deg, rgba(5, 8, 13, 0), rgba(5, 8, 13, 0.32)),
+          url("https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=420&q=80");
+        background-size: cover;
+        background-position: center top;
+      }
+
+      .avatar-art.alt {
+        display: grid;
+        place-items: end start;
+        padding: 8px;
+        background:
+          linear-gradient(135deg, rgba(76, 141, 255, 0.16), rgba(199, 166, 99, 0.18)),
+          linear-gradient(180deg, #182338, #08101a);
+      }
+
+      .avatar-art.alt::after {
+        content: "BA";
+        display: grid;
+        place-items: center;
+        width: 28px;
+        height: 28px;
+        border: 1px solid rgba(234, 214, 155, 0.32);
+        border-radius: 8px;
+        color: var(--gold-soft);
+        font-size: 11px;
+        font-weight: 650;
+      }
+
+      .assistant-row {
+        display: flex;
+        gap: 12px;
+      }
+
+      .assistant-row h3,
+      .scene h3 {
+        color: #fff;
+        font-size: 14px;
+        line-height: 1.35;
+        font-weight: 600;
+      }
+
+      .assistant-row .content {
+        flex: 1;
+      }
+
+      .filters {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 7px;
+        margin: 12px 0;
+      }
+
+      .chip {
+        padding: 8px 0;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: rgba(5, 13, 24, 0.6);
+        color: #cbd5e4;
+        font-size: 11px;
+        text-align: center;
+      }
+
+      .field {
+        margin-bottom: 11px;
+      }
+
+      .label {
+        margin-bottom: 6px;
+        color: #cbd5e4;
+        font-size: 11px;
+      }
+
+      .input,
+      .textarea {
+        width: 100%;
+        min-height: 36px;
+        padding: 9px 10px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        background: rgba(3, 7, 12, 0.68);
+        color: #fff;
+        font: inherit;
+        font-size: 12.5px;
+        outline: none;
+      }
+
+      .textarea {
+        min-height: 70px;
+        resize: none;
+      }
+
+      .grid-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+
+      .summary-row,
+      .info-line {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 7px 0;
+        color: #cbd5e4;
+        font-size: 11.5px;
+      }
+
+      .summary-row strong,
+      .info-line strong {
+        color: #fff;
+        text-align: right;
+      }
+
+      .gold-text {
+        color: var(--gold-soft);
+      }
+
+      .checkbox-line {
+        display: flex;
+        align-items: flex-start;
+        gap: 9px;
+        margin-top: 13px;
+        color: #fff;
+        font-size: 12px;
+        line-height: 1.5;
+      }
+
+      input[type="checkbox"] {
+        accent-color: var(--gold);
+        margin-top: 3px;
+      }
+
+      .timeline {
+        margin-top: 4px;
+      }
+
+      .step {
+        position: relative;
+        display: flex;
+        gap: 8px;
+        padding-bottom: 12px;
+      }
+
+      .step::before {
+        content: "";
+        position: absolute;
+        left: 5px;
+        top: 14px;
+        bottom: 0;
+        width: 1px;
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      .step:last-child::before {
+        display: none;
+      }
+
+      .dot {
+        width: 9px;
+        height: 9px;
+        margin-top: 3px;
+        border-radius: 50%;
+        background: #39465a;
+      }
+
+      .step.done .dot {
+        background: var(--gold);
+      }
+
+      .step strong {
+        color: #eef4ff;
+        font-size: 12px;
+        line-height: 1.35;
+        font-weight: 600;
+      }
+
+      .step .muted {
+        margin-top: 2px;
+        font-size: 10.5px;
+        line-height: 1.45;
+      }
+
+      .role {
+        padding: 10px 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .role:last-child {
+        border-bottom: 0;
+      }
+
+      .brief-text {
+        white-space: pre-wrap;
+        color: #dfe9f8;
+        font-size: 12px;
+        line-height: 1.72;
+      }
+
+      .task {
+        display: flex;
+        gap: 10px;
+        align-items: flex-start;
+        padding: 12px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: rgba(5, 13, 24, 0.48);
+      }
+
+      .task + .task {
+        margin-top: 8px;
+      }
+
+      .check {
+        display: grid;
+        place-items: center;
+        flex-shrink: 0;
+        width: 19px;
+        height: 19px;
+        border: 1px solid rgba(216, 183, 106, 0.7);
+        border-radius: 50%;
+        color: var(--gold);
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .toast {
+        position: absolute;
+        left: 50%;
+        bottom: 72px;
+        z-index: 20;
+        max-width: 280px;
+        padding: 11px 14px;
+        border: 1px solid rgba(216, 183, 106, 0.28);
+        border-radius: 8px;
+        background: rgba(4, 9, 16, 0.92);
+        color: #fff;
+        font-size: 12px;
+        transform: translate(-50%, 18px);
+        opacity: 0;
+        pointer-events: none;
+        transition: 0.2s ease;
+      }
+
+      .toast.show {
+        transform: translate(-50%, 0);
+        opacity: 1;
+      }
+
+      .side {
+        min-width: 0;
+      }
+
+      .side h1 {
+        max-width: 620px;
+        color: #fff;
+        font-size: clamp(30px, 3.7vw, 46px);
+        line-height: 1.08;
+        letter-spacing: 0;
+        font-weight: 600;
+      }
+
+      .side p {
+        max-width: 680px;
+        margin-top: 18px;
+        color: #aab6c7;
+        font-size: 15px;
+        line-height: 1.8;
+      }
+
+      .flow {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+        margin-top: 24px;
+      }
+
+      .flow-card {
+        min-height: 108px;
+        padding: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        background: rgba(12, 25, 43, 0.72);
+      }
+
+      .flow-card .num {
+        color: var(--gold);
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .flow-card h3 {
+        margin-top: 8px;
+        color: #fff;
+        font-size: 15px;
+      }
+
+      .flow-card p {
+        margin-top: 8px;
+        font-size: 12px;
+        line-height: 1.6;
+      }
+
+      .demo-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 22px;
+      }
+
+      .notice {
+        margin-top: 20px;
+        padding: 14px;
+        border: 1px solid rgba(216, 183, 106, 0.18);
+        border-radius: 8px;
+        background: rgba(216, 183, 106, 0.08);
+        color: #d8e2f2;
+        font-size: 12px;
+        line-height: 1.7;
+      }
+
+      @media (max-width: 860px) {
+        .shell {
+          grid-template-columns: 1fr;
+          justify-items: center;
+          width: 100%;
+          min-height: 100vh;
+          padding: 10px 0;
+          gap: 0;
+          align-items: start;
+        }
+
+        .side {
+          display: none;
+        }
+
+        .phone {
+          width: min(390px, calc(100vw - 20px));
+          height: min(812px, calc(100vh - 20px));
+          border-radius: 26px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="shell">
+      <section class="phone" aria-label="小程序交互预览">
+        <div class="status-bar">
+          <span>9:41</span>
+          <span>商务礼宾</span>
+          <span>5G</span>
+        </div>
+        <div class="screen">
+          <section id="home" class="page active">
+            <div class="hero">
+              <div class="hero-top">
+                <span class="signal">合规边界已确认</span>
+                <span class="signal">上海 · 今日可排</span>
+              </div>
+              <div class="hero-body">
+                <div class="eyebrow">BUSINESS CONCIERGE</div>
+                <div class="h1">高端商务社交助理与礼宾接待</div>
+                <p class="muted">为商务宴请、客户到访、项目沟通提供餐前准备、礼宾接待与现场协同服务。</p>
+                <div class="tag-row">
+                  <span class="tag gold">绿色正规</span>
+                  <span class="tag">受控沟通</span>
+                  <span class="tag">餐前 brief</span>
+                </div>
+                <button class="btn gold full" style="margin-top: 16px" data-go="booking">提交饭局需求</button>
+              </div>
+            </div>
+
+            <div class="insight-row">
+              <div class="insight"><strong>12h</strong><span>提前准备</span></div>
+              <div class="insight"><strong>3步</strong><span>受控服务</span></div>
+              <div class="insight"><strong>0私联</strong><span>平台沟通</span></div>
+            </div>
+
+            <div class="section">
+              <div class="section-head">
+                <div class="h2">服务场景</div>
+                <button class="btn ghost" data-go="scenes">查看</button>
+              </div>
+              <div class="card scene">
+                <div class="scene-art"></div>
+                <div>
+                  <h3>商务宴请</h3>
+                  <p class="muted">适合客户宴请、合作方接待、重要项目沟通。</p>
+                  <div class="tag-row"><span class="tag">自然开场</span><span class="tag">礼宾协同</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="section">
+              <div class="section-head">
+                <div class="h2">推荐商务助理</div>
+                <button class="btn ghost" data-go="assistants">筛选</button>
+              </div>
+              <div class="card assistant-row">
+                <div class="avatar-art"></div>
+                <div class="content">
+                  <h3>BA-0218 · 林澈</h3>
+                  <p class="muted">上海 · 公开资料已审核，只展示工作名、城市与商务能力标签。</p>
+                  <div class="tag-row"><span class="tag">沉稳</span><span class="tag">正式宴请</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="section card">
+              <div class="h2">合规边界</div>
+              <p class="muted" style="margin-top: 10px">平台只提供商务社交氛围协同、餐前准备与礼宾接待服务。客户与助理沟通通过平台客服或受控消息系统完成。</p>
+            </div>
+          </section>
+
+          <section id="scenes" class="page">
+            <div class="section-head">
+              <div>
+                <div class="eyebrow">SCENES</div>
+                <div class="h2">场景套餐</div>
+              </div>
+            </div>
+            <div class="card scene">
+              <div class="scene-art"></div>
+              <div>
+                <h3>重要客户接待</h3>
+                <p class="muted">2 位商务助理，专属餐前准备，主管复核 brief。</p>
+                <div class="summary-row"><span>预约金</span><strong class="gold-text">¥1200</strong></div>
+                <button class="btn gold full" data-go="booking">选择套餐</button>
+              </div>
+            </div>
+            <div class="card scene">
+              <div class="scene-art"></div>
+              <div>
+                <h3>项目沟通辅助</h3>
+                <p class="muted">适合首次会面或合作推进，强调得体破冰。</p>
+                <div class="summary-row"><span>预约金</span><strong class="gold-text">¥500</strong></div>
+              </div>
+            </div>
+          </section>
+
+          <section id="assistants" class="page">
+            <div class="section-head">
+              <div>
+                <div class="eyebrow">ASSISTANTS</div>
+                <div class="h2">商务助理</div>
+              </div>
+            </div>
+            <div class="filters">
+              <div class="chip">上海</div>
+              <div class="chip">商务宴请</div>
+              <div class="chip">沉稳</div>
+            </div>
+            <div class="card assistant-row">
+              <div class="avatar-art"></div>
+              <div class="content">
+                <h3>BA-0218 · 林澈</h3>
+                <p class="muted">上海 · 擅长正式商务场合的自然破冰与节奏协同。</p>
+                <div class="tag-row"><span class="tag">沉稳</span><span class="tag">商务感</span><span class="tag gold">公开资料已审</span></div>
+              </div>
+            </div>
+            <div class="card assistant-row">
+              <div class="avatar-art alt"></div>
+              <div class="content">
+                <h3>BA-0346 · 许知远</h3>
+                <p class="muted">北京 · 适合轻商务聚会与项目初谈，表达自然。</p>
+                <div class="tag-row"><span class="tag">亲和</span><span class="tag">控场</span><span class="tag gold">图片已审核</span></div>
+              </div>
+            </div>
+          </section>
+
+          <section id="booking" class="page">
+            <div class="section-head">
+              <div>
+                <div class="eyebrow">REQUEST</div>
+                <div class="h2">提交饭局需求</div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="grid-2">
+                <div class="field">
+                  <div class="label">城市</div>
+                  <input class="input" value="上海" />
+                </div>
+                <div class="field">
+                  <div class="label">日期</div>
+                  <input class="input" value="2026-06-02" />
+                </div>
+                <div class="field">
+                  <div class="label">时间</div>
+                  <input class="input" value="19:00" />
+                </div>
+                <div class="field">
+                  <div class="label">到场人数</div>
+                  <input class="input" value="6" />
+                </div>
+              </div>
+              <div class="field">
+                <div class="label">饭局类型</div>
+                <input class="input" value="商务宴请" />
+              </div>
+              <div class="field">
+                <div class="label">偏好</div>
+                <textarea class="textarea">希望助理风格沉稳，适合正式客户晚宴。</textarea>
+              </div>
+              <div class="field">
+                <div class="label">禁忌与备注</div>
+                <textarea class="textarea">避免讨论合同争议、个人隐私；请提前准备城市与行业轻话题。</textarea>
+              </div>
+              <button class="btn gold full" data-go="confirm">进入订单确认</button>
+            </div>
+          </section>
+
+          <section id="confirm" class="page">
+            <div class="section-head">
+              <div>
+                <div class="eyebrow">CONFIRM</div>
+                <div class="h2">订单确认</div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="summary-row"><span>城市</span><strong>上海</strong></div>
+              <div class="summary-row"><span>时间</span><strong>2026-06-02 19:00</strong></div>
+              <div class="summary-row"><span>场景</span><strong>商务宴请</strong></div>
+              <div class="summary-row"><span>商务助理</span><strong>1 人</strong></div>
+              <div class="summary-row"><span>预约金</span><strong class="gold-text">¥600</strong></div>
+            </div>
+            <div class="card section">
+              <div class="h2">服务边界协议</div>
+              <p class="muted" style="margin-top: 10px">平台仅提供商务社交氛围协同、餐前准备与礼宾接待服务；不展示或交换助理私人联系方式；沟通通过平台客服或受控消息系统完成。</p>
+              <label class="checkbox-line">
+                <input id="boundary" type="checkbox" />
+                <span>我已阅读并确认服务边界协议</span>
+              </label>
+            </div>
+            <button class="btn gold full section" id="payBtn">确认并支付预约金</button>
+          </section>
+
+          <section id="orders" class="page">
+            <div class="section-head">
+              <div>
+                <div class="eyebrow">ORDERS</div>
+                <div class="h2">订单详情</div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="summary-row"><span>订单号</span><strong>BS20260525001</strong></div>
+              <div class="summary-row"><span>状态</span><strong class="gold-text">餐前准备中</strong></div>
+              <div class="summary-row"><span>服务时间</span><strong>2026-06-02 19:00</strong></div>
+            </div>
+            <div class="card section">
+              <div class="h2">订单进度</div>
+              <div class="timeline">
+                <div class="step done"><div class="dot"></div><div><strong>支付预约金</strong><p class="muted">客户确认协议并支付成功</p></div></div>
+                <div class="step done"><div class="dot"></div><div><strong>平台匹配</strong><p class="muted">运营根据城市、档期和场景匹配</p></div></div>
+                <div class="step done"><div class="dot"></div><div><strong>餐前准备</strong><p class="muted">生成可执行 brief 与任务清单</p></div></div>
+                <div class="step"><div class="dot"></div><div><strong>现场执行</strong><p class="muted">助理确认任务后执行</p></div></div>
+              </div>
+            </div>
+            <button class="btn ghost full section" data-go="staff">查看员工端 Brief</button>
+          </section>
+
+          <section id="staff" class="page">
+            <div class="section-head">
+              <div>
+                <div class="eyebrow">STAFF BRIEF</div>
+                <div class="h2">餐前 Brief</div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="summary-row"><span>主题</span><strong>外地客户到访接待晚宴</strong></div>
+              <div class="summary-row"><span>服务时间</span><strong>2026-05-29 18:30</strong></div>
+              <div class="summary-row"><span>着装</span><strong>深色商务装</strong></div>
+            </div>
+            <div class="card section">
+              <div class="h2">助理可见 Brief</div>
+              <p class="brief-text" style="margin-top: 12px">目标是让初次会面更自然。建议围绕城市印象、行业趋势、项目经验等轻商务话题展开。注意保持克制，不主动触碰价格底线、竞品负面评价和客户个人隐私。</p>
+              <div class="tag-row"><span class="tag">城市印象</span><span class="tag">行业趋势</span><span class="tag red">避开价格底线</span></div>
+            </div>
+            <div class="card section">
+              <div class="h2">任务清单</div>
+              <div class="task"><div class="check">✓</div><div><strong>阅读餐前 brief</strong><p class="muted">确认主题、氛围需求和禁忌话题。</p></div></div>
+              <div class="task"><div class="check"></div><div><strong>确认着装与到场时间</strong><p class="muted">服务前 20 分钟到场。</p></div></div>
+            </div>
+            <div class="card section">
+              <div class="h2">服务边界确认</div>
+              <label class="checkbox-line"><input id="staffBoundary" type="checkbox" /><span>我已阅读并确认服务边界协议</span></label>
+              <button class="btn gold full" style="margin-top: 14px" id="staffConfirm">确认 Brief</button>
+            </div>
+          </section>
+
+          <section id="profile" class="page">
+            <div class="section-head">
+              <div>
+                <div class="eyebrow">ACCOUNT</div>
+                <div class="h2">用户中心</div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="summary-row"><span>身份</span><strong>商务客户</strong></div>
+              <div class="summary-row"><span>订单</span><strong>2 单</strong></div>
+              <div class="summary-row"><span>合规确认</span><strong class="gold-text">已开启</strong></div>
+            </div>
+            <div class="card section">
+              <div class="h2">合规承诺</div>
+              <p class="muted" style="margin-top: 10px">不展示助理真实手机号、微信号、身份证、住址等隐私信息；支付对象为平台服务费或预约金，不是购买某个人。</p>
+            </div>
+          </section>
+
+          <div class="bottom-nav">
+            <button class="nav-item active" data-go="home">首页</button>
+            <button class="nav-item" data-go="scenes">场景</button>
+            <button class="nav-item" data-go="orders">订单</button>
+            <button class="nav-item" data-go="profile">我的</button>
+          </div>
+          <div class="toast" id="toast"></div>
+        </div>
+      </section>
+
+      <aside class="side">
+        <div class="eyebrow">Mini Program Demo</div>
+        <h1>商务礼宾小程序演示版</h1>
+        <p>这是基于当前项目内容生成的可交互预览：展示客户端下单链路、协议确认、支付结果、订单进度，以及员工端餐前 brief 与任务确认。左侧手机框可以直接点击操作。</p>
+        <div class="demo-actions">
+          <button class="btn gold" data-go="booking">体验下单</button>
+          <button class="btn primary" data-go="staff">员工端 Brief</button>
+          <button class="btn ghost" data-go="assistants">查看助理</button>
+        </div>
+        <div class="flow">
+          <div class="flow-card"><div class="num">01</div><h3>需求提交</h3><p>城市、日期、人数、预算、偏好、禁忌和备注。</p></div>
+          <div class="flow-card"><div class="num">02</div><h3>协议与支付</h3><p>必须确认服务边界协议，支付平台预约金。</p></div>
+          <div class="flow-card"><div class="num">03</div><h3>餐前 Brief</h3><p>运营生成助理可执行任务清单和现场分工。</p></div>
+          <div class="flow-card"><div class="num">04</div><h3>合规风控</h3><p>敏感词、资料审核、投诉与异常订单留痕。</p></div>
+        </div>
+        <div class="notice">说明：这是浏览器预览 demo，用于直观看小程序产品形态；真实微信端代码仍在 <strong>apps/mp-client/miniprogram</strong>，需用微信开发者工具打开运行。</div>
+      </aside>
+    </main>
+
+    <script>
+      const pages = Array.from(document.querySelectorAll(".page"));
+      const navItems = Array.from(document.querySelectorAll(".nav-item"));
+      const toast = document.getElementById("toast");
+
+      function showToast(message) {
+        toast.textContent = message;
+        toast.classList.add("show");
+        window.clearTimeout(window.__toastTimer);
+        window.__toastTimer = window.setTimeout(() => toast.classList.remove("show"), 1800);
+      }
+
+      function go(pageId) {
+        pages.forEach(page => page.classList.toggle("active", page.id === pageId));
+        navItems.forEach(item => item.classList.toggle("active", item.dataset.go === pageId));
+      }
+
+      document.addEventListener("click", event => {
+        const trigger = event.target.closest("[data-go]");
+        if (trigger) {
+          go(trigger.dataset.go);
+        }
+      });
+
+      document.getElementById("payBtn").addEventListener("click", () => {
+        if (!document.getElementById("boundary").checked) {
+          showToast("请先确认服务边界协议");
+          return;
+        }
+        showToast("预约金支付成功，进入餐前准备");
+        go("orders");
+      });
+
+      document.getElementById("staffConfirm").addEventListener("click", () => {
+        if (!document.getElementById("staffBoundary").checked) {
+          showToast("商务助理需先确认服务边界协议");
+          return;
+        }
+        showToast("Brief 已确认，任务清单已同步");
+      });
+    </script>
+  </body>
+</html>

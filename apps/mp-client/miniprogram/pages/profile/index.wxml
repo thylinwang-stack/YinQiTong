@@ -1,0 +1,37 @@
+<view class="page safe-bottom">
+  <view class="profile-card card">
+    <view class="avatar">商</view>
+    <view>
+      <view class="h2">商务客户</view>
+      <view class="muted">微信登录后可查看订单、支付状态与服务记录</view>
+    </view>
+  </view>
+
+  <view class="section card">
+    <view class="menu-item" bindtap="goOrders">
+      <text>我的订单</text>
+      <text>›</text>
+    </view>
+    <view class="menu-item" bindtap="goBooking">
+      <text>提交饭局需求</text>
+      <text>›</text>
+    </view>
+    <view class="menu-item" bindtap="goStaffBrief">
+      <text>员工端餐前 Brief</text>
+      <text>›</text>
+    </view>
+    <view class="menu-item" bindtap="goPolicy" data-tab="service">
+      <text>服务协议</text>
+      <text>›</text>
+    </view>
+    <view class="menu-item" bindtap="goPolicy" data-tab="privacy">
+      <text>隐私政策</text>
+      <text>›</text>
+    </view>
+  </view>
+
+  <view class="section card">
+    <view class="h2">合规承诺</view>
+    <view class="muted">不展示助理真实手机号、微信号、身份证、住址等隐私信息；支付对象为平台服务费或预约金，不是购买某个人。</view>
+  </view>
+</view>

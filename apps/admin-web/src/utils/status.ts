@@ -1,0 +1,90 @@
+import type { StatusKind } from '@/types/domain';
+
+export const statusText: Record<string, string> = {
+  active: '启用',
+  disabled: '停用',
+  pending: '待处理',
+  pending_review: '待审核',
+  pending_payment: '待支付',
+  pending_match: '待匹配',
+  matched: '已匹配',
+  confirmed: '已确认',
+  done: '已完成',
+  skipped: '已跳过',
+  brief_preparing: '餐前准备',
+  ready_for_service: '待服务',
+  in_service: '服务中',
+  completed: '已完成',
+  cancelled: '已取消',
+  paid: '已支付',
+  failed: '失败',
+  refunded: '已退款',
+  approved: '已通过',
+  submitted: '已提交',
+  assistant_confirmed: '助理已确认',
+  reminder_sent: '已提醒',
+  reviewed: '已复盘',
+  manual_review: '人工复核',
+  low: '低',
+  medium: '中',
+  high: '高',
+  critical: '严重',
+  blocked: '已阻断',
+  ignored: '已忽略',
+  open: '待处理',
+  resolved: '已解决',
+  rejected: '已驳回',
+  processing: '处理中',
+  succeeded: '成功',
+  published: '已发布',
+  draft: '草稿',
+  risk_hold: '风控冻结'
+};
+
+export const statusKind: Record<string, StatusKind> = {
+  active: 'success',
+  paid: 'success',
+  completed: 'success',
+  succeeded: 'success',
+  approved: 'success',
+  assistant_confirmed: 'success',
+  reviewed: 'success',
+  low: 'success',
+  resolved: 'success',
+  published: 'success',
+  pending: 'warning',
+  pending_review: 'warning',
+  pending_payment: 'warning',
+  pending_match: 'processing',
+  matched: 'processing',
+  confirmed: 'success',
+  done: 'success',
+  skipped: 'default',
+  brief_preparing: 'processing',
+  ready_for_service: 'processing',
+  in_service: 'processing',
+  processing: 'processing',
+  submitted: 'processing',
+  reminder_sent: 'processing',
+  manual_review: 'processing',
+  draft: 'default',
+  disabled: 'default',
+  ignored: 'default',
+  open: 'warning',
+  medium: 'warning',
+  cancelled: 'default',
+  failed: 'error',
+  rejected: 'error',
+  high: 'error',
+  critical: 'error',
+  blocked: 'error',
+  risk_hold: 'error'
+};
+
+export function getStatusText(status: string): string {
+  return statusText[status] || status;
+}
+
+export function getStatusKind(status: string): StatusKind {
+  return statusKind[status] || 'default';
+}

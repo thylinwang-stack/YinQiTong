@@ -1,0 +1,54 @@
+.top {
+  margin-top: 8rpx;
+}
+
+.package-card {
+  border-color: rgba(216, 183, 106, 0.16);
+}
+
+.package-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 24rpx;
+}
+
+.name {
+  color: #ffffff;
+  font-size: 28rpx;
+  font-weight: 600;
+}
+
+.price {
+  color: #e2c77e;
+  font-size: 32rpx;
+  font-weight: 700;
+}
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12rpx;
+  margin-top: 22rpx;
+  padding: 18rpx;
+  border-radius: 14rpx;
+  background: rgba(5, 13, 24, 0.58);
+}
+
+.metric-value {
+  color: #ffffff;
+  font-size: 26rpx;
+  font-weight: 600;
+}
+
+.metric-label {
+  margin-top: 6rpx;
+  color: #8b98aa;
+  font-size: 22rpx;
+}
+
+.includes {
+  margin-bottom: 22rpx;
+  color: #cbd5e4;
+  font-size: 24rpx;
+  line-height: 1.75;
+}

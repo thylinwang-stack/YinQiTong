@@ -1,0 +1,31 @@
+<view class="page safe-bottom" wx:if="{{brief}}">
+  <view class="card header-card">
+    <view class="eyebrow">TASK LIST</view>
+    <view class="h1">助理任务清单</view>
+    <view class="muted">{{brief.orderNo}} · {{brief.banquetTheme}}</view>
+    <view class="progress">{{completedCount}} / {{brief.tasks.length}}</view>
+  </view>
+
+  <view class="section">
+    <view class="task-card {{item.status === 'done' ? 'done' : ''}}" wx:for="{{brief.tasks}}" wx:key="id" bindtap="toggleTask" data-id="{{item.id}}">
+      <view class="check">{{item.status === 'done' ? '✓' : ''}}</view>
+      <view class="task-body">
+        <view class="task-title">{{item.title}}</view>
+        <view class="muted">{{item.detail}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="section card">
+    <view class="h2">现场分寸</view>
+    <view class="muted">只执行平台确认的餐前 brief 与任务清单；涉及客户敏感信息、临时变更或异常情况，统一反馈平台客服或运营。</view>
+  </view>
+
+  <view class="actions">
+    <button class="btn ghost" bindtap="goBrief">返回 Brief</button>
+  </view>
+</view>
+
+<view class="page" wx:else>
+  <view class="card empty">暂无任务清单</view>
+</view>

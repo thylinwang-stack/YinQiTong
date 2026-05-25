@@ -1,0 +1,44 @@
+.result-page {
+  display: flex;
+  align-items: center;
+}
+
+.result-card {
+  width: 100%;
+  text-align: center;
+  border-color: rgba(216, 183, 106, 0.2);
+}
+
+.icon {
+  width: 96rpx;
+  height: 96rpx;
+  margin: 18rpx auto 24rpx;
+  border-radius: 50%;
+  background: rgba(216, 183, 106, 0.15);
+  color: #e2c77e;
+  font-size: 48rpx;
+  line-height: 96rpx;
+}
+
+.failed .icon,
+.cancelled .icon {
+  background: rgba(42, 131, 255, 0.12);
+  color: #8bbcff;
+}
+
+.message {
+  margin-top: 22rpx;
+}
+
+.order-no {
+  margin-top: 20rpx;
+  color: #cbd5e4;
+  font-size: 24rpx;
+}
+
+.actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14rpx;
+  margin-top: 36rpx;
+}

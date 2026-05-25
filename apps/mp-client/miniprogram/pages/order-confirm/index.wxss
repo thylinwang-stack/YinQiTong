@@ -1,0 +1,58 @@
+.top {
+  margin-top: 8rpx;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 22rpx;
+  padding: 14rpx 0;
+  color: #cbd5e4;
+  font-size: 24rpx;
+}
+
+.summary-row text:last-child {
+  color: #ffffff;
+  text-align: right;
+}
+
+.gold-text,
+.summary-row.strong text:last-child {
+  color: #e2c77e;
+  font-weight: 700;
+}
+
+.package-name {
+  margin-top: 14rpx;
+  color: #ffffff;
+  font-size: 26rpx;
+  font-weight: 600;
+}
+
+.boundary-text {
+  margin: 14rpx 0 20rpx;
+  color: #b9c5d6;
+  font-size: 24rpx;
+  line-height: 1.7;
+}
+
+.checkbox-line {
+  display: flex;
+  align-items: center;
+  gap: 14rpx;
+  color: #ffffff;
+  font-size: 24rpx;
+}
+
+.policy-link {
+  margin-top: 18rpx;
+  color: #d8b76a;
+  font-size: 24rpx;
+}
+
+.submit {
+  position: fixed;
+  left: 24rpx;
+  right: 24rpx;
+  bottom: calc(28rpx + env(safe-area-inset-bottom));
+}

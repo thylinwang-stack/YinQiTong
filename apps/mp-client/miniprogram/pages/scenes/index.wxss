@@ -1,0 +1,48 @@
+.top {
+  margin-top: 8rpx;
+}
+
+.scene-card {
+  padding: 0;
+  overflow: hidden;
+}
+
+.cover {
+  width: 100%;
+  height: 240rpx;
+  background: #101d30;
+}
+
+.body {
+  padding: 22rpx;
+}
+
+.title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20rpx;
+  margin-bottom: 16rpx;
+}
+
+.title {
+  color: #ffffff;
+  font-size: 28rpx;
+  font-weight: 600;
+}
+
+.scope {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10rpx 20rpx;
+  margin-top: 18rpx;
+  color: #cbd5e4;
+  font-size: 22rpx;
+}
+
+.actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14rpx;
+  margin-top: 22rpx;
+}

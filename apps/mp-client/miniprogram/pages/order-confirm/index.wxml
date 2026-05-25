@@ -1,0 +1,63 @@
+<view class="page safe-bottom">
+  <view class="section-head top">
+    <view>
+      <view class="eyebrow">Confirm</view>
+      <view class="h2">订单确认</view>
+    </view>
+  </view>
+
+  <view class="card" wx:if="{{form}}">
+    <view class="summary-row">
+      <text>城市</text>
+      <text>{{form.city}}</text>
+    </view>
+    <view class="summary-row">
+      <text>时间</text>
+      <text>{{form.date}} {{form.time}}</text>
+    </view>
+    <view class="summary-row">
+      <text>饭局类型</text>
+      <text>{{form.dinnerType}}</text>
+    </view>
+    <view class="summary-row">
+      <text>到场人数</text>
+      <text>{{form.guestCount}} 人</text>
+    </view>
+    <view class="summary-row">
+      <text>助理人数</text>
+      <text>{{form.assistantCount}} 人</text>
+    </view>
+    <view class="summary-row">
+      <text>预算</text>
+      <text class="gold-text">¥{{form.budget}}</text>
+    </view>
+  </view>
+
+  <view class="card section" wx:if="{{selectedPackage}}">
+    <view class="h2">已选套餐</view>
+    <view class="package-name">{{selectedPackage.name}}</view>
+    <view class="muted">{{selectedPackage.subtitle}}</view>
+    <view class="summary-row strong">
+      <text>预约金</text>
+      <text>¥{{selectedPackage.depositAmount}}</text>
+    </view>
+  </view>
+
+  <view class="card section">
+    <view class="h2">服务边界协议</view>
+    <view class="boundary-text">
+      平台仅提供商务社交氛围协同、餐前准备与礼宾接待服务；不提供任何越界内容，不展示或交换助理私人联系方式；客户与助理沟通通过平台客服或受控消息系统完成。
+    </view>
+    <checkbox-group bindchange="onBoundaryChange">
+      <label class="checkbox-line">
+        <checkbox value="boundary" checked="{{boundaryChecked}}" color="#D8B76A" />
+        <text>我已阅读并确认服务边界协议</text>
+      </label>
+    </checkbox-group>
+    <view class="policy-link" bindtap="goPolicy">查看完整服务协议与隐私政策</view>
+  </view>
+
+  <button class="btn gold submit" loading="{{paying}}" disabled="{{paying}}" bindtap="pay">
+    {{paying ? '正在拉起支付' : '确认并支付预约金'}}
+  </button>
+</view>

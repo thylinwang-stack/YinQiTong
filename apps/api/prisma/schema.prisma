@@ -1,0 +1,614 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum OrderStatus {
+  draft
+  submitted
+  consulting
+  quoted
+  deposit_pending
+  deposit_paid
+  matching
+  confirmed
+  prep
+  executing
+  completed
+  reviewed
+  settlement_pending
+  settled
+  cancelled
+  refunded
+  exception
+}
+
+enum PaymentStatus {
+  pending
+  paid
+  failed
+  closed
+  refunded
+}
+
+enum RefundStatus {
+  pending
+  approved
+  processing
+  succeeded
+  failed
+  rejected
+}
+
+enum MealBriefStatus {
+  draft
+  submitted
+  approved
+  assistant_confirmed
+  reminder_sent
+  reviewed
+}
+
+enum MealBriefTaskStatus {
+  pending
+  confirmed
+  done
+  skipped
+}
+
+enum MealBriefReminderStatus {
+  pending
+  sent
+  cancelled
+}
+
+enum RiskLevel {
+  low
+  medium
+  high
+  critical
+}
+
+enum RiskRecordStatus {
+  active
+  inactive
+  pending
+  processing
+  approved
+  rejected
+  resolved
+  blocked
+  ignored
+}
+
+enum ProfileReviewStatus {
+  pending
+  approved
+  rejected
+  risk_hold
+}
+
+enum ImageAuditStatus {
+  pending
+  approved
+  rejected
+  manual_review
+}
+
+enum AssistantStatus {
+  pending
+  active
+  suspended
+  archived
+}
+
+enum AssistantPhotoType {
+  profile
+  compliance
+  credential
+  internal
+}
+
+enum ComplaintStatus {
+  pending
+  processing
+  resolved
+  rejected
+}
+
+enum BlacklistStatus {
+  active
+  expired
+  revoked
+}
+
+enum ProtocolActorType {
+  customer
+  assistant
+  admin
+}
+
+enum OrderExceptionStatus {
+  open
+  processing
+  resolved
+  ignored
+}
+
+model Order {
+  id             String           @id @default(uuid()) @db.Uuid
+  orderNo        String           @unique @map("order_no")
+  customerId     String?          @map("customer_id") @db.Uuid
+  status         OrderStatus      @default(draft)
+  totalAmount    Decimal          @default(0) @map("total_amount") @db.Decimal(12, 2)
+  depositAmount  Decimal          @default(0) @map("deposit_amount") @db.Decimal(12, 2)
+  paidAmount     Decimal          @default(0) @map("paid_amount") @db.Decimal(12, 2)
+  refundedAmount Decimal          @default(0) @map("refunded_amount") @db.Decimal(12, 2)
+  statusLogs     OrderStatusLog[]
+  payments       Payment[]
+  refunds        Refund[]
+  mealBrief      MealBrief?
+  protocolConfirmations ProtocolConfirmation[]
+  complaints     Complaint[]
+  exceptionCases OrderExceptionCase[]
+  createdAt      DateTime         @default(now()) @map("created_at")
+  updatedAt      DateTime         @updatedAt @map("updated_at")
+
+  @@index([customerId, status])
+  @@index([status, createdAt])
+  @@map("orders")
+}
+
+model Assistant {
+  id              String                   @id @default(uuid()) @db.Uuid
+  assistantNo     String                   @unique @map("assistant_no")
+  realName        String?                  @map("real_name")
+  phone           String?
+  city            String
+  status          AssistantStatus          @default(pending)
+  internalLevel   String?                  @map("internal_level")
+  source          String?
+  joinedAt        DateTime?                @map("joined_at")
+  internalProfile AssistantInternalProfile?
+  publicProfile   AssistantPublicProfile?
+  photos          AssistantPhoto[]
+  createdAt       DateTime                 @default(now()) @map("created_at")
+  updatedAt       DateTime                 @updatedAt @map("updated_at")
+
+  @@index([city, status])
+  @@map("assistants")
+}
+
+model AssistantInternalProfile {
+  id                 String    @id @default(uuid()) @db.Uuid
+  assistantId        String    @unique @map("assistant_id") @db.Uuid
+  assistant          Assistant @relation(fields: [assistantId], references: [id])
+  legalName          String?   @map("legal_name")
+  idNumberMasked     String?   @map("id_number_masked")
+  phone              String?
+  emergencyContact   String?   @map("emergency_contact")
+  workExperience     String?   @map("work_experience")
+  trainingNotes      String?   @map("training_notes")
+  managerPrivateNote String?   @map("manager_private_note")
+  createdAt          DateTime  @default(now()) @map("created_at")
+  updatedAt          DateTime  @updatedAt @map("updated_at")
+
+  @@map("assistant_internal_profiles")
+}
+
+model AssistantPublicProfile {
+  id               String             @id @default(uuid()) @db.Uuid
+  assistantId      String             @map("assistant_id") @db.Uuid
+  assistant        Assistant          @relation(fields: [assistantId], references: [id])
+  assistantNo      String             @map("assistant_no")
+  workName         String             @map("work_name")
+  city             String
+  avatarUrl        String?            @map("avatar_url")
+  imageAuditStatus ImageAuditStatus   @default(pending) @map("image_audit_status")
+  profileStatus    ProfileReviewStatus @default(pending) @map("profile_status")
+  styleTags        Json               @default("[]") @map("style_tags")
+  sceneSkills      Json               @default("[]") @map("scene_skills")
+  businessSkills   Json               @default("[]") @map("business_skills")
+  publicIntro      String?            @map("public_intro")
+  complianceNote   String?            @map("compliance_note")
+  createdAt        DateTime           @default(now()) @map("created_at")
+  updatedAt        DateTime           @updatedAt @map("updated_at")
+
+  @@unique([assistantId])
+  @@index([profileStatus, imageAuditStatus])
+  @@map("assistant_public_profiles")
+}
+
+model AssistantPhoto {
+  id               String             @id @default(uuid()) @db.Uuid
+  assistantId      String             @map("assistant_id") @db.Uuid
+  assistant        Assistant          @relation(fields: [assistantId], references: [id])
+  photoType        AssistantPhotoType @default(profile) @map("photo_type")
+  storageKey       String             @map("storage_key")
+  url              String
+  mimeType         String?            @map("mime_type")
+  size             Int?
+  imageAuditStatus ImageAuditStatus   @default(pending) @map("image_audit_status")
+  uploadedBy       String?            @map("uploaded_by") @db.Uuid
+  auditRemark      String?            @map("audit_remark")
+  createdAt        DateTime           @default(now()) @map("created_at")
+  updatedAt        DateTime           @updatedAt @map("updated_at")
+
+  @@index([assistantId, imageAuditStatus])
+  @@index([photoType, imageAuditStatus])
+  @@map("assistant_photos")
+}
+
+model RiskSensitiveWord {
+  id          String           @id @default(uuid()) @db.Uuid
+  keyword     String
+  category    String
+  level       RiskLevel        @default(medium)
+  status      RiskRecordStatus @default(active)
+  hitCount    Int              @default(0) @map("hit_count")
+  note        String?
+  createdBy   String?          @map("created_by") @db.Uuid
+  createdAt   DateTime         @default(now()) @map("created_at")
+  updatedAt   DateTime         @updatedAt @map("updated_at")
+
+  @@unique([keyword, category])
+  @@index([status, category])
+  @@map("risk_sensitive_words")
+}
+
+model PublicProfileReview {
+  id               String              @id @default(uuid()) @db.Uuid
+  assistantId      String              @map("assistant_id") @db.Uuid
+  profileId        String?             @map("profile_id") @db.Uuid
+  status           ProfileReviewStatus @default(pending)
+  imageAuditStatus ImageAuditStatus    @default(pending) @map("image_audit_status")
+  riskLevel        RiskLevel           @default(low) @map("risk_level")
+  contentSnapshot  Json                @default("{}") @map("content_snapshot")
+  findings         Json                @default("[]")
+  reviewerId       String?             @map("reviewer_id") @db.Uuid
+  reviewedAt       DateTime?           @map("reviewed_at")
+  rejectionReason  String?             @map("rejection_reason")
+  createdAt        DateTime            @default(now()) @map("created_at")
+  updatedAt        DateTime            @updatedAt @map("updated_at")
+
+  @@index([assistantId, status])
+  @@index([status, riskLevel])
+  @@map("public_profile_reviews")
+}
+
+model ProtocolConfirmation {
+  id              String            @id @default(uuid()) @db.Uuid
+  orderId         String            @map("order_id") @db.Uuid
+  order           Order             @relation(fields: [orderId], references: [id])
+  actorType       ProtocolActorType @map("actor_type")
+  actorId         String?           @map("actor_id") @db.Uuid
+  protocolVersion String            @default("service_boundary_v1") @map("protocol_version")
+  confirmedAt     DateTime          @default(now()) @map("confirmed_at")
+  ip              String?
+  userAgent       String?           @map("user_agent")
+  createdAt       DateTime          @default(now()) @map("created_at")
+  updatedAt       DateTime          @updatedAt @map("updated_at")
+
+  @@unique([orderId, actorType, actorId, protocolVersion])
+  @@index([orderId, actorType])
+  @@map("protocol_confirmations")
+}
+
+model Complaint {
+  id              String          @id @default(uuid()) @db.Uuid
+  complaintNo     String          @unique @map("complaint_no")
+  orderId         String?         @map("order_id") @db.Uuid
+  order           Order?          @relation(fields: [orderId], references: [id])
+  complainantType String          @map("complainant_type")
+  complainantId   String?         @map("complainant_id") @db.Uuid
+  targetType      String?         @map("target_type")
+  targetId        String?         @map("target_id") @db.Uuid
+  category        String
+  description     String
+  status          ComplaintStatus @default(pending)
+  priority        RiskLevel       @default(medium)
+  handlerId       String?         @map("handler_id") @db.Uuid
+  resolution      String?
+  resolvedAt      DateTime?       @map("resolved_at")
+  createdAt       DateTime        @default(now()) @map("created_at")
+  updatedAt       DateTime        @updatedAt @map("updated_at")
+
+  @@index([orderId, status])
+  @@index([status, priority])
+  @@map("complaints")
+}
+
+model BlacklistEntry {
+  id          String          @id @default(uuid()) @db.Uuid
+  subjectType String          @map("subject_type")
+  subjectId   String?         @map("subject_id") @db.Uuid
+  subjectName String          @map("subject_name")
+  reason      String
+  status      BlacklistStatus @default(active)
+  startedAt   DateTime        @default(now()) @map("started_at")
+  expiredAt   DateTime?       @map("expired_at")
+  createdBy   String?         @map("created_by") @db.Uuid
+  createdAt   DateTime        @default(now()) @map("created_at")
+  updatedAt   DateTime        @updatedAt @map("updated_at")
+
+  @@index([subjectType, subjectId, status])
+  @@index([status, expiredAt])
+  @@map("blacklist_entries")
+}
+
+model OrderExceptionCase {
+  id          String               @id @default(uuid()) @db.Uuid
+  exceptionNo String               @unique @map("exception_no")
+  orderId     String               @map("order_id") @db.Uuid
+  order       Order                @relation(fields: [orderId], references: [id])
+  category    String
+  riskLevel   RiskLevel            @default(medium) @map("risk_level")
+  status      OrderExceptionStatus @default(open)
+  summary     String
+  detail      Json                 @default("{}")
+  handlerId   String?              @map("handler_id") @db.Uuid
+  resolvedAt  DateTime?            @map("resolved_at")
+  createdAt   DateTime             @default(now()) @map("created_at")
+  updatedAt   DateTime             @updatedAt @map("updated_at")
+
+  @@index([orderId, status])
+  @@index([status, riskLevel])
+  @@map("order_exception_cases")
+}
+
+model RiskEvent {
+  id        String           @id @default(uuid()) @db.Uuid
+  eventNo   String           @unique @map("event_no")
+  bizType   String           @map("biz_type")
+  bizId     String?          @map("biz_id")
+  eventType String           @map("event_type")
+  riskLevel RiskLevel        @default(medium) @map("risk_level")
+  status    RiskRecordStatus @default(pending)
+  summary   String
+  detail    Json             @default("{}")
+  handlerId String?          @map("handler_id") @db.Uuid
+  handledAt DateTime?        @map("handled_at")
+  createdAt DateTime         @default(now()) @map("created_at")
+  updatedAt DateTime         @updatedAt @map("updated_at")
+
+  @@index([bizType, bizId])
+  @@index([status, riskLevel])
+  @@map("risk_events")
+}
+
+model RiskReport {
+  id          String   @id @default(uuid()) @db.Uuid
+  reportNo    String   @unique @map("report_no")
+  periodStart DateTime @map("period_start")
+  periodEnd   DateTime @map("period_end")
+  summary     String
+  metrics     Json     @default("{}")
+  createdBy   String?  @map("created_by") @db.Uuid
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@index([periodStart, periodEnd])
+  @@map("risk_reports")
+}
+
+model MealBrief {
+  id                    String              @id @default(uuid()) @db.Uuid
+  orderId               String              @unique @map("order_id") @db.Uuid
+  order                 Order               @relation(fields: [orderId], references: [id])
+  status                MealBriefStatus     @default(draft)
+  banquetTheme          String?             @map("banquet_theme")
+  customerBackground    String?             @map("customer_background")
+  diningPurpose         String?             @map("dining_purpose")
+  attendeeCount         Int?                @map("attendee_count")
+  guestIdentities       Json                @default("[]") @map("guest_identities")
+  atmosphereNeeds       String?             @map("atmosphere_needs")
+  tabooTopics           Json                @default("[]") @map("taboo_topics")
+  recommendedTopics     Json                @default("[]") @map("recommended_topics")
+  dressCode             String?             @map("dress_code")
+  roleAssignments       Json                @default("[]") @map("role_assignments")
+  attentionPoints       Json                @default("[]") @map("attention_points")
+  managerPrivateNote    String?             @map("manager_private_note")
+  assistantVisibleBrief String              @default("") @map("assistant_visible_brief")
+  submittedBy           String?             @map("submitted_by") @db.Uuid
+  submittedAt           DateTime?           @map("submitted_at")
+  approvedBy            String?             @map("approved_by") @db.Uuid
+  approvedAt            DateTime?           @map("approved_at")
+  assistantConfirmedBy  String?             @map("assistant_confirmed_by") @db.Uuid
+  assistantConfirmedAt  DateTime?           @map("assistant_confirmed_at")
+  tasks                 MealBriefTask[]
+  reminders             MealBriefReminder[]
+  statusLogs            MealBriefStatusLog[]
+  review                MealBriefReview?
+  createdAt             DateTime            @default(now()) @map("created_at")
+  updatedAt             DateTime            @updatedAt @map("updated_at")
+
+  @@index([status, updatedAt])
+  @@map("meal_briefs")
+}
+
+model MealBriefStatusLog {
+  id          String          @id @default(uuid()) @db.Uuid
+  mealBriefId String          @map("meal_brief_id") @db.Uuid
+  mealBrief   MealBrief       @relation(fields: [mealBriefId], references: [id])
+  fromStatus  MealBriefStatus? @map("from_status")
+  toStatus    MealBriefStatus @map("to_status")
+  trigger     String
+  actorId     String?         @map("actor_id") @db.Uuid
+  actorType   String          @map("actor_type")
+  note        String?
+  createdAt   DateTime        @default(now()) @map("created_at")
+  updatedAt   DateTime        @updatedAt @map("updated_at")
+
+  @@index([mealBriefId, createdAt])
+  @@index([fromStatus, toStatus])
+  @@map("meal_brief_status_logs")
+}
+
+model MealBriefTask {
+  id          String              @id @default(uuid()) @db.Uuid
+  mealBriefId String              @map("meal_brief_id") @db.Uuid
+  mealBrief   MealBrief           @relation(fields: [mealBriefId], references: [id])
+  title       String
+  detail      String?
+  role        String?
+  sortOrder   Int                 @default(0) @map("sort_order")
+  status      MealBriefTaskStatus @default(pending)
+  createdAt   DateTime            @default(now()) @map("created_at")
+  updatedAt   DateTime            @updatedAt @map("updated_at")
+
+  @@index([mealBriefId, sortOrder])
+  @@map("meal_brief_tasks")
+}
+
+model MealBriefReminder {
+  id          String                  @id @default(uuid()) @db.Uuid
+  mealBriefId String                  @map("meal_brief_id") @db.Uuid
+  mealBrief   MealBrief               @relation(fields: [mealBriefId], references: [id])
+  remindAt    DateTime                @map("remind_at")
+  channel     String                  @default("staff_mp")
+  status      MealBriefReminderStatus @default(pending)
+  sentAt      DateTime?               @map("sent_at")
+  payload     Json                    @default("{}")
+  createdAt   DateTime                @default(now()) @map("created_at")
+  updatedAt   DateTime                @updatedAt @map("updated_at")
+
+  @@index([status, remindAt])
+  @@map("meal_brief_reminders")
+}
+
+model MealBriefReview {
+  id                String    @id @default(uuid()) @db.Uuid
+  mealBriefId       String    @unique @map("meal_brief_id") @db.Uuid
+  mealBrief         MealBrief @relation(fields: [mealBriefId], references: [id])
+  customerFeedback  String?   @map("customer_feedback")
+  assistantFeedback String?   @map("assistant_feedback")
+  internalSummary   String?   @map("internal_summary")
+  rating            Int?
+  createdBy         String?   @map("created_by") @db.Uuid
+  createdAt         DateTime  @default(now()) @map("created_at")
+  updatedAt         DateTime  @updatedAt @map("updated_at")
+
+  @@map("meal_brief_reviews")
+}
+
+model OrderStatusLog {
+  id         String      @id @default(uuid()) @db.Uuid
+  orderId    String      @map("order_id") @db.Uuid
+  order      Order       @relation(fields: [orderId], references: [id])
+  fromStatus OrderStatus @map("from_status")
+  toStatus   OrderStatus @map("to_status")
+  trigger    String
+  actorId    String?     @map("actor_id") @db.Uuid
+  actorType  String      @map("actor_type")
+  reason     String?
+  metadata   Json        @default("{}")
+  createdAt  DateTime    @default(now()) @map("created_at")
+  updatedAt  DateTime    @updatedAt @map("updated_at")
+
+  @@index([orderId, createdAt])
+  @@index([fromStatus, toStatus])
+  @@map("order_status_logs")
+}
+
+model Payment {
+  id                    String        @id @default(uuid()) @db.Uuid
+  paymentNo             String        @unique @map("payment_no")
+  orderId               String        @map("order_id") @db.Uuid
+  order                 Order         @relation(fields: [orderId], references: [id])
+  provider              String
+  subject               String
+  amount                Decimal       @db.Decimal(12, 2)
+  currency              String        @default("CNY")
+  status                PaymentStatus @default(pending)
+  providerPrepayId      String?       @map("provider_prepay_id")
+  providerTransactionId String?       @map("provider_transaction_id")
+  rawPrepayResponse     Json          @default("{}") @map("raw_prepay_response")
+  paidAt                DateTime?     @map("paid_at")
+  createdAt             DateTime      @default(now()) @map("created_at")
+  updatedAt             DateTime      @updatedAt @map("updated_at")
+
+  @@index([orderId, status])
+  @@index([provider, providerTransactionId])
+  @@map("payments")
+}
+
+model PaymentCallback {
+  id                    String    @id @default(uuid()) @db.Uuid
+  provider              String
+  eventId               String    @map("event_id")
+  orderId               String    @map("order_id") @db.Uuid
+  paymentNo             String?   @map("payment_no")
+  providerTransactionId String?   @map("provider_transaction_id")
+  rawPayload            Json      @map("raw_payload")
+  processed             Boolean   @default(false)
+  processedAt           DateTime? @map("processed_at")
+  createdAt             DateTime  @default(now()) @map("created_at")
+  updatedAt             DateTime  @updatedAt @map("updated_at")
+
+  @@unique([provider, eventId])
+  @@index([orderId])
+  @@map("payment_callbacks")
+}
+
+model PaymentCallbackLog {
+  id                    String    @id @default(uuid()) @db.Uuid
+  provider              String
+  eventId               String    @map("event_id")
+  paymentNo             String?   @map("payment_no")
+  providerTransactionId String?   @map("provider_transaction_id")
+  rawBody               Json      @map("raw_body")
+  headers               Json      @default("{}")
+  processed             Boolean   @default(false)
+  processedAt           DateTime? @map("processed_at")
+  createdAt             DateTime  @default(now()) @map("created_at")
+  updatedAt             DateTime  @updatedAt @map("updated_at")
+
+  @@unique([provider, eventId])
+  @@index([paymentNo])
+  @@index([providerTransactionId])
+  @@map("payment_callback_logs")
+}
+
+model Refund {
+  id          String       @id @default(uuid()) @db.Uuid
+  refundNo    String       @unique @map("refund_no")
+  orderId     String       @map("order_id") @db.Uuid
+  order       Order        @relation(fields: [orderId], references: [id])
+  paymentNo   String?      @map("payment_no")
+  amount      Decimal      @default(0) @db.Decimal(12, 2)
+  status      RefundStatus @default(pending)
+  reason      String?
+  requestedBy String?      @map("requested_by") @db.Uuid
+  approvedBy  String?      @map("approved_by") @db.Uuid
+  approvalRemark String?   @map("approval_remark")
+  providerRefundId String? @map("provider_refund_id")
+  rawResponse Json         @default("{}") @map("raw_response")
+  succeededAt DateTime?    @map("succeeded_at")
+  createdAt   DateTime     @default(now()) @map("created_at")
+  updatedAt   DateTime     @updatedAt @map("updated_at")
+
+  @@index([orderId, status])
+  @@map("refunds")
+}
+
+model AuditLog {
+  id           String   @id @default(uuid()) @db.Uuid
+  actorId      String?  @map("actor_id") @db.Uuid
+  actorType    String?  @map("actor_type")
+  action       String
+  resourceType String   @map("resource_type")
+  resourceId   String?  @map("resource_id")
+  beforeData   Json?    @map("before_data")
+  afterData    Json?    @map("after_data")
+  metadata     Json     @default("{}")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  @@index([actorId, createdAt])
+  @@index([resourceType, resourceId])
+  @@map("audit_logs")
+}

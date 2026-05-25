@@ -1,0 +1,106 @@
+.header-card {
+  position: relative;
+}
+
+.header-card .h1 {
+  padding-right: 116rpx;
+  font-size: 34rpx;
+}
+
+.header-card .status-pill {
+  position: absolute;
+  top: 28rpx;
+  right: 28rpx;
+}
+
+.info-line {
+  display: flex;
+  justify-content: space-between;
+  gap: 20rpx;
+  padding: 14rpx 0;
+  color: #cbd5e4;
+  font-size: 24rpx;
+}
+
+.info-line text:first-child {
+  flex-shrink: 0;
+  color: #8b98aa;
+}
+
+.info-line text:last-child {
+  color: #ffffff;
+  text-align: right;
+}
+
+.brief-text {
+  margin-top: 16rpx;
+  color: #dfe9f8;
+  font-size: 24rpx;
+  line-height: 1.72;
+  white-space: pre-wrap;
+}
+
+.compact {
+  margin-top: 20rpx;
+}
+
+.tag.warning {
+  background: rgba(255, 117, 117, 0.12);
+  color: #ffb4b4;
+}
+
+.role-item {
+  padding: 18rpx 0;
+  border-bottom: 1rpx solid rgba(255, 255, 255, 0.08);
+}
+
+.role-item:last-child {
+  border-bottom: 0;
+}
+
+.role-head {
+  margin-bottom: 8rpx;
+  color: #ffffff;
+  font-size: 25rpx;
+  font-weight: 600;
+}
+
+.point {
+  padding: 12rpx 0;
+  color: #dfe9f8;
+  font-size: 24rpx;
+  line-height: 1.7;
+}
+
+.checkbox-line {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  margin-top: 18rpx;
+  color: #ffffff;
+  font-size: 24rpx;
+}
+
+.feedback-card {
+  margin-bottom: 116rpx;
+}
+
+.feedback-btn {
+  margin-top: 20rpx;
+}
+
+.actions {
+  position: fixed;
+  left: 24rpx;
+  right: 24rpx;
+  bottom: calc(28rpx + env(safe-area-inset-bottom));
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14rpx;
+}
+
+.empty {
+  margin-top: 80rpx;
+  color: #cbd5e4;
+  text-align: center;
+}

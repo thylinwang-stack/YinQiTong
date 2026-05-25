@@ -1,0 +1,47 @@
+<view class="page safe-bottom">
+  <view class="hero">
+    <view class="eyebrow">Business Concierge</view>
+    <view class="h1">得体接待，恰到好处的商务氛围</view>
+    <view class="hero-copy">为商务宴请、客户到访、项目沟通提供餐前准备、礼宾接待与现场协同服务。</view>
+    <view class="hero-actions">
+      <button class="btn gold" bindtap="goBooking">提交饭局需求</button>
+      <button class="btn ghost" bindtap="goAssistants">查看商务助理</button>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-head">
+      <view class="h2">核心场景</view>
+      <view class="link" bindtap="goScenes">全部</view>
+    </view>
+    <view class="scene-scroll">
+      <view class="scene-mini card" wx:for="{{scenes}}" wx:key="id" bindtap="openScene" data-id="{{item.id}}">
+        <image class="scene-cover" src="{{item.cover}}" mode="aspectFill" />
+        <view class="scene-name">{{item.name}}</view>
+        <view class="muted clamp">{{item.summary}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-head">
+      <view class="h2">商务助理</view>
+      <view class="link" bindtap="goAssistants">筛选</view>
+    </view>
+    <view class="assistant-card card" wx:for="{{assistants}}" wx:key="id" bindtap="openAssistant" data-id="{{item.id}}">
+      <image class="avatar" src="{{item.avatarUrl}}" mode="aspectFill" />
+      <view class="assistant-info">
+        <view class="assistant-title">{{item.workName}} · {{item.city}}</view>
+        <view class="muted">{{item.assistantNo}}</view>
+        <view class="tag-row compact">
+          <view class="tag" wx:for="{{item.styleTags}}" wx:key="*this">{{item}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="section compliance card">
+    <view class="h2">合规服务边界</view>
+    <view class="muted">平台仅提供正规商务社交氛围协同、餐前准备与礼宾接待服务。所有沟通通过平台客服或受控消息系统完成。</view>
+  </view>
+</view>

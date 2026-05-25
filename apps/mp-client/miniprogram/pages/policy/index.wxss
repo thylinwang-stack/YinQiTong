@@ -1,0 +1,31 @@
+.tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16rpx;
+}
+
+.tab {
+  height: 76rpx;
+  border-radius: 18rpx;
+  background: rgba(5, 13, 24, 0.7);
+  color: #8b98aa;
+  font-size: 26rpx;
+  line-height: 76rpx;
+  text-align: center;
+}
+
+.tab.active {
+  background: rgba(216, 183, 106, 0.16);
+  color: #e2c77e;
+}
+
+.content {
+  margin-top: 28rpx;
+}
+
+.paragraph {
+  margin-top: 24rpx;
+  color: #cbd5e4;
+  font-size: 28rpx;
+  line-height: 1.8;
+}
