@@ -83,6 +83,10 @@ function page<T extends Record<string, unknown>>(list: T[], query: PageQuery = {
   };
 }
 
+function typedPage<T>(list: T[], query: PageQuery = {}): PageResult<T> {
+  return page(list as unknown as Record<string, unknown>[], query) as unknown as PageResult<T>;
+}
+
 function prependAudit(action: string, resourceType: string, resourceId: string, metadata: Record<string, unknown> = {}) {
   auditLogs.unshift({
     id: `log_${Date.now()}`,
@@ -264,7 +268,7 @@ export const apiClient = {
       const { data } = await http.get('/admin/bookings', { params: query });
       return { list: data.items || data.list || [], total: data.total || 0 };
     }
-    return wait(page(bookings as unknown as Record<string, unknown>[], query) as PageResult<BookingRecord>);
+    return wait(typedPage(bookings, query));
   },
 
   async updateBookingStatus(id: string, status: string, note?: string): Promise<BookingRecord> {
@@ -309,7 +313,7 @@ export const apiClient = {
       const items = (data.items || []).map(adaptAssistant);
       return { list: items, total: data.total || 0 };
     }
-    return wait(page(assistants as unknown as Record<string, unknown>[], query) as PageResult<AssistantRecord>);
+    return wait(typedPage(assistants, query));
   },
 
   async createAssistant(input: Partial<AssistantRecord>): Promise<AssistantRecord> {
@@ -417,7 +421,7 @@ export const apiClient = {
       const { data } = await http.get('/admin/meal-briefs', { params: query });
       return data;
     }
-    return wait(page(mealBriefs as unknown as Record<string, unknown>[], query) as PageResult<MealBriefRecord>);
+    return wait(typedPage(mealBriefs, query));
   },
 
   async createMealBrief(input: Partial<MealBriefRecord> & { bookingNo: string }): Promise<MealBriefRecord> {
@@ -540,11 +544,11 @@ export const apiClient = {
   },
 
   async listFinance(query: PageQuery): Promise<PageResult<FinanceRecord>> {
-    return wait(page(financeRecords as unknown as Record<string, unknown>[], query) as PageResult<FinanceRecord>);
+    return wait(typedPage(financeRecords, query));
   },
 
   async listApprovals(query: PageQuery): Promise<PageResult<ApprovalRecord>> {
-    return wait(page(approvals as unknown as Record<string, unknown>[], query) as PageResult<ApprovalRecord>);
+    return wait(typedPage(approvals, query));
   },
 
   async decideApproval(id: string, action: 'approved' | 'rejected', remark: string): Promise<ApprovalRecord> {
@@ -569,7 +573,7 @@ export const apiClient = {
   },
 
   async listAuditLogs(query: PageQuery): Promise<PageResult<AuditLogRecord>> {
-    return wait(page(auditLogs as unknown as Record<string, unknown>[], query) as PageResult<AuditLogRecord>);
+    return wait(typedPage(auditLogs, query));
   },
 
   async writeAudit(action: string, resourceType: string, resourceId: string, metadata?: Record<string, unknown>) {
@@ -600,7 +604,7 @@ export const apiClient = {
       const { data } = await http.get('/admin/risk/sensitive-words', { params: query });
       return data;
     }
-    return wait(page(sensitiveWords as unknown as Record<string, unknown>[], query) as PageResult<SensitiveWordRecord>);
+    return wait(typedPage(sensitiveWords, query));
   },
 
   async saveSensitiveWord(id: string | undefined, patch: Partial<SensitiveWordRecord>): Promise<SensitiveWordRecord> {
@@ -630,7 +634,7 @@ export const apiClient = {
       const { data } = await http.get('/admin/risk/profile-reviews', { params: query });
       return data;
     }
-    return wait(page(profileReviews as unknown as Record<string, unknown>[], query) as PageResult<PublicProfileReviewRecord>);
+    return wait(typedPage(profileReviews, query));
   },
 
   async decideProfileReview(id: string, status: string, imageAuditStatus: string, rejectionReason?: string): Promise<PublicProfileReviewRecord> {
@@ -653,7 +657,7 @@ export const apiClient = {
       const { data } = await http.get('/admin/risk/complaints', { params: query });
       return data;
     }
-    return wait(page(complaints as unknown as Record<string, unknown>[], query) as PageResult<ComplaintRecord>);
+    return wait(typedPage(complaints, query));
   },
 
   async updateComplaint(id: string, status: string, resolution?: string): Promise<ComplaintRecord> {
@@ -674,7 +678,7 @@ export const apiClient = {
       const { data } = await http.get('/admin/risk/blacklist', { params: query });
       return data;
     }
-    return wait(page(blacklistEntries as unknown as Record<string, unknown>[], query) as PageResult<BlacklistRecord>);
+    return wait(typedPage(blacklistEntries, query));
   },
 
   async saveBlacklist(patch: Partial<BlacklistRecord>): Promise<BlacklistRecord> {
@@ -701,7 +705,7 @@ export const apiClient = {
       const { data } = await http.get('/admin/risk/order-exceptions', { params: query });
       return data;
     }
-    return wait(page(orderExceptions as unknown as Record<string, unknown>[], query) as PageResult<OrderExceptionRecord>);
+    return wait(typedPage(orderExceptions, query));
   },
 
   async resolveOrderException(id: string, status: string): Promise<OrderExceptionRecord> {
