@@ -1,0 +1,15 @@
+.DS_Store
+safe-config/skills/.system/
+
+# Never sync Codex secrets or live state here.
+auth.json
+*.sqlite
+*.sqlite-*
+*-wal
+*-shm
+cache/
+.tmp/
+tmp/
+sessions/
+shell_snapshots/
+computer-use/

@@ -1,0 +1,13 @@
+.DS_Store
+
+# Local secrets and runtime state
+.env
+.env.*
+auth.json
+*.sqlite
+*.sqlite-*
+*-wal
+*-shm
+
+# Codex live state should not be committed.
+.codex/
