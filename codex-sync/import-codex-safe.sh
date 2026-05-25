@@ -31,8 +31,14 @@ if [[ -d "$IN_DIR/rules" ]]; then
 fi
 
 if [[ -d "$IN_DIR/skills" ]]; then
-  rm -rf "$CODEX_HOME/skills"
-  cp -R "$IN_DIR/skills" "$CODEX_HOME/skills"
+  mkdir -p "$CODEX_HOME/skills"
+  setopt NULL_GLOB
+  for skill_path in "$IN_DIR"/skills/* "$IN_DIR"/skills/.[!.]*; do
+    [[ -e "$skill_path" ]] || continue
+    [[ "$(basename "$skill_path")" == ".system" ]] && continue
+    rm -rf "$CODEX_HOME/skills/$(basename "$skill_path")"
+    cp -R "$skill_path" "$CODEX_HOME/skills/"
+  done
 fi
 
 echo "Imported safe Codex config into: $CODEX_HOME"
