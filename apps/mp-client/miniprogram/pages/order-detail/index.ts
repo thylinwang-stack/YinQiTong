@@ -1,4 +1,4 @@
-import { api, requestPayment } from '../../services/api';
+import { api, ensureCustomerLogin, requestPayment } from '../../services/api';
 import { appStore } from '../../store/app-store';
 import { BookingOrder } from '../../services/types';
 import { bookingStatusText } from '../../utils/format';
@@ -50,6 +50,7 @@ Page({
   async payAgain() {
     if (!this.data.order) return;
     try {
+      await ensureCustomerLogin();
       const payment = await api.createPayment(this.data.order.id);
       await requestPayment(payment);
       const order = await api.markOrderPaid(this.data.order.id);

@@ -2,10 +2,12 @@
   <view class="profile-card card">
     <view class="avatar">商</view>
     <view>
-      <view class="h2">商务客户</view>
-      <view class="muted">微信登录后可查看订单、支付状态与服务记录</view>
+      <view class="h2">{{userName}}</view>
+      <view class="muted">{{isLoggedIn ? '已登录，可查看订单、支付状态与服务记录' : '微信登录后可查看订单、支付状态与服务记录'}}</view>
     </view>
   </view>
+
+  <button class="btn gold section" wx:if="{{!isLoggedIn}}" bindtap="login">微信一键登录</button>
 
   <view class="section card">
     <view class="menu-item" bindtap="goOrders">
@@ -32,6 +34,6 @@
 
   <view class="section card">
     <view class="h2">合规承诺</view>
-    <view class="muted">不展示助理真实手机号、微信号、身份证、住址等隐私信息；支付对象为平台服务费或预约金，不是购买某个人。</view>
+    <view class="muted">公开资料仅展示编号、工作名、城市、风格标签与商务能力；支付对象统一为平台服务预约金或服务费。</view>
   </view>
 </view>

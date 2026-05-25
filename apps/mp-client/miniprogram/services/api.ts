@@ -7,6 +7,7 @@ import {
   BookingOrder,
   CreateBookingResult,
   CreatePaymentResult,
+  LoginResult,
   ProtocolConfirmationInput,
   StaffMealBrief,
   StaffReviewInput,
@@ -15,6 +16,40 @@ import {
 } from './types';
 
 export const api = {
+  loginWithWechat(profile?: { nickname?: string; avatarUrl?: string }): Promise<LoginResult> {
+    if (getApiMode() === 'mock') {
+      const result: LoginResult = {
+        token: 'mock_customer_token',
+        openid: 'mock_openid',
+        user: { id: 'mock_user', name: profile?.nickname || '商务客户', userType: 'customer', permissions: [] }
+      };
+      wx.setStorageSync('token', result.token);
+      return Promise.resolve(result);
+    }
+    return new Promise((resolve, reject) => {
+      wx.login({
+        success: async loginRes => {
+          try {
+            if (!loginRes.code) {
+              reject(new Error('微信登录未返回 code'));
+              return;
+            }
+            const result = await request<LoginResult>({
+              url: '/auth/wechat/login',
+              method: 'POST',
+              data: { code: loginRes.code, ...profile }
+            });
+            wx.setStorageSync('token', result.token);
+            resolve(result);
+          } catch (error) {
+            reject(error);
+          }
+        },
+        fail: reject
+      });
+    });
+  },
+
   getScenes(): Promise<ServiceScene[]> {
     return getApiMode() === 'mock' ? mockService.getScenes() : request<ServiceScene[]>({ url: '/service-scenes', method: 'GET' });
   },
@@ -50,7 +85,11 @@ export const api = {
 
   createPayment(orderId: string): Promise<CreatePaymentResult> {
     if (getApiMode() === 'mock') return mockService.createPayment(orderId);
-    return request<CreatePaymentResult>({ url: `/orders/${orderId}/payments`, method: 'POST', data: { provider: 'wechat_pay' } });
+    return request<CreatePaymentResult>({ url: `/orders/${orderId}/payments`, method: 'POST', data: { provider: 'wechat_pay' } })
+      .then(result => ({
+        ...result,
+        paymentParams: result.paymentParams || result.requestPaymentParams
+      }));
   },
 
   markOrderPaid(orderId: string): Promise<BookingOrder | undefined> {
@@ -83,14 +122,23 @@ export const api = {
   }
 };
 
+export async function ensureCustomerLogin(): Promise<void> {
+  if (wx.getStorageSync('token')) return;
+  await api.loginWithWechat();
+}
+
 export function requestPayment(params: CreatePaymentResult): Promise<void> {
   if (params.provider === 'mock') {
     return new Promise(resolve => setTimeout(resolve, 600));
   }
+  const paymentParams = params.paymentParams || params.requestPaymentParams;
+  if (!paymentParams) {
+    return Promise.reject(new Error('缺少微信支付参数'));
+  }
 
   return new Promise((resolve, reject) => {
     wx.requestPayment({
-      ...params.paymentParams,
+      ...paymentParams,
       success: () => resolve(),
       fail: reject
     });

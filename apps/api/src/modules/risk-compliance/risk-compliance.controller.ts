@@ -1,4 +1,7 @@
-import { Body, Controller, Get, Headers, Param, Patch, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Headers, Param, Patch, Post, Query, UseGuards } from '@nestjs/common';
+import { BearerAuthGuard } from '@/common/auth/bearer-auth.guard';
+import { PermissionsGuard } from '@/common/auth/permissions.guard';
+import { AllowAnonymous, RequirePermissions } from '@/common/auth/rbac.decorators';
 import {
   ConfirmProtocolDto,
   CreateBlacklistEntryDto,
@@ -17,6 +20,8 @@ import {
 import { RiskComplianceService } from './risk-compliance.service';
 
 @Controller()
+@UseGuards(BearerAuthGuard, PermissionsGuard)
+@RequirePermissions('risk:update')
 export class RiskComplianceController {
   constructor(private readonly riskComplianceService: RiskComplianceService) {}
 
@@ -56,6 +61,7 @@ export class RiskComplianceController {
   }
 
   @Post('/protocol-confirmations')
+  @AllowAnonymous()
   confirmProtocol(@Body() dto: ConfirmProtocolDto, @Headers('x-forwarded-for') ip?: string, @Headers('user-agent') userAgent?: string) {
     return this.riskComplianceService.confirmProtocol(dto, { ip, userAgent });
   }

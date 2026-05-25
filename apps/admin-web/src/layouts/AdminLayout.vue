@@ -125,16 +125,36 @@ function logout() {
 }
 
 .sider {
-  background: #071426;
+  border-right: 1px solid rgba(214, 226, 243, 0.1);
+  background: rgba(8, 13, 20, 0.96) !important;
+}
+
+.sider :deep(.ant-layout-sider-trigger),
+.sider :deep(.ant-menu-dark),
+.sider :deep(.ant-menu-dark .ant-menu-sub),
+.sider :deep(.ant-menu) {
+  background: transparent !important;
+}
+
+.sider :deep(.ant-menu-item) {
+  height: 38px;
+  border-radius: 8px;
+  color: #aeb8c7;
+}
+
+.sider :deep(.ant-menu-item-selected) {
+  background: rgba(79, 140, 255, 0.16) !important;
+  color: #fff;
 }
 
 .brand {
   display: flex;
   align-items: center;
   gap: 12px;
-  height: 64px;
+  height: 68px;
   padding: 0 18px;
   color: #fff;
+  border-bottom: 1px solid rgba(214, 226, 243, 0.1);
 }
 
 .brand-mark {
@@ -144,7 +164,7 @@ function logout() {
   width: 34px;
   height: 34px;
   border-radius: 8px;
-  background: linear-gradient(135deg, #276ef1, #c99a38);
+  background: linear-gradient(135deg, #4f8cff, #c6a360);
   font-weight: 800;
 }
 
@@ -156,7 +176,7 @@ function logout() {
 
 .brand-text span {
   margin-top: 4px;
-  color: #8ea1bb;
+  color: #8c98a8;
   font-size: 12px;
 }
 
@@ -164,26 +184,28 @@ function logout() {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 64px;
+  height: 68px;
   padding: 0 24px;
-  border-bottom: 1px solid #e6ebf2;
-  background: #fff;
+  border-bottom: 1px solid rgba(214, 226, 243, 0.1);
+  background: rgba(5, 8, 13, 0.78);
+  backdrop-filter: blur(16px);
 }
 
 .header-title {
   font-size: 18px;
-  font-weight: 700;
+  font-weight: 600;
+  color: #edf3fb;
 }
 
 .header-subtitle {
-  margin-top: 2px;
-  color: #667085;
+  margin-top: 3px;
+  color: #8c98a8;
   font-size: 12px;
 }
 
 .content {
-  min-height: calc(100vh - 64px);
+  min-height: calc(100vh - 68px);
   padding: 20px;
-  background: #f4f7fb;
+  background: transparent;
 }
 </style>

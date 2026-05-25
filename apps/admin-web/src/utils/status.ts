@@ -3,6 +3,8 @@ import type { StatusKind } from '@/types/domain';
 export const statusText: Record<string, string> = {
   active: '启用',
   disabled: '停用',
+  suspended: '停用',
+  archived: '已归档',
   pending: '待处理',
   pending_review: '待审核',
   pending_payment: '待支付',
@@ -69,6 +71,8 @@ export const statusKind: Record<string, StatusKind> = {
   manual_review: 'processing',
   draft: 'default',
   disabled: 'default',
+  suspended: 'warning',
+  archived: 'default',
   ignored: 'default',
   open: 'warning',
   medium: 'warning',

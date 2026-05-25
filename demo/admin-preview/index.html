@@ -120,6 +120,7 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+        gap: 16px;
         height: 68px;
         padding: 0 24px;
         border-bottom: 1px solid var(--line);
@@ -144,6 +145,7 @@
         display: flex;
         gap: 10px;
         align-items: center;
+        flex: 0 0 auto;
       }
 
       .search {
@@ -159,6 +161,7 @@
 
       .btn {
         height: 34px;
+        min-width: 76px;
         padding: 0 13px;
         border: 0;
         border-radius: 8px;
@@ -166,6 +169,7 @@
         color: #d7e8ff;
         font-size: 13px;
         font-weight: 600;
+        white-space: nowrap;
         cursor: pointer;
       }
 
@@ -185,6 +189,26 @@
         grid-template-columns: minmax(0, 1fr) 360px;
         gap: 16px;
         padding: 18px;
+      }
+
+      @media (max-width: 840px) {
+        .topbar {
+          align-items: flex-start;
+          height: auto;
+          min-height: 68px;
+          padding: 14px 16px;
+          flex-direction: column;
+        }
+
+        .tools {
+          width: 100%;
+          flex-wrap: wrap;
+        }
+
+        .search {
+          flex: 1 1 220px;
+          width: auto;
+        }
       }
 
       .panel {

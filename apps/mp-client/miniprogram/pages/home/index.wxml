@@ -1,11 +1,15 @@
 <view class="page safe-bottom">
-  <view class="hero">
-    <view class="eyebrow">Business Concierge</view>
-    <view class="h1">得体接待，恰到好处的商务氛围</view>
-    <view class="hero-copy">为商务宴请、客户到访、项目沟通提供餐前准备、礼宾接待与现场协同服务。</view>
-    <view class="hero-actions">
-      <button class="btn gold" bindtap="goBooking">提交饭局需求</button>
-      <button class="btn ghost" bindtap="goAssistants">查看商务助理</button>
+  <view class="hero home-hero">
+    <image class="hero-image" src="/assets/images/home-concierge-hero.jpg" mode="aspectFill" />
+    <view class="hero-shade"></view>
+    <view class="hero-content">
+      <view class="eyebrow">Business Concierge</view>
+      <view class="h1">高净值人情场，得体有人照应</view>
+      <view class="hero-copy">以餐前 brief、礼宾接待与现场氛围协同，让重要会面更自然、更体面、更有分寸。</view>
+      <view class="hero-actions">
+        <button class="btn gold" bindtap="goBooking">提交需求</button>
+        <button class="btn ghost" bindtap="goAssistants">查看助理</button>
+      </view>
     </view>
   </view>
 

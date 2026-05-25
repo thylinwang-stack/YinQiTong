@@ -103,7 +103,9 @@ export interface CreatePaymentResult {
   paymentNo: string;
   provider: 'mock' | 'wechat_pay';
   amount: number;
-  paymentParams: PaymentParams;
+  subject?: string;
+  paymentParams?: PaymentParams;
+  requestPaymentParams?: PaymentParams;
 }
 
 export interface PaymentResultState {
@@ -160,4 +162,15 @@ export interface ProtocolConfirmationInput {
   orderId: string;
   actorType: 'customer' | 'assistant';
   protocolVersion?: string;
+}
+
+export interface LoginResult {
+  token: string;
+  openid?: string;
+  user: {
+    id: string;
+    name: string;
+    userType: string;
+    permissions: string[];
+  };
 }

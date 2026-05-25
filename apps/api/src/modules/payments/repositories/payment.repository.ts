@@ -9,6 +9,7 @@ export interface PaymentOrderRecord {
   depositAmount: number | string;
   paidAmount: number | string;
   refundedAmount: number | string;
+  customerUserId?: string | null;
 }
 
 export interface PaymentRecord {

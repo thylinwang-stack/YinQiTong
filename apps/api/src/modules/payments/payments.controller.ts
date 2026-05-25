@@ -1,5 +1,8 @@
-import { Body, Controller, Param, Post, Req } from '@nestjs/common';
+import { Body, Controller, Param, Post, Req, UseGuards } from '@nestjs/common';
 import { Request } from 'express';
+import { BearerAuthGuard } from '@/common/auth/bearer-auth.guard';
+import { PermissionsGuard } from '@/common/auth/permissions.guard';
+import { RequirePermissions } from '@/common/auth/rbac.decorators';
 import { ApproveRefundDto, CreatePaymentDto, RefundRequestDto } from './dto/payment.dto';
 import { PaymentService } from './payment.service';
 import { PaymentProviderName } from './providers/payment-provider.interface';
@@ -13,11 +16,13 @@ export class PaymentsController {
   constructor(private readonly paymentService: PaymentService) {}
 
   @Post('/orders/:orderId/payments')
+  @UseGuards(BearerAuthGuard)
   createPayment(
     @Param('orderId') orderId: string,
-    @Body() dto: CreatePaymentDto
+    @Body() dto: CreatePaymentDto,
+    @Req() req: Request & { user?: { id: string; userType?: string } }
   ) {
-    return this.paymentService.createPayment(orderId, dto);
+    return this.paymentService.createPayment(orderId, dto, req.user);
   }
 
   @Post('/payments/notify/:provider')
@@ -30,6 +35,8 @@ export class PaymentsController {
   }
 
   @Post('/admin/orders/:orderId/refunds')
+  @UseGuards(BearerAuthGuard, PermissionsGuard)
+  @RequirePermissions('refund:approve')
   refund(
     @Param('orderId') orderId: string,
     @Body() dto: RefundRequestDto
@@ -38,6 +45,8 @@ export class PaymentsController {
   }
 
   @Post('/admin/refunds/:refundId/approve')
+  @UseGuards(BearerAuthGuard, PermissionsGuard)
+  @RequirePermissions('refund:approve')
   approveRefund(
     @Param('refundId') refundId: string,
     @Body() dto: ApproveRefundDto
@@ -46,6 +55,8 @@ export class PaymentsController {
   }
 
   @Post('/admin/refunds/:refundId/execute')
+  @UseGuards(BearerAuthGuard, PermissionsGuard)
+  @RequirePermissions('refund:approve')
   executeRefund(
     @Param('refundId') refundId: string,
     @Body() body: { provider?: PaymentProviderName }

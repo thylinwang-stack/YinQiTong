@@ -87,18 +87,21 @@ async function writeAudit() {
 }
 
 .metric-title {
-  color: #667085;
+  color: #8c98a8;
+  font-size: 12px;
 }
 
 .metric-value {
   margin-top: 12px;
-  font-size: 30px;
-  font-weight: 800;
+  color: #edf3fb;
+  font-size: 28px;
+  font-weight: 600;
 }
 
 .metric-desc {
   margin-top: 6px;
-  color: #667085;
+  color: #8c98a8;
+  font-size: 12px;
 }
 
 .main-row {
@@ -107,7 +110,8 @@ async function writeAudit() {
 
 .block-title {
   margin-bottom: 12px;
-  font-size: 16px;
-  font-weight: 700;
+  color: #edf3fb;
+  font-size: 15px;
+  font-weight: 600;
 }
 </style>

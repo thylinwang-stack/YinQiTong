@@ -1,4 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
+import { mkdir, writeFile } from 'fs/promises';
+import { dirname, join } from 'path';
 import { BusinessException } from '@/common/errors/business.exception';
 import { PrismaService } from '@/prisma/prisma.service';
 import { ImageAuditStatus } from '@/modules/risk-compliance/risk.enums';
@@ -233,6 +235,9 @@ export class AssistantsService {
 
     const safeName = String(file.originalname || 'photo').replace(/[^\w.-]/g, '_');
     const storageKey = `assistants/${id}/${Date.now()}-${safeName}`;
+    await this.persistPhoto(storageKey, file);
+    const publicBaseUrl = process.env.PUBLIC_UPLOAD_BASE_URL || '/uploads';
+    const publicUrl = `${publicBaseUrl.replace(/\/$/, '')}/${storageKey}`;
     const photoType = dto.photoType || AssistantPhotoType.Profile;
 
     return this.db.$transaction(async tx => {
@@ -241,7 +246,7 @@ export class AssistantsService {
           assistantId: id,
           photoType,
           storageKey,
-          url: `/uploads/${storageKey}`,
+          url: publicUrl,
           mimeType: file.mimetype,
           size: file.size,
           uploadedBy: dto.uploadedBy,
@@ -299,6 +304,14 @@ export class AssistantsService {
     const assistant = await this.db.assistant.findUnique({ where: { id } });
     if (!assistant) throw new BusinessException('ASSISTANT_NOT_FOUND', '商务助理不存在');
     return assistant;
+  }
+
+  private async persistPhoto(storageKey: string, file: any) {
+    if (!file.buffer) return;
+    const uploadDir = process.env.UPLOAD_DIR || join(process.cwd(), 'uploads');
+    const target = join(uploadDir, storageKey);
+    await mkdir(dirname(target), { recursive: true });
+    await writeFile(target, file.buffer);
   }
 
   private audit(

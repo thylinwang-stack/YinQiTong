@@ -38,6 +38,14 @@ cancelled/exception --refund_succeeded--> refunded
 - `POST /admin/orders/:orderId/complete`
 - `POST /payments/callback/deposit-paid`
 
+后台与员工端接口默认通过 `Bearer token` 认证；后台接口再叠加 RBAC 权限码，例如 `booking:read`、`booking:update`、`assistant:read`、`assistant:update`、`meal_brief:read`、`meal_brief:update`、`risk:update`、`refund:approve`。开发环境可使用 `ADMIN_BOOTSTRAP_USERNAME` / `ADMIN_BOOTSTRAP_PASSWORD` 首次登录生成拥有 `*` 权限的管理员账号。
+
+微信小程序登录入口：
+
+- `POST /auth/wechat/login`：前端 `wx.login` 获取 `code`，后端通过 `WECHAT_MP_APPID`、`WECHAT_MP_SECRET` 换取 `openid` 并生成自定义登录态。
+- `POST /auth/admin/login`：后台登录。
+- `GET /auth/me`：读取当前用户与权限。
+
 ## 支付模块
 
 位置：`src/modules/payments`
@@ -57,6 +65,13 @@ PAYMENT_PROVIDER=mock
 PAYMENT_NOTIFY_URL=https://your-domain.com/api/payments/notify/wechat_pay
 REFUND_NOTIFY_URL=https://your-domain.com/api/payments/refund-notify
 PAYMENT_DEPOSIT_RATE=0.3
+
+ADMIN_BOOTSTRAP_USERNAME=admin
+ADMIN_BOOTSTRAP_PASSWORD=change-me
+
+WECHAT_LOGIN_MOCK=true
+WECHAT_MP_APPID=
+WECHAT_MP_SECRET=
 
 WECHAT_PAY_APPID=
 WECHAT_PAY_MCHID=

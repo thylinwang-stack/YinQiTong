@@ -1,4 +1,4 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { HttpStatus, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { randomUUID } from 'node:crypto';
 import { BusinessException } from '@/common/errors/business.exception';
 import {
@@ -50,13 +50,14 @@ export class PaymentService {
     private readonly orderStateMachine: OrderStateMachineService
   ) {}
 
-  async createPayment(orderId: string, dto: CreatePaymentDto = {}): Promise<CreatePaymentResponse> {
+  async createPayment(orderId: string, dto: CreatePaymentDto = {}, actor?: { id: string; userType?: string }): Promise<CreatePaymentResponse> {
     const providerName = dto.provider || this.getDefaultProviderName();
     const provider = this.getProvider(providerName);
     const notifyUrl = process.env.PAYMENT_NOTIFY_URL || 'https://example.com/api/payments/notify';
 
     const { order, payment } = await this.repository.transaction(async repo => {
       const order = await this.findOrderOrThrow(repo, orderId);
+      this.assertOrderAccessible(order, actor);
       this.assertOrderPayable(order);
 
       if (order.status === OrderStatus.Quoted) {
@@ -354,6 +355,13 @@ export class PaymentService {
         undefined,
         { currentStatus: order.status }
       );
+    }
+  }
+
+  private assertOrderAccessible(order: PaymentOrderRecord, actor?: { id: string; userType?: string }) {
+    if (!actor || actor.userType !== 'customer') return;
+    if (order.customerUserId !== actor.id) {
+      throw new BusinessException('PAYMENT_ORDER_ACCESS_DENIED', '无权为该订单发起支付', HttpStatus.FORBIDDEN);
     }
   }
 

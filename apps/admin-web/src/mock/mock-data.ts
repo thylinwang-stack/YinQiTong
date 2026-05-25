@@ -293,7 +293,7 @@ export const auditLogs: AuditLogRecord[] = [
 
 export const roles = [
   { id: 'role_001', code: 'super_admin', name: '超级管理员', permissions: ['*'] },
-  { id: 'role_002', code: 'order_operator', name: '订单运营', permissions: ['dashboard:view', 'booking:read', 'booking:update', 'meal_brief:read', 'meal_brief:update', 'meal_brief:manager_note:read', 'meal_brief:submit', 'meal_brief:approve', 'meal_brief:generate_tasks', 'meal_brief:reminder', 'meal_brief:review', 'audit_log:create'] },
+  { id: 'role_002', code: 'order_operator', name: '订单运营', permissions: ['dashboard:view', 'booking:read', 'booking:update', 'assistant:read', 'assistant:update', 'assistant:audit', 'meal_brief:read', 'meal_brief:update', 'meal_brief:manager_note:read', 'meal_brief:submit', 'meal_brief:approve', 'meal_brief:generate_tasks', 'meal_brief:reminder', 'meal_brief:review', 'audit_log:create'] },
   { id: 'role_003', code: 'finance', name: '财务人员', permissions: ['finance:read', 'refund:approve', 'settlement:update', 'audit_log:create'] },
   { id: 'role_004', code: 'risk', name: '风控合规', permissions: ['risk:read', 'risk:update', 'risk:report', 'risk:profile_review', 'risk:blacklist', 'risk:complaint', 'risk:exception', 'audit_log:read', 'audit_log:create'] }
 ];

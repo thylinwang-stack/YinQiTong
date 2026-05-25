@@ -56,4 +56,4 @@ VITE_USE_MOCK=false
 VITE_API_BASE_URL=https://your-api.example.com/api
 ```
 
-关键操作通过 `apiClient.writeAudit` 或 mock API 内部的 `prependAudit` 追加审计记录。真实后端接入后，应由后端统一写入 `audit_logs`。
+真实后端模式下，登录走 `/auth/admin/login`，菜单和路由根据 `permissions` 过滤；订单、助理、餐前 brief、风控和退款接口均由后端 RBAC 守卫控制。助理管理已接入新增、内部资料编辑、对外资料编辑、照片上传接口；关键操作由后端统一写入 `audit_logs`。

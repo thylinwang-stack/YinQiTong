@@ -178,6 +178,33 @@ function localRiskDetect(text: string): RiskDetectionResult {
   };
 }
 
+function adaptAssistant(item: any): AssistantRecord {
+  return {
+    id: item.id,
+    assistantNo: item.assistantNo,
+    workName: item.publicProfile?.workName || item.assistantNo,
+    city: item.city,
+    status: item.status,
+    publicProfileStatus: item.publicProfile?.profileStatus || 'pending',
+    publicProfile: {
+      avatarUrl: item.publicProfile?.avatarUrl || '',
+      imageAuditStatus: item.publicProfile?.imageAuditStatus || 'pending',
+      styleTags: item.publicProfile?.styleTags || [],
+      sceneSkills: item.publicProfile?.sceneSkills || [],
+      businessSkills: item.publicProfile?.businessSkills || [],
+      publicIntro: item.publicProfile?.publicIntro || ''
+    },
+    internalProfile: {
+      realName: item.realName || item.internalProfile?.legalName || '',
+      phoneMasked: item.internalProfile?.phone || item.phone || '',
+      idNumberMasked: item.internalProfile?.idNumberMasked || '',
+      internalTags: item.internalLevel ? [item.internalLevel] : [],
+      internalNote: item.internalProfile?.managerPrivateNote || '',
+      trainingRecords: item.internalProfile?.trainingNotes ? [item.internalProfile.trainingNotes] : []
+    }
+  };
+}
+
 const registry: Record<string, BasicRecord[]> = {
   customers,
   leads,
@@ -235,12 +262,32 @@ export const apiClient = {
   async listBookings(query: PageQuery): Promise<PageResult<BookingRecord>> {
     if (!USE_MOCK) {
       const { data } = await http.get('/admin/bookings', { params: query });
-      return data;
+      return { list: data.items || data.list || [], total: data.total || 0 };
     }
     return wait(page(bookings as unknown as Record<string, unknown>[], query) as PageResult<BookingRecord>);
   },
 
   async updateBookingStatus(id: string, status: string, note?: string): Promise<BookingRecord> {
+    if (!USE_MOCK) {
+      const statusMap: Record<string, string> = {
+        pending_payment: 'deposit_pending',
+        pending_match: 'matching',
+        matched: 'confirmed',
+        brief_preparing: 'prep',
+        ready_for_service: 'prep',
+        in_service: 'executing',
+        completed: 'completed',
+        cancelled: 'cancelled',
+        risk_hold: 'exception'
+      };
+      const { data } = await http.patch(`/admin/orders/${id}/status`, {
+        toStatus: statusMap[status] || status,
+        trigger: status === 'risk_hold' ? 'admin_exception' : 'admin_override',
+        actorType: 'admin',
+        reason: note
+      });
+      return data;
+    }
     const item = bookings.find(record => record.id === id);
     if (!item) throw new Error('订单不存在');
     const from = item.status;
@@ -257,15 +304,112 @@ export const apiClient = {
   },
 
   async listAssistants(query: PageQuery): Promise<PageResult<AssistantRecord>> {
+    if (!USE_MOCK) {
+      const { data } = await http.get('/admin/assistants', { params: query });
+      const items = (data.items || []).map(adaptAssistant);
+      return { list: items, total: data.total || 0 };
+    }
     return wait(page(assistants as unknown as Record<string, unknown>[], query) as PageResult<AssistantRecord>);
   },
 
+  async createAssistant(input: Partial<AssistantRecord>): Promise<AssistantRecord> {
+    if (!USE_MOCK) {
+      const { data: created } = await http.post('/admin/assistants', {
+        realName: input.internalProfile?.realName,
+        phone: input.internalProfile?.phoneMasked,
+        city: input.city,
+        status: input.status || 'pending',
+        managerPrivateNote: input.internalProfile?.internalNote
+      });
+      if (input.workName || input.publicProfile?.publicIntro) {
+        await http.put(`/admin/assistants/${created.id}/public-profile`, {
+          workName: input.workName || created.assistantNo,
+          city: input.city || created.city,
+          avatarUrl: input.publicProfile?.avatarUrl,
+          styleTags: input.publicProfile?.styleTags || [],
+          sceneSkills: input.publicProfile?.sceneSkills || [],
+          businessSkills: input.publicProfile?.businessSkills || [],
+          publicIntro: input.publicProfile?.publicIntro || ''
+        });
+      }
+      const { data } = await http.get(`/admin/assistants/${created.id}`);
+      return adaptAssistant(data);
+    }
+    const record: AssistantRecord = {
+      id: `as_${Date.now()}`,
+      assistantNo: `BA-${String(Date.now()).slice(-6)}`,
+      workName: input.workName || '待命名助理',
+      city: input.city || '上海',
+      status: input.status || 'pending',
+      publicProfileStatus: 'pending',
+      publicProfile: {
+        avatarUrl: input.publicProfile?.avatarUrl || '',
+        imageAuditStatus: 'pending',
+        styleTags: input.publicProfile?.styleTags || [],
+        sceneSkills: input.publicProfile?.sceneSkills || [],
+        businessSkills: input.publicProfile?.businessSkills || [],
+        publicIntro: input.publicProfile?.publicIntro || ''
+      },
+      internalProfile: {
+        realName: input.internalProfile?.realName || '',
+        phoneMasked: input.internalProfile?.phoneMasked || '',
+        idNumberMasked: input.internalProfile?.idNumberMasked || '',
+        internalTags: input.internalProfile?.internalTags || [],
+        internalNote: input.internalProfile?.internalNote || '',
+        trainingRecords: input.internalProfile?.trainingRecords || []
+      }
+    };
+    assistants.unshift(record);
+    prependAudit('assistant.create', 'assistant', record.id, record as unknown as Record<string, unknown>);
+    return wait(record);
+  },
+
   async updateAssistant(id: string, patch: Partial<AssistantRecord>): Promise<AssistantRecord> {
+    if (!USE_MOCK) {
+      if (patch.internalProfile) {
+        await http.patch(`/admin/assistants/${id}/internal-profile`, {
+          realName: patch.internalProfile.realName,
+          phone: patch.internalProfile.phoneMasked,
+          idNumberMasked: patch.internalProfile.idNumberMasked,
+          managerPrivateNote: patch.internalProfile.internalNote,
+          trainingNotes: patch.internalProfile.trainingRecords?.join('\n'),
+          city: patch.city,
+          status: patch.status
+        });
+      }
+      if (patch.publicProfile || patch.workName || patch.city) {
+        await http.put(`/admin/assistants/${id}/public-profile`, {
+          workName: patch.workName || '待命名助理',
+          city: patch.city || '',
+          avatarUrl: patch.publicProfile?.avatarUrl,
+          styleTags: patch.publicProfile?.styleTags || [],
+          sceneSkills: patch.publicProfile?.sceneSkills || [],
+          businessSkills: patch.publicProfile?.businessSkills || [],
+          publicIntro: patch.publicProfile?.publicIntro || ''
+        });
+      }
+      const { data } = await http.get(`/admin/assistants/${id}`);
+      return adaptAssistant(data);
+    }
     const index = assistants.findIndex(item => item.id === id);
     if (index < 0) throw new Error('助理不存在');
     assistants[index] = { ...assistants[index], ...patch };
     prependAudit('assistant.update', 'assistant', id, patch as Record<string, unknown>);
     return wait(assistants[index]);
+  },
+
+  async uploadAssistantPhoto(id: string, file: File): Promise<Record<string, unknown>> {
+    if (!USE_MOCK) {
+      const form = new FormData();
+      form.append('file', file);
+      form.append('photoType', 'profile');
+      const { data } = await http.post(`/admin/assistants/${id}/photos`, form, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
+      return data;
+    }
+    prependAudit('assistant.photo.upload', 'assistant', id, { fileName: file.name });
+    return wait({ id: `photo_${Date.now()}`, url: URL.createObjectURL(file), imageAuditStatus: 'pending' });
   },
 
   async listMealBriefs(query: PageQuery): Promise<PageResult<MealBriefRecord>> {

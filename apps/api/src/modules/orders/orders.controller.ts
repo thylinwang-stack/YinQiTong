@@ -1,4 +1,7 @@
-import { Body, Controller, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Param, Patch, Post, UseGuards } from '@nestjs/common';
+import { BearerAuthGuard } from '@/common/auth/bearer-auth.guard';
+import { PermissionsGuard } from '@/common/auth/permissions.guard';
+import { RequirePermissions } from '@/common/auth/rbac.decorators';
 import {
   CancelOrderDto,
   DepositPaidCallbackDto,
@@ -12,6 +15,8 @@ export class OrdersController {
   constructor(private readonly orderStatusService: OrderStatusService) {}
 
   @Patch('/admin/orders/:orderId/status')
+  @UseGuards(BearerAuthGuard, PermissionsGuard)
+  @RequirePermissions('booking:update')
   transitionStatus(
     @Param('orderId') orderId: string,
     @Body() dto: TransitionOrderStatusDto
@@ -20,6 +25,8 @@ export class OrdersController {
   }
 
   @Post('/admin/orders/:orderId/exception')
+  @UseGuards(BearerAuthGuard, PermissionsGuard)
+  @RequirePermissions('risk:update')
   markException(
     @Param('orderId') orderId: string,
     @Body() body: { actorId: string; reason?: string }
@@ -28,6 +35,7 @@ export class OrdersController {
   }
 
   @Post('/orders/:orderId/cancel')
+  @UseGuards(BearerAuthGuard)
   cancelOrder(
     @Param('orderId') orderId: string,
     @Body() dto: CancelOrderDto
@@ -36,6 +44,8 @@ export class OrdersController {
   }
 
   @Post('/admin/orders/:orderId/refund')
+  @UseGuards(BearerAuthGuard, PermissionsGuard)
+  @RequirePermissions('refund:approve')
   refundOrder(
     @Param('orderId') orderId: string,
     @Body() dto: RefundOrderDto
@@ -44,6 +54,8 @@ export class OrdersController {
   }
 
   @Post('/admin/orders/:orderId/complete')
+  @UseGuards(BearerAuthGuard, PermissionsGuard)
+  @RequirePermissions('booking:update')
   completeService(
     @Param('orderId') orderId: string,
     @Body() body: { actorId: string; autoStartSettlement?: boolean }

@@ -1,4 +1,4 @@
-import { api, requestPayment } from '../../services/api';
+import { api, ensureCustomerLogin, requestPayment } from '../../services/api';
 import { BookingDraft, ServicePackage } from '../../services/types';
 import { appStore } from '../../store/app-store';
 import { assertBoundaryChecked } from '../../utils/validators';
@@ -43,6 +43,7 @@ Page({
 
     this.setData({ paying: true });
     try {
+      await ensureCustomerLogin();
       const { order } = await api.createBooking({
         ...this.data.form,
         boundaryAgreementConfirmed: true,

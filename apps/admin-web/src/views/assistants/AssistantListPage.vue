@@ -22,9 +22,10 @@
         </a-form-item>
         <a-form-item label="状态">
           <a-select v-model:value="query.status" allow-clear style="width: 140px">
+            <a-select-option value="pending">待审核</a-select-option>
             <a-select-option value="active">启用</a-select-option>
-            <a-select-option value="pending_review">待审核</a-select-option>
-            <a-select-option value="disabled">停用</a-select-option>
+            <a-select-option value="suspended">停用</a-select-option>
+            <a-select-option value="archived">归档</a-select-option>
           </a-select>
         </a-form-item>
         <a-button type="primary" @click="load">查询</a-button>
@@ -57,7 +58,8 @@
         <a-tabs>
           <a-tab-pane key="public" tab="对外展示资料">
             <div class="profile-head">
-              <img :src="selected.publicProfile.avatarUrl" alt="" />
+              <img v-if="selected.publicProfile.avatarUrl" :src="selected.publicProfile.avatarUrl" alt="" />
+              <div v-else class="avatar-fallback">{{ selected.workName.slice(0, 1) }}</div>
               <div>
                 <h3>{{ selected.workName }} · {{ selected.city }}</h3>
                 <div>{{ selected.assistantNo }}</div>
@@ -66,6 +68,10 @@
                 </a-space>
               </div>
             </div>
+            <label class="upload-box">
+              上传合规形象照 / 更新照片审核
+              <input type="file" accept="image/*" hidden @change="handlePhotoSelect" />
+            </label>
             <a-descriptions :column="1" bordered size="small">
               <a-descriptions-item label="擅长场景">{{ selected.publicProfile.sceneSkills.join('、') }}</a-descriptions-item>
               <a-descriptions-item label="图片审核"><StatusTag :status="selected.publicProfile.imageAuditStatus" /></a-descriptions-item>
@@ -88,17 +94,27 @@
       </template>
     </a-drawer>
 
-    <a-modal v-model:open="editOpen" title="编辑助理资料" width="720px" @ok="saveEdit">
+    <a-modal v-model:open="editOpen" :title="editForm.id ? '编辑助理资料' : '新增商务助理'" width="720px" @ok="saveEdit">
       <a-tabs>
         <a-tab-pane key="public" tab="对外展示">
           <a-form layout="vertical" :model="editForm">
             <a-form-item label="工作名"><a-input v-model:value="editForm.workName" /></a-form-item>
             <a-form-item label="城市"><a-input v-model:value="editForm.city" /></a-form-item>
+            <a-form-item label="状态">
+              <a-select v-model:value="editForm.status">
+                <a-select-option value="pending">待审核</a-select-option>
+                <a-select-option value="active">启用</a-select-option>
+                <a-select-option value="suspended">停用</a-select-option>
+                <a-select-option value="archived">归档</a-select-option>
+              </a-select>
+            </a-form-item>
             <a-form-item label="公开简介"><a-textarea v-model:value="publicIntro" :rows="4" /></a-form-item>
           </a-form>
         </a-tab-pane>
         <a-tab-pane key="internal" tab="内部资料">
           <a-form layout="vertical">
+            <a-form-item label="真实姓名"><a-input v-model:value="realName" /></a-form-item>
+            <a-form-item label="手机号"><a-input v-model:value="phoneMasked" /></a-form-item>
             <a-form-item label="内部备注"><a-textarea v-model:value="internalNote" :rows="4" /></a-form-item>
           </a-form>
         </a-tab-pane>
@@ -125,6 +141,8 @@ const query = reactive<PageQuery>({ page: 1, pageSize: 10, keyword: '', city: un
 const editForm = reactive<Partial<AssistantRecord>>({});
 const publicIntro = ref('');
 const internalNote = ref('');
+const realName = ref('');
+const phoneMasked = ref('');
 
 const columns = [
   { title: '编号', dataIndex: 'assistantNo', width: 130 },
@@ -167,23 +185,64 @@ function openDetail(record: AssistantRecord) {
 }
 
 function openEdit(record?: AssistantRecord) {
-  const fallback = record || records.value[0];
-  if (!fallback) return;
-  Object.assign(editForm, fallback);
-  publicIntro.value = fallback.publicProfile.publicIntro;
-  internalNote.value = fallback.internalProfile.internalNote;
+  resetEditForm();
+  if (record) {
+    Object.assign(editForm, record);
+    publicIntro.value = record.publicProfile.publicIntro;
+    internalNote.value = record.internalProfile.internalNote;
+    realName.value = record.internalProfile.realName;
+    phoneMasked.value = record.internalProfile.phoneMasked;
+  } else {
+    Object.assign(editForm, {
+      city: query.city || '上海',
+      status: 'pending',
+      publicProfile: { avatarUrl: '', imageAuditStatus: 'pending', styleTags: [], sceneSkills: [], businessSkills: [], publicIntro: '' },
+      internalProfile: { realName: '', phoneMasked: '', idNumberMasked: '', internalTags: [], internalNote: '', trainingRecords: [] }
+    });
+  }
   editOpen.value = true;
 }
 
 async function saveEdit() {
-  if (!editForm.id) return;
-  await apiClient.updateAssistant(editForm.id, {
+  if (!editForm.workName || !editForm.city) {
+    message.warning('请补充工作名和城市');
+    return;
+  }
+  const payload: Partial<AssistantRecord> = {
     ...editForm,
     publicProfile: { ...(editForm.publicProfile as AssistantRecord['publicProfile']), publicIntro: publicIntro.value },
-    internalProfile: { ...(editForm.internalProfile as AssistantRecord['internalProfile']), internalNote: internalNote.value }
-  });
+    internalProfile: {
+      ...(editForm.internalProfile as AssistantRecord['internalProfile']),
+      realName: realName.value,
+      phoneMasked: phoneMasked.value,
+      internalNote: internalNote.value
+    }
+  };
+  if (editForm.id) {
+    await apiClient.updateAssistant(editForm.id, payload);
+  } else {
+    await apiClient.createAssistant(payload);
+  }
   message.success('助理资料已保存，并写入审计日志');
   editOpen.value = false;
+  await load();
+}
+
+function resetEditForm() {
+  Object.keys(editForm).forEach(key => delete editForm[key as keyof AssistantRecord]);
+  publicIntro.value = '';
+  internalNote.value = '';
+  realName.value = '';
+  phoneMasked.value = '';
+}
+
+async function handlePhotoSelect(event: Event) {
+  const input = event.target as HTMLInputElement;
+  const file = input.files?.[0];
+  if (!selected.value || !file) return;
+  await apiClient.uploadAssistantPhoto(selected.value.id, file);
+  message.success('照片已上传，等待图片审核');
+  input.value = '';
   await load();
 }
 
@@ -204,6 +263,19 @@ load();
   object-fit: cover;
 }
 
+.avatar-fallback {
+  display: grid;
+  place-items: center;
+  width: 96px;
+  height: 128px;
+  border: 1px solid rgba(79, 140, 255, 0.26);
+  border-radius: 8px;
+  background: linear-gradient(145deg, rgba(79, 140, 255, 0.2), rgba(212, 175, 55, 0.12));
+  color: #d8e8ff;
+  font-size: 26px;
+  font-weight: 700;
+}
+
 .profile-head h3 {
   margin: 0 0 6px;
 }
@@ -214,5 +286,17 @@ load();
 
 .internal-desc {
   margin-top: 16px;
+}
+
+.upload-box {
+  display: grid;
+  place-items: center;
+  min-height: 92px;
+  margin-bottom: 16px;
+  border: 1px dashed rgba(79, 140, 255, 0.36);
+  border-radius: 8px;
+  background: rgba(79, 140, 255, 0.06);
+  color: #9ec7ff;
+  cursor: pointer;
 }
 </style>

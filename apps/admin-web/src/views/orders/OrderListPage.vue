@@ -192,7 +192,7 @@ load();
 .timeline-meta,
 .timeline-note {
   margin-top: 4px;
-  color: #667085;
+  color: #8c98a8;
   font-size: 12px;
 }
 </style>

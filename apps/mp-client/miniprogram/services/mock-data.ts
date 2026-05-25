@@ -7,7 +7,7 @@ export const scenes: ServiceScene[] = [
     name: '商务宴请',
     summary: '让正式饭局更自然，让接待更有分寸。',
     description: '适合客户宴请、合作方接待、重要项目沟通等场景，提供餐前准备、现场礼宾与氛围协同。',
-    cover: 'https://images.unsplash.com/photo-1559329007-40df8a9345d8?auto=format&fit=crop&w=900&q=80',
+    cover: '/assets/images/home-concierge-hero.jpg',
     tags: ['客户宴请', '项目沟通', '礼宾接待'],
     serviceScope: ['餐前 brief', '现场礼仪协同', '话题氛围辅助', '平台客服跟进']
   },
@@ -17,7 +17,7 @@ export const scenes: ServiceScene[] = [
     name: '客户接待',
     summary: '城市到访、商务会面、晚宴接待的一体化协同。',
     description: '围绕客户到访路径、饭局目标和嘉宾背景，安排得体商务助理协同接待。',
-    cover: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=900&q=80',
+    cover: '/assets/images/home-concierge-hero.jpg',
     tags: ['城市接待', '商务礼仪', '客户关系'],
     serviceScope: ['到访接待建议', '餐前沟通提纲', '现场节奏提醒']
   },

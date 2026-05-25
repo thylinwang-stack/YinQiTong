@@ -23,8 +23,8 @@ export class PrismaPaymentRepository implements PaymentRepository {
     return this.db.$transaction(async tx => handler(new PrismaPaymentRepository(tx as PrismaLike)));
   }
 
-  findOrderById(orderId: string): Promise<PaymentOrderRecord | null> {
-    return this.db.order.findUnique({
+  async findOrderById(orderId: string): Promise<PaymentOrderRecord | null> {
+    const order = await this.db.order.findUnique({
       where: { id: orderId },
       select: {
         id: true,
@@ -33,9 +33,16 @@ export class PrismaPaymentRepository implements PaymentRepository {
         totalAmount: true,
         depositAmount: true,
         paidAmount: true,
-        refundedAmount: true
+        refundedAmount: true,
+        customer: { select: { userId: true } }
       }
     });
+    if (!order) return null;
+    const { customer, ...record } = order;
+    return {
+      ...record,
+      customerUserId: customer?.userId
+    };
   }
 
   findPaymentByNo(paymentNo: string): Promise<PaymentRecord | null> {
