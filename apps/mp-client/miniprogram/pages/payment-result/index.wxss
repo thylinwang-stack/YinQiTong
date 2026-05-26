@@ -9,6 +9,16 @@
   border-color: rgba(216, 183, 106, 0.2);
 }
 
+.result-brand {
+  justify-content: center;
+  margin: 12rpx 0 26rpx;
+  text-align: left;
+}
+
+.result-brand-title {
+  font-size: 30rpx;
+}
+
 .icon {
   width: 96rpx;
   height: 96rpx;

@@ -82,7 +82,9 @@
       letter-spacing: 7px;
       font-size: 18px;
       font-weight: 400;
-      line-height: 1.8;
+      line-height: 1;
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
     }
 
     .english b {
@@ -102,6 +104,10 @@
       font-size: 25px;
       letter-spacing: 3px;
       font-weight: 300;
+      width: 445px;
+      margin-left: 3px;
+      text-align: justify;
+      text-align-last: justify;
     }
 
     .copy {
@@ -180,6 +186,45 @@
     .logo-sample.dark { background: #050b0f; }
     .logo-sample.light { background: var(--paper); }
     .logo-sample img { width: 92%; display: block; }
+
+    .variant-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 22px;
+    }
+
+    .variant-card {
+      border: 1px solid rgba(216, 189, 120, 0.16);
+      background: #050b0f;
+      overflow: hidden;
+    }
+
+    .variant-card img {
+      width: 100%;
+      display: block;
+    }
+
+    .variant-meta {
+      padding: 16px 18px 18px;
+      border-top: 1px solid rgba(216, 189, 120, 0.12);
+    }
+
+    .variant-meta strong {
+      display: block;
+      color: #f6e9c6;
+      font-size: 14px;
+      letter-spacing: 3px;
+      font-weight: 500;
+      text-transform: uppercase;
+    }
+
+    .variant-meta p {
+      margin-top: 8px;
+      color: #a7b2b2;
+      font-size: 13px;
+      line-height: 1.65;
+    }
 
     .colors {
       display: grid;
@@ -300,7 +345,7 @@
       .hero { grid-template-columns: 1fr; padding: 38px; }
       h1 { font-size: 72px; }
       .span-4, .span-5, .span-7, .span-12 { grid-column: span 12; }
-      .logo-strip, .icon-demo, .rule-list, .colors { grid-template-columns: 1fr; }
+      .logo-strip, .variant-grid, .icon-demo, .rule-list, .colors { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -310,8 +355,8 @@
       <div>
         <div class="label">PREMIUM BUSINESS DINNER CONCIERGE</div>
         <h1>有个饭局</h1>
-        <div class="english">MEET<br><span>·</span><br>EAT</div>
-        <div class="tagline">体面饭局，自然发生</div>
+        <div class="english">MEET<span>·</span>EAT</div>
+        <div class="tagline">体面饭局 自然发生</div>
         <p class="copy">
           名字保留口语传播力，视觉系统负责把它抬高：不是订餐，不是饭搭子，
           而是高净值商务饭局里的礼宾协同、分寸管理与氛围托举。体面不是被安排出来的热闹，而是自然发生的得体。
@@ -329,7 +374,7 @@
       </div>
       <div class="section span-4">
         <h2>Symbol Logic</h2>
-        <p>横版主标把 MEET / EAT 改为竖向细字，放在分隔线右侧，让英文成为结构注脚，而不是第二排抢主视觉。</p>
+        <p>横版主标把竖线与右转 90 度的 MEET / EAT 调成等长双线结构，并收窄主标画布与中轴留白；slogan 去掉标点后与上方中文标题同宽对齐。</p>
       </div>
       <div class="section span-4">
         <h2>Tone</h2>
@@ -345,6 +390,41 @@
         </div>
         <div class="logo-sample light">
           <img src="./logo-horizontal-light.svg" alt="light logo" />
+        </div>
+      </div>
+    </section>
+
+    <section class="section span-12" style="margin-top:24px;">
+      <h2>Refinement Variants</h2>
+      <p>C 版已定稿并提升为正式主标。A/B/D 继续保留作对照，C 版保留在 variants 中作为最终决策记录。</p>
+      <div class="variant-grid">
+        <div class="variant-card">
+          <img src="./variants/logo-variant-a-current.svg" alt="variant A current" />
+          <div class="variant-meta">
+            <strong>A Current</strong>
+            <p>当前基准版，保留竖向 MEET / EAT 和光学校准后的 slogan，用于和其他方案比较。</p>
+          </div>
+        </div>
+        <div class="variant-card">
+          <img src="./variants/logo-variant-b-typography.svg" alt="variant B typography" />
+          <div class="variant-meta">
+            <strong>B Typography</strong>
+            <p>中文字距收紧约 15%，slogan 降低字号和字重，并去掉视觉字标里的真实空格，强化主副层级与凝聚力。</p>
+          </div>
+        </div>
+        <div class="variant-card">
+          <img src="./variants/logo-variant-c-fused-matte.svg" alt="variant C fused matte" />
+          <div class="variant-meta">
+            <strong>C Fused Matte · Final</strong>
+            <p>最终定稿版。M/E 融合处改为更自然的共享转折，金色改为哑光纯色；slogan 用 8 个字均匀分布，适合小尺寸和物料。</p>
+          </div>
+        </div>
+        <div class="variant-card">
+          <img src="./variants/logo-variant-d-horizontal-english.svg" alt="variant D horizontal english" />
+          <div class="variant-meta">
+            <strong>D English Test</strong>
+            <p>英文横排放在 ME 下方，仅作为对照测试；若削弱识别或让左侧过重，不建议进入主标。</p>
+          </div>
         </div>
       </div>
     </section>
@@ -378,8 +458,8 @@
         <h2>Wordmark System</h2>
         <div class="word-system">
           <div class="cn">有个饭局</div>
-          <div class="en">MEET / EAT vertical side mark</div>
-          <div style="color:#d5c99f;letter-spacing:6px;font-size:22px;">体面饭局，自然发生</div>
+          <div class="en">MEET / EAT parallel side mark</div>
+          <div style="color:#d5c99f;letter-spacing:6px;font-size:22px;">体面饭局 自然发生</div>
         </div>
       </div>
       <div class="section span-7">

@@ -4,17 +4,9 @@
   gap: 18rpx;
 }
 
-.avatar {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 96rpx;
-  height: 96rpx;
-  border-radius: 16rpx;
-  background: linear-gradient(135deg, #2a83ff, #d8b76a);
-  color: #ffffff;
-  font-size: 34rpx;
-  font-weight: 700;
+.profile-brand-title {
+  margin-bottom: 10rpx;
+  font-size: 30rpx;
 }
 
 .menu-item {
@@ -33,4 +25,8 @@
 
 .menu-item text:last-child {
   color: #8b98aa;
+}
+
+.section.card .muted {
+  margin-top: 18rpx;
 }

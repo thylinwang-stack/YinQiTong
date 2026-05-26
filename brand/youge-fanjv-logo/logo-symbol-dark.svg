@@ -5,16 +5,11 @@
       <stop offset="0.46" stop-color="#071117"/>
       <stop offset="1" stop-color="#030506"/>
     </radialGradient>
-    <linearGradient id="gold" x1="216" y1="170" x2="796" y2="848" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#F8E9BF"/>
-      <stop offset="0.44" stop-color="#C4A45D"/>
-      <stop offset="1" stop-color="#725626"/>
-    </linearGradient>
   </defs>
 
   <rect x="48" y="48" width="928" height="928" rx="216" fill="url(#bg)"/>
 
-  <path d="M322 664V360L512 570Q612 462 704 360" stroke="url(#gold)" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M858 360H704V664H858" stroke="#F7F0DE" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M704 512H828" stroke="#F7F0DE" stroke-width="24" stroke-linecap="round"/>
+  <path d="M322 664V360L512 570Q612 462 698 364" stroke="#B9964E" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M858 360H704Q696 360 696 368V656Q696 664 704 664H858" stroke="#F7F0DE" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M696 512H828" stroke="#F7F0DE" stroke-width="24" stroke-linecap="round"/>
 </svg>

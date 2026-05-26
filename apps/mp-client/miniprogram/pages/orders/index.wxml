@@ -1,8 +1,21 @@
 <view class="page safe-bottom">
   <view class="section-head top">
-    <view>
+    <view class="brand-lockup">
+      <view class="brand-mark small">
+        <view class="brand-symbol-inner">
+          <view class="brand-stroke brand-m-left"></view>
+          <view class="brand-stroke brand-m-down"></view>
+          <view class="brand-stroke brand-m-up"></view>
+          <view class="brand-stroke brand-e-vert"></view>
+          <view class="brand-stroke brand-e-top"></view>
+          <view class="brand-stroke brand-e-mid"></view>
+          <view class="brand-stroke brand-e-bottom"></view>
+        </view>
+      </view>
+      <view>
       <view class="eyebrow">Orders</view>
       <view class="h2">我的订单</view>
+      </view>
     </view>
   </view>
 

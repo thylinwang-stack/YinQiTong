@@ -3,7 +3,24 @@
     <image class="hero-image" src="/assets/images/home-concierge-hero.jpg" mode="aspectFill" />
     <view class="hero-shade"></view>
     <view class="hero-content">
-      <view class="eyebrow">Business Concierge</view>
+      <view class="brand-lockup hero-brand">
+        <view class="brand-mark">
+          <view class="brand-symbol-inner">
+            <view class="brand-stroke brand-m-left"></view>
+            <view class="brand-stroke brand-m-down"></view>
+            <view class="brand-stroke brand-m-up"></view>
+            <view class="brand-stroke brand-e-vert"></view>
+            <view class="brand-stroke brand-e-top"></view>
+            <view class="brand-stroke brand-e-mid"></view>
+            <view class="brand-stroke brand-e-bottom"></view>
+          </view>
+        </view>
+        <view>
+          <view class="brand-title">有个饭局</view>
+          <view class="brand-slogan">体面饭局 自然发生</view>
+        </view>
+      </view>
+      <view class="eyebrow hero-eyebrow">MEET · EAT</view>
       <view class="h1">高净值人情场，得体有人照应</view>
       <view class="hero-copy">以餐前 brief、礼宾接待与现场氛围协同，让重要会面更自然、更体面、更有分寸。</view>
       <view class="hero-actions">
@@ -45,7 +62,7 @@
   </view>
 
   <view class="section compliance card">
-    <view class="h2">合规服务边界</view>
+    <view class="brand-chip">有个饭局 · 合规服务边界</view>
     <view class="muted">平台仅提供正规商务社交氛围协同、餐前准备与礼宾接待服务。所有沟通通过平台客服或受控消息系统完成。</view>
   </view>
 </view>

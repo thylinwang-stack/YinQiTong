@@ -1,0 +1,25 @@
+<svg width="1280" height="640" viewBox="0 0 1280 640" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="canvas" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(340 140) rotate(23) scale(1120 720)">
+      <stop stop-color="#132B35"/>
+      <stop offset="0.44" stop-color="#071117"/>
+      <stop offset="1" stop-color="#030506"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1280" height="640" fill="url(#canvas)"/>
+  <path d="M88 84H1192V556H88V84Z" stroke="#1B3540" stroke-width="1" opacity="0.74"/>
+
+  <g transform="translate(88 76) scale(0.46)">
+    <path d="M322 664V360L512 570Q612 462 698 364" stroke="#B9964E" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M858 360H704Q696 360 696 368V656Q696 664 704 664H858" stroke="#F7F0DE" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M696 512H828" stroke="#F7F0DE" stroke-width="24" stroke-linecap="round"/>
+  </g>
+
+  <text x="238" y="424" fill="#F7F0DE" font-family="Avenir Next, Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="300" letter-spacing="5">MEET</text>
+  <text x="323" y="424" fill="#B9964E" font-family="Avenir Next, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="300" letter-spacing="0">·</text>
+  <text x="348" y="424" fill="#F7F0DE" font-family="Avenir Next, Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="300" letter-spacing="5">EAT</text>
+
+  <text id="brand-title" x="562" y="306" fill="#F7EAC7" font-family="Songti SC, STSong, Noto Serif CJK SC, Source Han Serif SC, serif" font-size="88" font-weight="300" letter-spacing="17">有个饭局</text>
+  <text id="brand-slogan" x="565.8" y="396" fill="#BDB08A" font-family="PingFang SC, Microsoft YaHei, sans-serif" font-size="22" font-weight="200" letter-spacing="0" textLength="386" lengthAdjust="spacing">体面饭局自然发生</text>
+</svg>

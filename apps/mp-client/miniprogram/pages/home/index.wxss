@@ -29,11 +29,19 @@
   z-index: 1;
   width: 100%;
   box-sizing: border-box;
-  padding: 250rpx 30rpx 32rpx;
+  padding: 186rpx 30rpx 32rpx;
 }
 
 .home-hero .h1 {
   max-width: 430rpx;
+}
+
+.hero-brand {
+  margin-bottom: 28rpx;
+}
+
+.hero-eyebrow {
+  color: #d8c991;
 }
 
 .hero-copy {
@@ -122,4 +130,8 @@
 
 .compliance {
   border-color: rgba(216, 183, 106, 0.22);
+}
+
+.compliance .muted {
+  margin-top: 18rpx;
 }

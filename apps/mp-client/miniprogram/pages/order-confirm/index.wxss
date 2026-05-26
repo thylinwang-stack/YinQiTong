@@ -2,6 +2,11 @@
   margin-top: 8rpx;
 }
 
+.confirm-brand-title {
+  margin-top: 8rpx;
+  font-size: 28rpx;
+}
+
 .summary-row {
   display: flex;
   justify-content: space-between;

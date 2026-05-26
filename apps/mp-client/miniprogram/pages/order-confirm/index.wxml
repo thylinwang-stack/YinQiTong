@@ -1,7 +1,23 @@
 <view class="page safe-bottom">
   <view class="section-head top">
+    <view class="brand-lockup">
+      <view class="brand-mark small">
+        <view class="brand-symbol-inner">
+          <view class="brand-stroke brand-m-left"></view>
+          <view class="brand-stroke brand-m-down"></view>
+          <view class="brand-stroke brand-m-up"></view>
+          <view class="brand-stroke brand-e-vert"></view>
+          <view class="brand-stroke brand-e-top"></view>
+          <view class="brand-stroke brand-e-mid"></view>
+          <view class="brand-stroke brand-e-bottom"></view>
+        </view>
+      </view>
+      <view>
+        <view class="eyebrow">MEET · EAT</view>
+        <view class="brand-title confirm-brand-title">有个饭局</view>
+      </view>
+    </view>
     <view>
-      <view class="eyebrow">Confirm</view>
       <view class="h2">订单确认</view>
     </view>
   </view>
@@ -44,7 +60,7 @@
   </view>
 
   <view class="card section">
-    <view class="h2">服务边界协议</view>
+    <view class="brand-chip">有个饭局 · 服务边界协议</view>
     <view class="boundary-text">
       平台仅提供商务社交氛围协同、餐前准备与礼宾接待服务；不提供任何越界内容，不展示或交换助理私人联系方式；客户与助理沟通通过平台客服或受控消息系统完成。
     </view>

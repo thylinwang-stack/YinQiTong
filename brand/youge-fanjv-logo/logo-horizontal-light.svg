@@ -1,27 +1,21 @@
-<svg width="1680" height="640" viewBox="0 0 1680 640" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <linearGradient id="gold" x1="122" y1="118" x2="424" y2="496" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#D9BF7C"/>
-      <stop offset="0.5" stop-color="#A47B36"/>
-      <stop offset="1" stop-color="#5D421E"/>
-    </linearGradient>
-  </defs>
+<svg width="1280" height="640" viewBox="0 0 1280 640" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1280" height="640" fill="#F6F2EA"/>
+  <path d="M88 84H1192V556H88V84Z" stroke="#D9D0BE" stroke-width="1"/>
 
-  <rect width="1680" height="640" fill="#F6F2EA"/>
-  <path d="M88 84H1592V556H88V84Z" stroke="#D9D0BE" stroke-width="1"/>
-
-  <g transform="translate(116 128) scale(0.375)">
-    <path d="M322 664V360L512 570Q612 462 704 360" stroke="url(#gold)" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M858 360H704V664H858" stroke="#10191D" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M704 512H828" stroke="#10191D" stroke-width="24" stroke-linecap="round"/>
+  <g transform="translate(88 76) scale(0.46)">
+    <path d="M322 664V360L512 570Q612 462 698 364" stroke="#A47B36" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M858 360H704Q696 360 696 368V656Q696 664 704 664H858" stroke="#10191D" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M696 512H828" stroke="#10191D" stroke-width="24" stroke-linecap="round"/>
   </g>
 
-  <path d="M520 176V464" stroke="#A47B36" stroke-width="1" opacity="0.46"/>
+  <path id="side-line" d="M526 239.2V371.9" stroke="#A47B36" stroke-width="1" opacity="0.54"/>
 
-  <text x="558" y="256" fill="#10191D" font-family="Avenir Next, Helvetica Neue, Arial, sans-serif" font-size="16" font-weight="400" letter-spacing="6">MEET</text>
-  <text x="558" y="294" fill="#A47B36" font-family="Avenir Next, Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="300" letter-spacing="0">·</text>
-  <text x="558" y="333" fill="#10191D" font-family="Avenir Next, Helvetica Neue, Arial, sans-serif" font-size="16" font-weight="400" letter-spacing="6">EAT</text>
+  <g id="side-english" transform="translate(548 238) rotate(90)">
+    <text x="0" y="0" fill="#10191D" font-family="Avenir Next, Helvetica Neue, Arial, sans-serif" font-size="14" font-weight="300" letter-spacing="5">MEET</text>
+    <text x="74" y="0" fill="#A47B36" font-family="Avenir Next, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="300" letter-spacing="0">·</text>
+    <text x="100" y="0" fill="#10191D" font-family="Avenir Next, Helvetica Neue, Arial, sans-serif" font-size="14" font-weight="300" letter-spacing="5">EAT</text>
+  </g>
 
-  <text x="650" y="292" fill="#10191D" font-family="Songti SC, STSong, Noto Serif CJK SC, Source Han Serif SC, serif" font-size="88" font-weight="300" letter-spacing="20">有个饭局</text>
-  <text x="654" y="374" fill="#7B6B48" font-family="PingFang SC, Microsoft YaHei, sans-serif" font-size="25" font-weight="300" letter-spacing="3">体面饭局，自然发生</text>
+  <text id="brand-title" x="604" y="306" fill="#10191D" font-family="Songti SC, STSong, Noto Serif CJK SC, Source Han Serif SC, serif" font-size="88" font-weight="300" letter-spacing="17">有个饭局</text>
+  <text id="brand-slogan" x="607.8" y="396" fill="#7B6B48" font-family="PingFang SC, Microsoft YaHei, sans-serif" font-size="22" font-weight="200" letter-spacing="0" textLength="386" lengthAdjust="spacing">体面饭局自然发生</text>
 </svg>

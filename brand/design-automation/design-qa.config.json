@@ -1,0 +1,54 @@
+{
+  "brandName": "有个饭局",
+  "defaultBrandDir": "brand/youge-fanjv-logo",
+  "requiredFiles": [
+    "README.md",
+    "brandboard.html",
+    "logo-primary-dark.svg",
+    "logo-horizontal-light.svg",
+    "logo-symbol-dark.svg"
+  ],
+  "forbiddenTemporaryPatterns": [
+    "__preview",
+    "__measure",
+    ".tmp",
+    ".temp"
+  ],
+  "requiredSlogan": "体面饭局 自然发生",
+  "forbiddenSloganPatterns": [
+    "体面饭局，自然发生",
+    "体面饭局,自然发生",
+    "体面饭局、自然发生",
+    "体面饭局。自然发生"
+  ],
+  "forbiddenPublicWords": [
+    "陪玩",
+    "女伴",
+    "可约",
+    "特殊服务",
+    "暧昧交易",
+    "私下联系",
+    "购买某个人"
+  ],
+  "svgChecks": {
+    "requiredIds": [
+      "brand-title",
+      "brand-slogan",
+      "side-line",
+      "side-english"
+    ],
+    "sideLine": {
+      "expectedPath": "M526 239.2V371.9",
+      "tolerance": 0.01
+    },
+    "slogan": {
+      "expectedX": 607.8,
+      "expectedTextLength": 386,
+      "tolerance": 0.01
+    }
+  },
+  "approvalRules": {
+    "requireExplicitFinalApprovalBeforeCommit": true,
+    "requireExplicitGitHubApprovalBeforePush": true
+  }
+}

@@ -1,7 +1,18 @@
 <view class="page safe-bottom">
   <view class="profile-card card">
-    <view class="avatar">商</view>
+    <view class="brand-mark small">
+      <view class="brand-symbol-inner">
+        <view class="brand-stroke brand-m-left"></view>
+        <view class="brand-stroke brand-m-down"></view>
+        <view class="brand-stroke brand-m-up"></view>
+        <view class="brand-stroke brand-e-vert"></view>
+        <view class="brand-stroke brand-e-top"></view>
+        <view class="brand-stroke brand-e-mid"></view>
+        <view class="brand-stroke brand-e-bottom"></view>
+      </view>
+    </view>
     <view>
+      <view class="brand-title profile-brand-title">有个饭局</view>
       <view class="h2">{{userName}}</view>
       <view class="muted">{{isLoggedIn ? '已登录，可查看订单、支付状态与服务记录' : '微信登录后可查看订单、支付状态与服务记录'}}</view>
     </view>
@@ -33,7 +44,7 @@
   </view>
 
   <view class="section card">
-    <view class="h2">合规承诺</view>
+    <view class="brand-chip">体面饭局 自然发生</view>
     <view class="muted">公开资料仅展示编号、工作名、城市、风格标签与商务能力；支付对象统一为平台服务预约金或服务费。</view>
   </view>
 </view>

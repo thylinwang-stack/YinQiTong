@@ -1,5 +1,22 @@
 <view class="page result-page safe-bottom">
   <view class="result-card card {{result.status}}">
+    <view class="brand-lockup result-brand">
+      <view class="brand-mark small">
+        <view class="brand-symbol-inner">
+          <view class="brand-stroke brand-m-left"></view>
+          <view class="brand-stroke brand-m-down"></view>
+          <view class="brand-stroke brand-m-up"></view>
+          <view class="brand-stroke brand-e-vert"></view>
+          <view class="brand-stroke brand-e-top"></view>
+          <view class="brand-stroke brand-e-mid"></view>
+          <view class="brand-stroke brand-e-bottom"></view>
+        </view>
+      </view>
+      <view>
+        <view class="brand-title result-brand-title">有个饭局</view>
+        <view class="brand-slogan">体面饭局 自然发生</view>
+      </view>
+    </view>
     <view class="icon">{{icon}}</view>
     <view class="h1">{{title}}</view>
     <view class="muted message">{{result.message}}</view>
