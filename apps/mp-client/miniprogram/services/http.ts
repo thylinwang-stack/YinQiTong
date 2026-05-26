@@ -2,6 +2,10 @@ import { ApiMode } from './types';
 
 const DEFAULT_BASE_URL = 'http://127.0.0.1:3000';
 
+type RequestOptions = Omit<WechatMiniprogram.RequestOption, 'method'> & {
+  method?: WechatMiniprogram.RequestOption['method'] | 'PATCH';
+};
+
 export const getApiMode = (): ApiMode => {
   return (wx.getStorageSync('apiMode') as ApiMode) || 'mock';
 };
@@ -10,10 +14,11 @@ export const getApiBaseUrl = (): string => {
   return wx.getStorageSync('apiBaseUrl') || DEFAULT_BASE_URL;
 };
 
-export function request<T>(options: WechatMiniprogram.RequestOption): Promise<T> {
+export function request<T>(options: RequestOptions): Promise<T> {
+  const wxOptions = options as WechatMiniprogram.RequestOption;
   return new Promise((resolve, reject) => {
     wx.request({
-      ...options,
+      ...wxOptions,
       url: `${getApiBaseUrl()}${options.url}`,
       header: {
         'content-type': 'application/json',

@@ -2,9 +2,9 @@
   <a-layout class="admin-layout">
     <a-layout-sider v-model:collapsed="collapsed" collapsible width="236" class="sider">
       <div class="brand">
-        <div class="brand-mark">礼</div>
+        <div class="brand-mark">饭</div>
         <div v-if="!collapsed" class="brand-text">
-          <strong>商务礼宾</strong>
+          <strong>有个饭局</strong>
           <span>运营管理后台</span>
         </div>
       </div>
@@ -22,7 +22,7 @@
       <a-layout-header class="header">
         <div>
           <div class="header-title">{{ currentTitle }}</div>
-          <div class="header-subtitle">OA 级业务管理系统 · 所有关键操作进入审计日志</div>
+          <div class="header-subtitle">饭局业务 OA 管理系统 · 所有关键操作进入审计日志</div>
         </div>
         <a-space>
           <a-tag color="blue">RBAC 已启用</a-tag>
