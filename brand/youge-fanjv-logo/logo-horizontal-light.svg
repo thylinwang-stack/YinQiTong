@@ -11,19 +11,18 @@
   <path d="M88 84H1592V556H88V84Z" stroke="#D9D0BE" stroke-width="1"/>
 
   <g transform="translate(116 128) scale(0.375)">
-    <path d="M322 664V360L512 570Q612 468 704 392" stroke="url(#gold)" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M704 360V664" stroke="#10191D" stroke-width="24" stroke-linecap="round"/>
-    <path d="M704 360H858M704 512H828M704 664H858" stroke="#10191D" stroke-width="24" stroke-linecap="round"/>
+    <path d="M322 664V360L512 570Q612 462 704 360" stroke="url(#gold)" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M858 360H704V664H858" stroke="#10191D" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M704 512H828" stroke="#10191D" stroke-width="24" stroke-linecap="round"/>
   </g>
 
   <path d="M520 176V464" stroke="#A47B36" stroke-width="1" opacity="0.46"/>
 
   <text x="590" y="292" fill="#10191D" font-family="Noto Serif CJK SC, Source Han Serif SC, Songti SC, STSong, serif" font-size="100" font-weight="500" letter-spacing="14">有个饭局</text>
-  <text x="598" y="369" font-family="Avenir Next, Helvetica Neue, Arial, sans-serif" fill="#10191D" letter-spacing="3">
-    <tspan font-size="38" font-weight="600" fill="#A47B36">M</tspan><tspan font-size="25" font-weight="500">eet</tspan>
-    <tspan font-size="25" fill="#A47B36" dx="18">·</tspan>
-    <tspan font-size="38" font-weight="600" fill="#A47B36" dx="18">E</tspan><tspan font-size="25" font-weight="500">at</tspan>
-    <tspan font-size="20" fill="#7B6B48" dx="26" letter-spacing="8">CONCIERGE</tspan>
+  <text x="600" y="367" font-family="Avenir Next, Helvetica Neue, Arial, sans-serif" fill="#10191D" letter-spacing="8">
+    <tspan font-size="30" font-weight="600">MEET</tspan>
+    <tspan font-size="24" fill="#A47B36" dx="18">·</tspan>
+    <tspan font-size="30" font-weight="600" dx="18">EAT</tspan>
   </text>
-  <text x="600" y="424" fill="#7B6B48" font-family="PingFang SC, Microsoft YaHei, sans-serif" font-size="27" font-weight="300" letter-spacing="8">体面饭局，自然发生</text>
+  <text x="600" y="425" fill="#7B6B48" font-family="PingFang SC, Microsoft YaHei, sans-serif" font-size="27" font-weight="300" letter-spacing="4">体面饭局，自然发生</text>
 </svg>
