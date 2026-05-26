@@ -14,7 +14,7 @@
 
   <rect x="48" y="48" width="928" height="928" rx="216" fill="url(#bg)"/>
 
-  <path d="M322 664V360L512 570Q610 464 696 370" stroke="url(#gold)" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M322 664V360L512 570Q612 468 704 392" stroke="url(#gold)" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
   <path d="M704 360V664" stroke="#F7F0DE" stroke-width="24" stroke-linecap="round"/>
   <path d="M704 360H858M704 512H828M704 664H858" stroke="#F7F0DE" stroke-width="24" stroke-linecap="round"/>
 </svg>
