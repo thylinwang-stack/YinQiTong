@@ -1,0 +1,46 @@
+<svg width="1680" height="640" viewBox="0 0 1680 640" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="canvas" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(340 140) rotate(23) scale(1120 720)">
+      <stop stop-color="#132B35"/>
+      <stop offset="0.44" stop-color="#071117"/>
+      <stop offset="1" stop-color="#030506"/>
+    </radialGradient>
+    <linearGradient id="gold" x1="122" y1="118" x2="424" y2="496" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F8E9BF"/>
+      <stop offset="0.44" stop-color="#C4A45D"/>
+      <stop offset="1" stop-color="#725626"/>
+    </linearGradient>
+    <linearGradient id="blue" x1="212" y1="206" x2="436" y2="430" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#78E7FF"/>
+      <stop offset="1" stop-color="#176A82"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1680" height="640" fill="url(#canvas)"/>
+  <path d="M88 84H1592V556H88V84Z" stroke="#1B3540" stroke-width="1" opacity="0.74"/>
+
+  <g transform="translate(116 128) scale(0.375)">
+    <path d="M706 228C838 335 866 529 771 668C662 827 430 846 296 708C173 582 176 378 302 254C355 202 424 172 498 166" stroke="#143140" stroke-width="3" opacity="0.9"/>
+    <path d="M706 228C838 335 866 529 771 668C662 827 430 846 296 708C173 582 176 378 302 254C355 202 424 172 498 166" stroke="url(#gold)" stroke-width="18" stroke-linecap="round"/>
+    <path d="M330 648V372L512 568L694 372V648" stroke="url(#gold)" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M694 372H802M694 510H772M694 648H802" stroke="url(#blue)" stroke-width="18" stroke-linecap="round"/>
+    <path d="M402 648H622" stroke="#E7D49B" stroke-width="5" stroke-linecap="round" opacity="0.28"/>
+    <circle cx="512" cy="166" r="29" fill="#071117" stroke="url(#gold)" stroke-width="11"/>
+    <circle cx="786" cy="654" r="25" fill="#071117" stroke="#E6D195" stroke-width="9"/>
+    <circle cx="238" cy="654" r="25" fill="#071117" stroke="#55D8F2" stroke-width="9"/>
+    <circle cx="512" cy="512" r="78" stroke="#E7D49B" stroke-width="2" opacity="0.18"/>
+    <circle cx="512" cy="512" r="7" fill="#E7D49B" opacity="0.82"/>
+  </g>
+
+  <path d="M520 176V464" stroke="#B9964E" stroke-width="1" opacity="0.56"/>
+
+  <text x="592" y="292" fill="#F7EAC7" font-family="Songti SC, STSong, Noto Serif CJK SC, serif" font-size="104" font-weight="600" letter-spacing="12">有个饭局</text>
+  <text x="598" y="369" font-family="Avenir Next, Helvetica Neue, Arial, sans-serif" fill="#77DFF4" letter-spacing="3">
+    <tspan font-size="38" font-weight="600">M</tspan><tspan font-size="25" font-weight="500">eet</tspan>
+    <tspan font-size="25" fill="#B9964E" dx="18">·</tspan>
+    <tspan font-size="38" font-weight="600" dx="18">E</tspan><tspan font-size="25" font-weight="500">at</tspan>
+    <tspan font-size="20" fill="#C7B98E" dx="26" letter-spacing="8">CONCIERGE</tspan>
+  </text>
+  <text x="600" y="424" fill="#C9BB8E" font-family="PingFang SC, Microsoft YaHei, sans-serif" font-size="27" font-weight="300" letter-spacing="8">商务社交礼宾服务</text>
+  <text x="1268" y="424" fill="#667579" font-family="Avenir Next, Helvetica Neue, Arial, sans-serif" font-size="15" letter-spacing="5">PRESENCE · BOUNDARY · POISE</text>
+</svg>

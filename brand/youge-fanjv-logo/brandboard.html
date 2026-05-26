@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>有个饭局 Meet Eat Brand Board</title>
+  <style>
+    :root {
+      --deep: #071117;
+      --ink: #030506;
+      --gold: #d8bd78;
+      --gold-deep: #a47b36;
+      --blue: #59d5ef;
+      --muted: #a5b0b0;
+      --paper: #f6f2ea;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: #f5ead0;
+      background:
+        radial-gradient(circle at 28% 8%, rgba(48, 118, 140, 0.42), transparent 31%),
+        linear-gradient(145deg, #030506 0%, #071117 45%, #020304 100%);
+      font-family: "Avenir Next", "Helvetica Neue", Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
+    }
+
+    .board {
+      width: min(1440px, 100%);
+      margin: 0 auto;
+      padding: 64px;
+    }
+
+    .hero {
+      min-height: 660px;
+      border: 1px solid rgba(216, 189, 120, 0.2);
+      background:
+        linear-gradient(90deg, rgba(5, 13, 17, 0.98), rgba(7, 17, 23, 0.82)),
+        radial-gradient(circle at 69% 34%, rgba(80, 202, 228, 0.13), transparent 28%);
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: 52px;
+      align-items: center;
+      padding: 72px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: -170px;
+      top: -170px;
+      width: 540px;
+      height: 540px;
+      border: 1px solid rgba(216, 189, 120, 0.16);
+      border-radius: 50%;
+    }
+
+    .label {
+      color: var(--blue);
+      font-size: 13px;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      margin-bottom: 28px;
+    }
+
+    h1 {
+      margin: 0;
+      font-family: "Songti SC", STSong, "Noto Serif CJK SC", serif;
+      font-size: 108px;
+      line-height: 1;
+      letter-spacing: 13px;
+      color: #f7eac7;
+      font-weight: 600;
+    }
+
+    .english {
+      margin-top: 28px;
+      color: var(--blue);
+      letter-spacing: 4px;
+      font-size: 26px;
+      font-weight: 500;
+    }
+
+    .english b {
+      font-size: 42px;
+      color: #9feeff;
+      font-weight: 600;
+    }
+
+    .english span {
+      color: var(--gold);
+      margin: 0 16px;
+    }
+
+    .tagline {
+      margin-top: 34px;
+      color: #d5c99f;
+      font-size: 28px;
+      letter-spacing: 7px;
+      font-weight: 300;
+    }
+
+    .copy {
+      margin-top: 40px;
+      max-width: 560px;
+      color: #aab4b4;
+      font-size: 18px;
+      line-height: 1.9;
+    }
+
+    .symbol-wrap {
+      display: grid;
+      place-items: center;
+      min-height: 430px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .symbol-card {
+      width: 362px;
+      height: 362px;
+      border-radius: 84px;
+      box-shadow: 0 36px 140px rgba(0, 0, 0, 0.45), inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 24px;
+      margin-top: 24px;
+    }
+
+    .section {
+      border: 1px solid rgba(216, 189, 120, 0.18);
+      background: rgba(9, 20, 26, 0.78);
+      padding: 34px;
+      min-height: 240px;
+    }
+
+    .section h2 {
+      margin: 0 0 18px;
+      font-size: 18px;
+      letter-spacing: 4px;
+      color: #ead9aa;
+      font-weight: 500;
+      text-transform: uppercase;
+    }
+
+    .section p {
+      margin: 0;
+      color: #a8b3b3;
+      font-size: 16px;
+      line-height: 1.75;
+    }
+
+    .span-4 { grid-column: span 4; }
+    .span-5 { grid-column: span 5; }
+    .span-7 { grid-column: span 7; }
+    .span-12 { grid-column: span 12; }
+
+    .logo-strip {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 24px;
+    }
+
+    .logo-sample {
+      border: 1px solid rgba(216, 189, 120, 0.16);
+      overflow: hidden;
+      min-height: 270px;
+      display: grid;
+      place-items: center;
+    }
+
+    .logo-sample.dark { background: #050b0f; }
+    .logo-sample.light { background: var(--paper); }
+    .logo-sample img { width: 92%; display: block; }
+
+    .colors {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 14px;
+      margin-top: 22px;
+    }
+
+    .chip {
+      height: 132px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      border: 1px solid rgba(255,255,255,.08);
+      color: white;
+      font-size: 12px;
+      letter-spacing: 1px;
+    }
+
+    .chip strong {
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 5px;
+    }
+
+    .black { background: #061015; }
+    .navy { background: #071826; }
+    .gold { background: #d8bd78; color: #15120a; }
+    .blue { background: #59d5ef; color: #041318; }
+    .paper { background: #f6f2ea; color: #191814; }
+
+    .icon-demo {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 22px;
+      align-items: center;
+      margin-top: 24px;
+    }
+
+    .app-icon {
+      width: 138px;
+      height: 138px;
+      border-radius: 32px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,.36);
+    }
+
+    .small-icon {
+      width: 88px;
+      height: 88px;
+      border-radius: 22px;
+      overflow: hidden;
+    }
+
+    .tiny-icon {
+      width: 54px;
+      height: 54px;
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    .word-system {
+      display: grid;
+      gap: 14px;
+      margin-top: 12px;
+    }
+
+    .word-system div {
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(216, 189, 120, 0.14);
+    }
+
+    .cn {
+      font-family: "Songti SC", STSong, "Noto Serif CJK SC", serif;
+      font-size: 48px;
+      letter-spacing: 8px;
+      color: #f6e9c6;
+    }
+
+    .en {
+      font-size: 18px;
+      letter-spacing: 4px;
+      color: var(--blue);
+    }
+
+    .en b {
+      font-size: 31px;
+      font-weight: 600;
+      color: #9feeff;
+    }
+
+    .rule-list {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    .rule {
+      border: 1px solid rgba(216, 189, 120, .14);
+      padding: 20px;
+      min-height: 120px;
+      color: #a7b2b2;
+      line-height: 1.6;
+    }
+
+    .rule b {
+      color: #ead9aa;
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+
+    @media (max-width: 900px) {
+      .board { padding: 24px; }
+      .hero { grid-template-columns: 1fr; padding: 38px; }
+      h1 { font-size: 72px; }
+      .span-4, .span-5, .span-7, .span-12 { grid-column: span 12; }
+      .logo-strip, .icon-demo, .rule-list, .colors { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main class="board">
+    <section class="hero">
+      <div>
+        <div class="label">PREMIUM BUSINESS DINNER CONCIERGE</div>
+        <h1>有个饭局</h1>
+        <div class="english"><b>M</b>eet <span>·</span> <b>E</b>at CONCIERGE</div>
+        <div class="tagline">让饭局更体面</div>
+        <p class="copy">
+          名字保留口语传播力，视觉系统负责把它抬高：不是订餐，不是饭搭子，
+          而是高净值商务饭局里的礼宾协同、分寸管理与氛围托举。
+        </p>
+      </div>
+      <div class="symbol-wrap">
+        <img class="symbol-card" src="./logo-symbol-dark.svg" alt="有个饭局 logo symbol" />
+      </div>
+    </section>
+
+    <section class="grid">
+      <div class="section span-4">
+        <h2>Brand Idea</h2>
+        <p>有个饭局是一句邀请，也是一种场景入口。品牌要把日常口语变成高端商务接待里的可信任服务名片。</p>
+      </div>
+      <div class="section span-4">
+        <h2>Symbol Logic</h2>
+        <p>图形用 M 与 E 共用结构线，外部保留三席位边界环。英文逻辑藏在符号里，中文负责传播和记忆。</p>
+      </div>
+      <div class="section span-4">
+        <h2>Tone</h2>
+        <p>深曜黑、香槟金、科技蓝建立私享、礼宾与秩序感，避免餐饮平台、夜场社交和暧昧交易联想。</p>
+      </div>
+    </section>
+
+    <section class="section span-12" style="margin-top:24px;">
+      <h2>Primary Logo</h2>
+      <div class="logo-strip">
+        <div class="logo-sample dark">
+          <img src="./logo-primary-dark.svg" alt="dark logo" />
+        </div>
+        <div class="logo-sample light">
+          <img src="./logo-horizontal-light.svg" alt="light logo" />
+        </div>
+      </div>
+    </section>
+
+    <section class="grid">
+      <div class="section span-5">
+        <h2>App Icon System</h2>
+        <p>小程序图标使用 M/E 结构符号，不放完整中文，保证小尺寸下仍有高级感和识别度。</p>
+        <div class="icon-demo">
+          <img class="app-icon" src="./logo-symbol-dark.svg" alt="large app icon" />
+          <img class="small-icon" src="./logo-symbol-dark.svg" alt="medium app icon" />
+          <img class="tiny-icon" src="./logo-symbol-dark.svg" alt="tiny app icon" />
+          <div style="color:#8b9899;line-height:1.7;">1024<br>512<br>128<br>64</div>
+        </div>
+      </div>
+      <div class="section span-7">
+        <h2>Color System</h2>
+        <p>配色继续延续黑金科技风，但降低“餐饮暖色”比例，让饭局业务看起来像礼宾服务，而不是订餐工具。</p>
+        <div class="colors">
+          <div class="chip black"><strong>Obsidian</strong>#061015</div>
+          <div class="chip navy"><strong>Midnight</strong>#071826</div>
+          <div class="chip gold"><strong>Concierge Gold</strong>#D8BD78</div>
+          <div class="chip blue"><strong>Protocol Blue</strong>#59D5EF</div>
+          <div class="chip paper"><strong>Ivory Paper</strong>#F6F2EA</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid">
+      <div class="section span-5">
+        <h2>Wordmark System</h2>
+        <div class="word-system">
+          <div class="cn">有个饭局</div>
+          <div class="en"><b>M</b>eet · <b>E</b>at CONCIERGE</div>
+          <div style="color:#d5c99f;letter-spacing:6px;font-size:22px;">商务社交礼宾服务</div>
+        </div>
+      </div>
+      <div class="section span-7">
+        <h2>Use Boundaries</h2>
+        <div class="rule-list">
+          <div class="rule"><b>不做餐饮</b>不用刀叉、餐盘、酒杯、菜品图。</div>
+          <div class="rule"><b>不做暧昧</b>不用女性剪影、亲密姿态、粉紫灯光。</div>
+          <div class="rule"><b>不做低端社交</b>不用“约”“伴”“局中人”等跑偏暗示。</div>
+          <div class="rule"><b>不做夜场</b>不用红黑霓虹、强反差舞台灯、酒吧符号。</div>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="bg" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(340 220) rotate(49) scale(820)">
+      <stop stop-color="#132B35"/>
+      <stop offset="0.46" stop-color="#071117"/>
+      <stop offset="1" stop-color="#030506"/>
+    </radialGradient>
+    <linearGradient id="gold" x1="216" y1="170" x2="796" y2="848" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F8E9BF"/>
+      <stop offset="0.44" stop-color="#C4A45D"/>
+      <stop offset="1" stop-color="#725626"/>
+    </linearGradient>
+    <linearGradient id="blue" x1="320" y1="282" x2="780" y2="680" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#78E7FF"/>
+      <stop offset="1" stop-color="#176A82"/>
+    </linearGradient>
+    <filter id="glow" x="114" y="106" width="796" height="812" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="18"/>
+    </filter>
+  </defs>
+
+  <rect x="48" y="48" width="928" height="928" rx="216" fill="url(#bg)"/>
+  <path d="M706 228C838 335 866 529 771 668C662 827 430 846 296 708C173 582 176 378 302 254C355 202 424 172 498 166" stroke="#143140" stroke-width="3" opacity="0.9"/>
+  <path d="M706 228C838 335 866 529 771 668C662 827 430 846 296 708C173 582 176 378 302 254C355 202 424 172 498 166" stroke="url(#gold)" stroke-width="18" stroke-linecap="round"/>
+  <path d="M304 708C428 835 642 824 758 680" stroke="#1D7188" stroke-width="42" stroke-linecap="round" opacity="0.12" filter="url(#glow)"/>
+
+  <path d="M330 648V372L512 568L694 372V648" stroke="url(#gold)" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M694 372H802M694 510H772M694 648H802" stroke="url(#blue)" stroke-width="18" stroke-linecap="round"/>
+  <path d="M402 648H622" stroke="#E7D49B" stroke-width="5" stroke-linecap="round" opacity="0.28"/>
+
+  <circle cx="512" cy="166" r="29" fill="#071117" stroke="url(#gold)" stroke-width="11"/>
+  <circle cx="786" cy="654" r="25" fill="#071117" stroke="#E6D195" stroke-width="9"/>
+  <circle cx="238" cy="654" r="25" fill="#071117" stroke="#55D8F2" stroke-width="9"/>
+
+  <circle cx="512" cy="512" r="78" stroke="#E7D49B" stroke-width="2" opacity="0.18"/>
+  <circle cx="512" cy="512" r="7" fill="#E7D49B" opacity="0.82"/>
+</svg>
