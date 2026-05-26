@@ -5,10 +5,6 @@
       <stop offset="0.5" stop-color="#A47B36"/>
       <stop offset="1" stop-color="#5D421E"/>
     </linearGradient>
-    <linearGradient id="blue" x1="212" y1="206" x2="436" y2="430" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#1EA9C9"/>
-      <stop offset="1" stop-color="#0E5368"/>
-    </linearGradient>
   </defs>
 
   <rect width="1680" height="640" fill="#F6F2EA"/>
@@ -17,19 +13,16 @@
   <g transform="translate(116 128) scale(0.375)">
     <path d="M330 648V372L512 568L694 372V648" stroke="url(#gold)" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/>
     <path d="M694 372H802M694 510H772M694 648H802" stroke="#10191D" stroke-width="18" stroke-linecap="round"/>
-    <path d="M402 648H622" stroke="#9D7B3D" stroke-width="5" stroke-linecap="round" opacity="0.32"/>
-    <circle cx="512" cy="512" r="78" stroke="#A47B36" stroke-width="2" opacity="0.18"/>
-    <circle cx="512" cy="512" r="7" fill="#A47B36" opacity="0.82"/>
   </g>
 
   <path d="M520 176V464" stroke="#A47B36" stroke-width="1" opacity="0.46"/>
 
   <text x="592" y="292" fill="#10191D" font-family="Songti SC, STSong, Noto Serif CJK SC, serif" font-size="104" font-weight="600" letter-spacing="12">有个饭局</text>
-  <text x="598" y="369" font-family="Avenir Next, Helvetica Neue, Arial, sans-serif" fill="#0B6D85" letter-spacing="3">
-    <tspan font-size="38" font-weight="600">M</tspan><tspan font-size="25" font-weight="500">eet</tspan>
+  <text x="598" y="369" font-family="Avenir Next, Helvetica Neue, Arial, sans-serif" fill="#10191D" letter-spacing="3">
+    <tspan font-size="38" font-weight="600" fill="#A47B36">M</tspan><tspan font-size="25" font-weight="500">eet</tspan>
     <tspan font-size="25" fill="#A47B36" dx="18">·</tspan>
-    <tspan font-size="38" font-weight="600" dx="18">E</tspan><tspan font-size="25" font-weight="500">at</tspan>
+    <tspan font-size="38" font-weight="600" fill="#A47B36" dx="18">E</tspan><tspan font-size="25" font-weight="500">at</tspan>
     <tspan font-size="20" fill="#7B6B48" dx="26" letter-spacing="8">CONCIERGE</tspan>
   </text>
-  <text x="600" y="424" fill="#7B6B48" font-family="PingFang SC, Microsoft YaHei, sans-serif" font-size="27" font-weight="300" letter-spacing="8">商务社交礼宾服务</text>
+  <text x="600" y="424" fill="#7B6B48" font-family="PingFang SC, Microsoft YaHei, sans-serif" font-size="27" font-weight="300" letter-spacing="8">高净值饭局礼宾协同</text>
 </svg>
