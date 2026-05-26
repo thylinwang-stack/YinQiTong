@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>晤席 MEET · EAT Brand Board</title>
+  <style>
+    :root {
+      --ink: #061015;
+      --deep: #071117;
+      --panel: #0b171d;
+      --line: rgba(232, 207, 146, 0.22);
+      --gold: #d8bd78;
+      --gold-deep: #a47b36;
+      --blue: #59d5ef;
+      --muted: #9aa7a8;
+      --paper: #f6f2ea;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: #f4ead0;
+      background:
+        radial-gradient(circle at 26% 8%, rgba(46, 109, 132, 0.42), transparent 32%),
+        linear-gradient(145deg, #030506 0%, #071117 42%, #020304 100%);
+      font-family: "Avenir Next", "Helvetica Neue", Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
+    }
+
+    .board {
+      width: min(1440px, 100%);
+      margin: 0 auto;
+      padding: 64px;
+    }
+
+    .hero {
+      min-height: 640px;
+      border: 1px solid rgba(216, 189, 120, 0.2);
+      background:
+        linear-gradient(90deg, rgba(5, 13, 17, 0.98), rgba(7, 17, 23, 0.82)),
+        radial-gradient(circle at 68% 35%, rgba(80, 202, 228, 0.13), transparent 28%);
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 48px;
+      align-items: center;
+      padding: 72px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: -160px;
+      top: -160px;
+      width: 520px;
+      height: 520px;
+      border: 1px solid rgba(216, 189, 120, 0.16);
+      border-radius: 50%;
+    }
+
+    .label {
+      color: var(--blue);
+      font-size: 13px;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      margin-bottom: 28px;
+    }
+
+    h1 {
+      margin: 0;
+      font-family: "Songti SC", STSong, "Noto Serif CJK SC", serif;
+      font-size: 122px;
+      line-height: 0.95;
+      letter-spacing: 18px;
+      color: #f7eac7;
+      font-weight: 600;
+    }
+
+    .english {
+      margin-top: 28px;
+      color: var(--blue);
+      letter-spacing: 13px;
+      font-size: 23px;
+      font-weight: 500;
+    }
+
+    .tagline {
+      margin-top: 34px;
+      color: #d5c99f;
+      font-size: 28px;
+      letter-spacing: 7px;
+      font-weight: 300;
+    }
+
+    .copy {
+      margin-top: 40px;
+      max-width: 520px;
+      color: #aab4b4;
+      font-size: 18px;
+      line-height: 1.9;
+    }
+
+    .symbol-wrap {
+      display: grid;
+      place-items: center;
+      min-height: 420px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .symbol-card {
+      width: 360px;
+      height: 360px;
+      border-radius: 84px;
+      box-shadow: 0 36px 140px rgba(0, 0, 0, 0.45), inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 24px;
+      margin-top: 24px;
+    }
+
+    .section {
+      border: 1px solid rgba(216, 189, 120, 0.18);
+      background: rgba(9, 20, 26, 0.78);
+      padding: 34px;
+      min-height: 240px;
+    }
+
+    .section h2 {
+      margin: 0 0 18px;
+      font-size: 18px;
+      letter-spacing: 4px;
+      color: #ead9aa;
+      font-weight: 500;
+      text-transform: uppercase;
+    }
+
+    .section p {
+      margin: 0;
+      color: #a8b3b3;
+      font-size: 16px;
+      line-height: 1.75;
+    }
+
+    .span-4 { grid-column: span 4; }
+    .span-5 { grid-column: span 5; }
+    .span-7 { grid-column: span 7; }
+    .span-12 { grid-column: span 12; }
+
+    .logo-strip {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 24px;
+    }
+
+    .logo-sample {
+      border: 1px solid rgba(216, 189, 120, 0.16);
+      overflow: hidden;
+      min-height: 270px;
+      display: grid;
+      place-items: center;
+    }
+
+    .logo-sample.dark { background: #050b0f; }
+    .logo-sample.light { background: var(--paper); }
+    .logo-sample img { width: 92%; display: block; }
+
+    .colors {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 14px;
+      margin-top: 22px;
+    }
+
+    .chip {
+      height: 132px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      border: 1px solid rgba(255,255,255,.08);
+      color: white;
+      font-size: 12px;
+      letter-spacing: 1px;
+    }
+
+    .chip strong {
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 5px;
+    }
+
+    .black { background: #061015; }
+    .navy { background: #071826; }
+    .gold { background: #d8bd78; color: #15120a; }
+    .blue { background: #59d5ef; color: #041318; }
+    .paper { background: #f6f2ea; color: #191814; }
+
+    .icon-demo {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 22px;
+      align-items: center;
+      margin-top: 24px;
+    }
+
+    .app-icon {
+      width: 138px;
+      height: 138px;
+      border-radius: 32px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,.36);
+    }
+
+    .small-icon {
+      width: 88px;
+      height: 88px;
+      border-radius: 22px;
+      overflow: hidden;
+    }
+
+    .tiny-icon {
+      width: 54px;
+      height: 54px;
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    .word-system {
+      display: grid;
+      gap: 14px;
+      margin-top: 12px;
+    }
+
+    .word-system div {
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(216, 189, 120, 0.14);
+    }
+
+    .cn {
+      font-family: "Songti SC", STSong, "Noto Serif CJK SC", serif;
+      font-size: 44px;
+      letter-spacing: 8px;
+      color: #f6e9c6;
+    }
+
+    .en {
+      font-size: 16px;
+      letter-spacing: 7px;
+      color: var(--blue);
+    }
+
+    .rule-list {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    .rule {
+      border: 1px solid rgba(216, 189, 120, .14);
+      padding: 20px;
+      min-height: 120px;
+      color: #a7b2b2;
+      line-height: 1.6;
+    }
+
+    .rule b {
+      color: #ead9aa;
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+
+    @media (max-width: 900px) {
+      .board { padding: 24px; }
+      .hero { grid-template-columns: 1fr; padding: 38px; }
+      h1 { font-size: 78px; }
+      .span-4, .span-5, .span-7, .span-12 { grid-column: span 12; }
+      .logo-strip, .icon-demo, .rule-list, .colors { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main class="board">
+    <section class="hero">
+      <div>
+        <div class="label">PRIVATE BUSINESS SOCIAL CONCIERGE</div>
+        <h1>晤席</h1>
+        <div class="english">MEET · EAT CONCIERGE</div>
+        <div class="tagline">让会面恰到好处</div>
+        <p class="copy">
+          品牌不表达“吃饭”，而表达一场高净值商务会面的分寸、秩序与在场感。
+          符号以三席位围合成边界之环：客户、来宾与平台助理各在其位，场面被自然托住。
+        </p>
+      </div>
+      <div class="symbol-wrap">
+        <img class="symbol-card" src="./logo-symbol-dark.svg" alt="晤席 logo symbol" />
+      </div>
+    </section>
+
+    <section class="grid">
+      <div class="section span-4">
+        <h2>Brand Idea</h2>
+        <p>不是陪伴某个人，而是让一场会面更体面。服务价值从“人”转向“场”：边界清晰、谈吐有度、接待得体。</p>
+      </div>
+      <div class="section span-4">
+        <h2>Symbol Logic</h2>
+        <p>三个点位代表客户、来宾、礼宾助理；不闭合的圆环代表合规边界；中间留白代表克制的在场感。</p>
+      </div>
+      <div class="section span-4">
+        <h2>Tone</h2>
+        <p>深曜黑建立私享感，香槟金建立礼宾感，科技蓝建立平台秩序。整体远离餐饮、夜场和暧昧交易联想。</p>
+      </div>
+    </section>
+
+    <section class="section span-12" style="margin-top:24px;">
+      <h2>Primary Logo</h2>
+      <div class="logo-strip">
+        <div class="logo-sample dark">
+          <img src="./logo-primary-dark.svg" alt="dark logo" />
+        </div>
+        <div class="logo-sample light">
+          <img src="./logo-horizontal-light.svg" alt="light logo" />
+        </div>
+      </div>
+    </section>
+
+    <section class="grid">
+      <div class="section span-5">
+        <h2>App Icon System</h2>
+        <p>小程序图标只保留“三席位边界环”，不要放完整中英文，确保 54px 下仍然识别为高端服务印记。</p>
+        <div class="icon-demo">
+          <img class="app-icon" src="./logo-symbol-dark.svg" alt="large app icon" />
+          <img class="small-icon" src="./logo-symbol-dark.svg" alt="medium app icon" />
+          <img class="tiny-icon" src="./logo-symbol-dark.svg" alt="tiny app icon" />
+          <div style="color:#8b9899;line-height:1.7;">1024<br>512<br>128<br>64</div>
+        </div>
+      </div>
+      <div class="section span-7">
+        <h2>Color System</h2>
+        <p>配色以“夜色、礼金、冷光”为三层秩序，避免红粉紫、酒吧霓虹、餐饮暖橙。</p>
+        <div class="colors">
+          <div class="chip black"><strong>Obsidian</strong>#061015</div>
+          <div class="chip navy"><strong>Midnight</strong>#071826</div>
+          <div class="chip gold"><strong>Concierge Gold</strong>#D8BD78</div>
+          <div class="chip blue"><strong>Protocol Blue</strong>#59D5EF</div>
+          <div class="chip paper"><strong>Ivory Paper</strong>#F6F2EA</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid">
+      <div class="section span-5">
+        <h2>Wordmark System</h2>
+        <div class="word-system">
+          <div class="cn">晤席</div>
+          <div class="en">MEET · EAT CONCIERGE</div>
+          <div style="color:#d5c99f;letter-spacing:6px;font-size:22px;">商务社交礼宾服务</div>
+        </div>
+      </div>
+      <div class="section span-7">
+        <h2>Use Boundaries</h2>
+        <div class="rule-list">
+          <div class="rule"><b>不画餐饮</b>不用刀叉、餐盘、酒杯、餐厅照片。</div>
+          <div class="rule"><b>不画陪伴</b>不用女性剪影、人物暗示、亲密姿态。</div>
+          <div class="rule"><b>不夜场化</b>不用红粉紫霓虹、酒吧灯光、暧昧色彩。</div>
+          <div class="rule"><b>不低端社交</b>不用“约”“局”“伴”等容易跑偏的视觉符号。</div>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
