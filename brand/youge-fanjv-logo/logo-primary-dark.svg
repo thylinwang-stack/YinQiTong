@@ -16,8 +16,8 @@
   <path d="M88 84H1592V556H88V84Z" stroke="#1B3540" stroke-width="1" opacity="0.74"/>
 
   <g transform="translate(116 128) scale(0.375)">
-    <path d="M322 664V360L512 570L704 360V664" stroke="url(#gold)" stroke-width="24" stroke-linecap="square" stroke-linejoin="miter"/>
-    <path d="M704 360H824M704 512H784M704 664H824" stroke="#F7F0DE" stroke-width="20" stroke-linecap="square"/>
+    <path d="M322 664V360L512 570L694 372" stroke="url(#gold)" stroke-width="24" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <path d="M704 360V664M704 360H824M704 512H784M704 664H824" stroke="#F7F0DE" stroke-width="20" stroke-linecap="butt" stroke-linejoin="miter"/>
   </g>
 
   <path d="M520 176V464" stroke="#B9964E" stroke-width="1" opacity="0.56"/>
