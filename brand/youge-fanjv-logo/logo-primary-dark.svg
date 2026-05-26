@@ -23,11 +23,10 @@
 
   <path d="M520 176V464" stroke="#B9964E" stroke-width="1" opacity="0.56"/>
 
-  <text x="592" y="286" fill="#F7EAC7" font-family="Songti SC, STSong, Noto Serif CJK SC, Source Han Serif SC, serif" font-size="88" font-weight="300" letter-spacing="20">有个饭局</text>
-  <text x="600" y="360" font-family="Avenir Next, Helvetica Neue, Arial, sans-serif" fill="#F7F0DE" letter-spacing="8">
-    <tspan font-size="30" font-weight="600">MEET</tspan>
-    <tspan font-size="24" fill="#B9964E" dx="18">·</tspan>
-    <tspan font-size="30" font-weight="600" dx="18">EAT</tspan>
-  </text>
-  <text x="600" y="417" fill="#C9BB8E" font-family="PingFang SC, Microsoft YaHei, sans-serif" font-size="25" font-weight="300" letter-spacing="3">体面饭局，自然发生</text>
+  <text x="558" y="256" fill="#F7F0DE" font-family="Avenir Next, Helvetica Neue, Arial, sans-serif" font-size="16" font-weight="400" letter-spacing="6">MEET</text>
+  <text x="558" y="294" fill="#B9964E" font-family="Avenir Next, Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="300" letter-spacing="0">·</text>
+  <text x="558" y="333" fill="#F7F0DE" font-family="Avenir Next, Helvetica Neue, Arial, sans-serif" font-size="16" font-weight="400" letter-spacing="6">EAT</text>
+
+  <text x="650" y="292" fill="#F7EAC7" font-family="Songti SC, STSong, Noto Serif CJK SC, Source Han Serif SC, serif" font-size="88" font-weight="300" letter-spacing="20">有个饭局</text>
+  <text x="654" y="374" fill="#C9BB8E" font-family="PingFang SC, Microsoft YaHei, sans-serif" font-size="25" font-weight="300" letter-spacing="3">体面饭局，自然发生</text>
 </svg>
