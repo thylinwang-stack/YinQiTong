@@ -64,7 +64,7 @@
                 <h3>{{ selected.workName }} · {{ selected.city }}</h3>
                 <div>{{ selected.assistantNo }}</div>
                 <a-space wrap class="tag-space">
-                  <a-tag v-for="tag in selected.publicProfile.styleTags" :key="tag" color="blue">{{ tag }}</a-tag>
+                  <a-tag v-for="tag in selected.publicProfile.styleTags" :key="tag" color="gold">{{ tag }}</a-tag>
                 </a-space>
               </div>
             </div>
@@ -268,10 +268,10 @@ load();
   place-items: center;
   width: 96px;
   height: 128px;
-  border: 1px solid rgba(79, 140, 255, 0.26);
+  border: 1px solid rgba(176, 138, 58, 0.28);
   border-radius: 8px;
-  background: linear-gradient(145deg, rgba(79, 140, 255, 0.2), rgba(212, 175, 55, 0.12));
-  color: #d8e8ff;
+  background: linear-gradient(145deg, rgba(18, 48, 55, 0.44), rgba(176, 138, 58, 0.14));
+  color: #f2dc9a;
   font-size: 26px;
   font-weight: 700;
 }
@@ -293,10 +293,10 @@ load();
   place-items: center;
   min-height: 92px;
   margin-bottom: 16px;
-  border: 1px dashed rgba(79, 140, 255, 0.36);
+  border: 1px dashed rgba(176, 138, 58, 0.38);
   border-radius: 8px;
-  background: rgba(79, 140, 255, 0.06);
-  color: #9ec7ff;
+  background: rgba(176, 138, 58, 0.08);
+  color: #ead7a2;
   cursor: pointer;
 }
 </style>

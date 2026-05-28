@@ -25,7 +25,9 @@
           <div class="header-subtitle">OA 级业务管理系统 · 所有关键操作进入审计日志</div>
         </div>
         <a-space>
-          <a-tag color="blue">RBAC 已启用</a-tag>
+          <a-tag color="default">{{ apiModeLabel }}</a-tag>
+          <a-tag color="gold">{{ cityScopeLabel }}</a-tag>
+          <a-tag color="default">RBAC 已启用</a-tag>
           <a-dropdown>
             <a-button>{{ auth.user?.name || '管理员' }}</a-button>
             <template #overlay>
@@ -99,6 +101,11 @@ const selectedKey = computed(() => {
   return matched?.key || 'dashboard';
 });
 const currentTitle = computed(() => String(route.meta.title || '工作台'));
+const apiModeLabel = computed(() => import.meta.env.VITE_USE_MOCK === 'false' ? '真实 API' : 'Mock 演示');
+const cityScopeLabel = computed(() => {
+  const scope = auth.user?.cityScope || [];
+  return scope.length ? `城市：${scope.join(' / ')}` : '城市：未限定';
+});
 
 const menuItems = computed(() =>
   visibleMenus.value.map(item => ({
@@ -125,8 +132,8 @@ function logout() {
 }
 
 .sider {
-  border-right: 1px solid rgba(214, 226, 243, 0.1);
-  background: rgba(8, 13, 20, 0.96) !important;
+  border-right: 1px solid rgba(246, 234, 208, 0.1);
+  background: rgba(3, 8, 10, 0.97) !important;
 }
 
 .sider :deep(.ant-layout-sider-trigger),
@@ -139,12 +146,12 @@ function logout() {
 .sider :deep(.ant-menu-item) {
   height: 38px;
   border-radius: 8px;
-  color: #aeb8c7;
+  color: #b9b29f;
 }
 
 .sider :deep(.ant-menu-item-selected) {
-  background: rgba(79, 140, 255, 0.16) !important;
-  color: #fff;
+  background: rgba(176, 138, 58, 0.18) !important;
+  color: #fff6de;
 }
 
 .brand {
@@ -153,8 +160,8 @@ function logout() {
   gap: 12px;
   height: 68px;
   padding: 0 18px;
-  color: #fff;
-  border-bottom: 1px solid rgba(214, 226, 243, 0.1);
+  color: #fff6de;
+  border-bottom: 1px solid rgba(246, 234, 208, 0.1);
 }
 
 .brand-mark {
@@ -164,7 +171,8 @@ function logout() {
   width: 34px;
   height: 34px;
   border-radius: 8px;
-  background: linear-gradient(135deg, #4f8cff, #c6a360);
+  background: linear-gradient(135deg, #0b1a1d, #b08a3a);
+  color: #f7f0de;
   font-weight: 800;
 }
 
@@ -176,7 +184,7 @@ function logout() {
 
 .brand-text span {
   margin-top: 4px;
-  color: #8c98a8;
+  color: #96978e;
   font-size: 12px;
 }
 
@@ -186,20 +194,20 @@ function logout() {
   justify-content: space-between;
   height: 68px;
   padding: 0 24px;
-  border-bottom: 1px solid rgba(214, 226, 243, 0.1);
-  background: rgba(5, 8, 13, 0.78);
+  border-bottom: 1px solid rgba(246, 234, 208, 0.1);
+  background: rgba(2, 6, 7, 0.8);
   backdrop-filter: blur(16px);
 }
 
 .header-title {
   font-size: 18px;
   font-weight: 600;
-  color: #edf3fb;
+  color: #f4efe4;
 }
 
 .header-subtitle {
   margin-top: 3px;
-  color: #8c98a8;
+  color: #96978e;
   font-size: 12px;
 }
 

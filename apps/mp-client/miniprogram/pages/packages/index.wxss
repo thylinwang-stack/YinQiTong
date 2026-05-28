@@ -48,7 +48,7 @@
 
 .includes {
   margin-bottom: 22rpx;
-  color: #cbd5e4;
+  color: #d8cfb6;
   font-size: 24rpx;
   line-height: 1.75;
 }

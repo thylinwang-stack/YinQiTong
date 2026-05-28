@@ -13,7 +13,7 @@
   height: 64rpx;
   border-radius: 14rpx;
   background: rgba(5, 13, 24, 0.7);
-  color: #cbd5e4;
+  color: #d8cfb6;
   font-size: 22rpx;
   line-height: 64rpx;
   text-align: center;
@@ -28,7 +28,7 @@
 }
 
 .reset {
-  color: #d8b76a;
+  color: #c9a85c;
 }
 
 .assistant-card {
@@ -40,7 +40,7 @@
   width: 144rpx;
   height: 188rpx;
   border-radius: 16rpx;
-  background: #101d30;
+  background: #071316;
 }
 
 .content {

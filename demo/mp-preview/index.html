@@ -3,21 +3,20 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%2303080A'/%3E%3Ctext x='32' y='42' text-anchor='middle' font-size='34' fill='%23C9A85C' font-family='Arial, sans-serif'%3E%E9%A5%AD%3C/text%3E%3C/svg%3E" />
     <title>有个饭局小程序 Demo</title>
     <style>
       :root {
         color-scheme: dark;
-        --bg: #04070b;
-        --panel: rgba(8, 13, 21, 0.94);
-        --panel-2: rgba(10, 18, 29, 0.9);
-        --line: rgba(205, 219, 236, 0.1);
-        --text: #edf2f8;
-        --muted: #8c96a6;
-        --blue: #4c8dff;
-        --blue-soft: #96c7ff;
-        --cyan: #5fd3ff;
-        --gold: #c7a663;
-        --gold-soft: #ead69b;
+        --bg: #020607;
+        --panel: rgba(8, 18, 20, 0.94);
+        --panel-2: rgba(7, 17, 19, 0.9);
+        --line: rgba(246, 234, 208, 0.1);
+        --text: #f4efe4;
+        --muted: #96978e;
+        --brand-ink: #123037;
+        --gold: #b08a3a;
+        --gold-soft: #f2dc9a;
         --danger: #e99090;
       }
 
@@ -29,9 +28,9 @@
         min-height: 100vh;
         margin: 0;
         background:
-          linear-gradient(90deg, rgba(255, 255, 255, 0.022) 1px, transparent 1px),
-          linear-gradient(180deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px),
-          linear-gradient(135deg, #04070b 0%, #08111a 48%, #020305 100%);
+          linear-gradient(90deg, rgba(246, 234, 208, 0.018) 1px, transparent 1px),
+          linear-gradient(180deg, rgba(246, 234, 208, 0.014) 1px, transparent 1px),
+          linear-gradient(135deg, #020607 0%, #081518 48%, #010304 100%);
         background-size: 48px 48px, 48px 48px, auto;
         color: var(--text);
         font-family: "PingFang SC", "HarmonyOS Sans SC", -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif;
@@ -54,9 +53,9 @@
         width: 390px;
         height: 812px;
         overflow: hidden;
-        border: 1px solid rgba(219, 228, 241, 0.16);
+        border: 1px solid rgba(246, 234, 208, 0.14);
         border-radius: 28px;
-        background: #05080d;
+        background: #020607;
         box-shadow: 0 34px 100px rgba(0, 0, 0, 0.55), inset 0 0 0 1px rgba(255, 255, 255, 0.04);
       }
 
@@ -66,8 +65,8 @@
         justify-content: space-between;
         height: 32px;
         padding: 0 20px;
-        background: #060a10;
-        color: #d7e0ec;
+        background: #03080a;
+        color: #d8cfb6;
         font-size: 11px;
         font-weight: 500;
       }
@@ -77,8 +76,8 @@
         height: calc(100% - 34px);
         overflow: hidden;
         background:
-          linear-gradient(90deg, rgba(255, 255, 255, 0.028) 1px, transparent 1px),
-          linear-gradient(180deg, #07111d 0%, #05080d 46%, #030508 100%);
+          linear-gradient(90deg, rgba(246, 234, 208, 0.018) 1px, transparent 1px),
+          linear-gradient(180deg, #081518 0%, #03080a 46%, #010304 100%);
         background-size: 32px 32px, auto;
       }
 
@@ -105,8 +104,8 @@
         display: grid;
         grid-template-columns: repeat(4, 1fr);
         height: 58px;
-        border-top: 1px solid rgba(213, 222, 235, 0.09);
-        background: rgba(5, 8, 13, 0.98);
+        border-top: 1px solid rgba(246, 234, 208, 0.09);
+        background: rgba(3, 8, 10, 0.98);
       }
 
       .nav-item {
@@ -129,8 +128,8 @@
         border: 1px solid rgba(202, 168, 101, 0.2);
         border-radius: 8px;
         background:
-          linear-gradient(180deg, rgba(4, 7, 11, 0.08) 0%, rgba(4, 7, 11, 0.56) 54%, rgba(4, 7, 11, 0.98) 100%),
-          url("./assets/home-concierge-hero.jpg");
+          linear-gradient(180deg, rgba(2, 5, 6, 0.06) 0%, rgba(2, 5, 6, 0.52) 54%, rgba(2, 5, 6, 0.98) 100%),
+          url("./assets/home-private-dining-hero.jpg");
         background-size: cover;
         background-position: center 38%;
         box-shadow: 0 14px 42px rgba(0, 0, 0, 0.32);
@@ -157,11 +156,11 @@
         flex: 0 0 auto;
         width: 54px;
         height: 54px;
-        border: 1px solid rgba(216, 183, 106, 0.16);
+        border: 1px solid rgba(176, 138, 58, 0.18);
         border-radius: 13px;
         background:
-          radial-gradient(circle at 30% 20%, rgba(46, 92, 105, 0.62), transparent 44%),
-          linear-gradient(145deg, #071821 0%, #04090d 68%, #020304 100%);
+          radial-gradient(circle at 30% 20%, rgba(36, 73, 66, 0.58), transparent 44%),
+          linear-gradient(145deg, #081719 0%, #03090a 68%, #010303 100%);
         box-shadow: 0 10px 28px rgba(0, 0, 0, 0.34);
         overflow: hidden;
       }
@@ -259,7 +258,7 @@
 
       .brand-slogan {
         margin-top: 6px;
-        color: #c9bb8e;
+        color: #bfb187;
         font-size: 10px;
         line-height: 1;
         letter-spacing: 2px;
@@ -279,10 +278,10 @@
 
       .signal {
         padding: 5px 7px;
-        border: 1px solid rgba(95, 211, 255, 0.22);
+        border: 1px solid rgba(176, 138, 58, 0.24);
         border-radius: 999px;
-        background: rgba(4, 10, 18, 0.62);
-        color: #d6efff;
+        background: rgba(3, 8, 10, 0.68);
+        color: #ead7a2;
         font-size: 10px;
         backdrop-filter: blur(10px);
       }
@@ -298,7 +297,7 @@
       }
 
       .eyebrow {
-        color: var(--blue-soft);
+        color: #d6c894;
         font-size: 9px;
         letter-spacing: 1.7px;
         text-transform: uppercase;
@@ -313,14 +312,14 @@
 
       .h1 {
         margin-top: 7px;
-        color: #fff;
+        color: #fff6de;
         font-size: 20px;
         line-height: 1.22;
         font-weight: 600;
       }
 
       .h2 {
-        color: #fff;
+        color: #fff6de;
         font-size: 15px;
         font-weight: 600;
       }
@@ -350,7 +349,7 @@
         padding: 13px;
         border: 1px solid var(--line);
         border-radius: 8px;
-        background: linear-gradient(180deg, rgba(13, 22, 34, 0.9), rgba(7, 12, 20, 0.94));
+        background: linear-gradient(180deg, rgba(8, 18, 20, 0.92), rgba(3, 8, 10, 0.95));
         box-shadow: 0 14px 42px rgba(0, 0, 0, 0.22);
       }
 
@@ -377,8 +376,8 @@
       }
 
       .btn.primary {
-        background: linear-gradient(135deg, var(--blue), #7ab8ff);
-        color: #fff;
+        background: linear-gradient(135deg, var(--gold), var(--gold-soft));
+        color: #07100f;
       }
 
       .btn.ghost {
@@ -401,8 +400,8 @@
       .tag {
         padding: 4px 8px;
         border-radius: 999px;
-        background: rgba(47, 125, 246, 0.12);
-        color: #9fc8ff;
+        background: rgba(176, 138, 58, 0.13);
+        color: #ead7a2;
         font-size: 10.5px;
         line-height: 1;
       }
@@ -418,12 +417,12 @@
         padding: 10px 8px;
         border: 1px solid rgba(205, 219, 236, 0.09);
         border-radius: 8px;
-        background: rgba(8, 14, 23, 0.78);
+        background: rgba(7, 17, 19, 0.78);
       }
 
       .insight strong {
         display: block;
-        color: #fff;
+        color: #fff6de;
         font-size: 15px;
         font-weight: 600;
       }
@@ -458,8 +457,8 @@
         height: 84px;
         border-radius: 8px;
         background:
-          linear-gradient(180deg, rgba(5, 8, 13, 0.08), rgba(5, 8, 13, 0.42)),
-          url("./assets/home-concierge-hero.jpg");
+          linear-gradient(180deg, rgba(2, 5, 6, 0.08), rgba(2, 5, 6, 0.46)),
+          url("./assets/home-private-dining-hero.jpg");
         background-size: cover;
         background-position: center 36%;
       }
@@ -523,8 +522,8 @@
         padding: 8px 0;
         border: 1px solid var(--line);
         border-radius: 999px;
-        background: rgba(5, 13, 24, 0.6);
-        color: #cbd5e4;
+        background: rgba(3, 9, 10, 0.64);
+        color: #d8cfb6;
         font-size: 11px;
         text-align: center;
       }
@@ -535,7 +534,7 @@
 
       .label {
         margin-bottom: 6px;
-        color: #cbd5e4;
+        color: #d8cfb6;
         font-size: 11px;
       }
 
@@ -544,10 +543,10 @@
         width: 100%;
         min-height: 36px;
         padding: 9px 10px;
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(246, 234, 208, 0.1);
         border-radius: 8px;
-        background: rgba(3, 7, 12, 0.68);
-        color: #fff;
+        background: rgba(3, 9, 10, 0.68);
+        color: #fff6de;
         font: inherit;
         font-size: 12.5px;
         outline: none;
@@ -570,13 +569,13 @@
         justify-content: space-between;
         gap: 16px;
         padding: 7px 0;
-        color: #cbd5e4;
+        color: #d8cfb6;
         font-size: 11.5px;
       }
 
       .summary-row strong,
       .info-line strong {
-        color: #fff;
+        color: #fff6de;
         text-align: right;
       }
 

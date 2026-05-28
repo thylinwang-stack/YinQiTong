@@ -17,15 +17,15 @@
   ],
   "window": {
     "navigationBarTitleText": "有个饭局",
-    "navigationBarBackgroundColor": "#08101E",
+    "navigationBarBackgroundColor": "#03080A",
     "navigationBarTextStyle": "white",
-    "backgroundColor": "#07101D",
+    "backgroundColor": "#03080A",
     "backgroundTextStyle": "dark"
   },
   "tabBar": {
-    "color": "#8B98AA",
-    "selectedColor": "#D8B76A",
-    "backgroundColor": "#08101E",
+    "color": "#8E948E",
+    "selectedColor": "#C9A85C",
+    "backgroundColor": "#03080A",
     "borderStyle": "black",
     "list": [
       {

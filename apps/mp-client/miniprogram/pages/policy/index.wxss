@@ -25,7 +25,7 @@
 
 .paragraph {
   margin-top: 24rpx;
-  color: #cbd5e4;
+  color: #d8cfb6;
   font-size: 28rpx;
   line-height: 1.8;
 }

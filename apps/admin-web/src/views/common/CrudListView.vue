@@ -5,7 +5,7 @@
         <h1 class="page-title">{{ config.title }}</h1>
         <div class="page-desc">{{ config.description }}</div>
       </div>
-      <a-button type="primary" @click="openEdit()">新增</a-button>
+      <a-button type="primary" :disabled="!canCreate" @click="openEdit()">新增</a-button>
     </div>
 
     <div class="panel filter-panel">
@@ -60,7 +60,7 @@
           <template v-else-if="column.key === 'action'">
             <a-space>
               <a-button type="link" @click="openDetail(record)">详情</a-button>
-              <a-button type="link" @click="openEdit(record)">编辑</a-button>
+              <a-button type="link" :disabled="!canUpdate" @click="openEdit(record)">编辑</a-button>
             </a-space>
           </template>
         </template>
@@ -111,10 +111,13 @@ import { useRoute } from 'vue-router';
 import { apiClient } from '@/api/client';
 import AuditHint from '@/components/AuditHint.vue';
 import StatusTag from '@/components/StatusTag.vue';
+import { hasPermission } from '@/config/menu';
 import { crudModules } from '@/config/module-registry';
+import { useAuthStore } from '@/stores/auth';
 import type { BasicRecord, PageQuery } from '@/types/domain';
 
 const route = useRoute();
+const auth = useAuthStore();
 const loading = ref(false);
 const records = ref<BasicRecord[]>([]);
 const selected = ref<BasicRecord | null>(null);
@@ -132,6 +135,8 @@ const total = ref(0);
 
 const moduleKey = computed(() => String(route.meta.moduleKey));
 const config = computed(() => crudModules[moduleKey.value]);
+const canCreate = computed(() => hasPermission(auth.permissions, config.value.createPermission));
+const canUpdate = computed(() => hasPermission(auth.permissions, config.value.updatePermission));
 const columns = computed(() => [
   ...config.value.columns,
   { title: '操作', key: 'action', width: 140, fixed: 'right' }
@@ -175,6 +180,14 @@ function openDetail(record: BasicRecord) {
 }
 
 function openEdit(record?: BasicRecord) {
+  if (record && !canUpdate.value) {
+    message.warning('当前账号没有编辑权限');
+    return;
+  }
+  if (!record && !canCreate.value) {
+    message.warning('当前账号没有新增权限');
+    return;
+  }
   Object.assign(editForm, record || {
     id: `new_${Date.now()}`,
     no: `NEW${Date.now()}`,
@@ -188,6 +201,14 @@ function openEdit(record?: BasicRecord) {
 }
 
 async function saveEdit() {
+  if (editForm.id && !String(editForm.id).startsWith('new_') && !canUpdate.value) {
+    message.warning('当前账号没有编辑权限');
+    return;
+  }
+  if (String(editForm.id || '').startsWith('new_') && !canCreate.value) {
+    message.warning('当前账号没有新增权限');
+    return;
+  }
   await apiClient.updateBasic(config.value.moduleKey, String(editForm.id), editForm);
   message.success('已保存，关键操作已写入审计日志');
   editOpen.value = false;

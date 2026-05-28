@@ -1,6 +1,6 @@
 <view class="page safe-bottom">
   <view class="hero home-hero">
-    <image class="hero-image" src="/assets/images/home-concierge-hero.jpg" mode="aspectFill" />
+    <image class="hero-image" src="/assets/images/home-private-dining-hero.jpg" mode="aspectFill" />
     <view class="hero-shade"></view>
     <view class="hero-content">
       <view class="brand-lockup hero-brand">

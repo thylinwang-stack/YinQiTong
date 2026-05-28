@@ -8,7 +8,7 @@
   width: 210rpx;
   height: 280rpx;
   border-radius: 16rpx;
-  background: #101d30;
+  background: #071316;
 }
 
 .profile-main {
@@ -19,7 +19,7 @@
 
 .city {
   margin: 12rpx 0 18rpx;
-  color: #cbd5e4;
+  color: #d8cfb6;
   font-size: 24rpx;
 }
 
@@ -33,7 +33,7 @@
 
 .skill-list {
   margin-top: 14rpx;
-  color: #cbd5e4;
+  color: #d8cfb6;
   font-size: 24rpx;
   line-height: 1.75;
 }
@@ -56,6 +56,6 @@
 
 .empty {
   margin-top: 80rpx;
-  color: #cbd5e4;
+  color: #d8cfb6;
   text-align: center;
 }

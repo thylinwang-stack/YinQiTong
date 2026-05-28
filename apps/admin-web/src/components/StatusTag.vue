@@ -14,7 +14,7 @@ const color = computed(() => {
   const kind = getStatusKind(props.status);
   const map = {
     default: 'default',
-    processing: 'blue',
+    processing: 'gold',
     success: 'green',
     warning: 'gold',
     error: 'red'

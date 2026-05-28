@@ -100,7 +100,7 @@
             <div class="drawer-section-title">到场身份</div>
             <a-space wrap><a-tag v-for="item in selected.guestIdentities || []" :key="item">{{ item }}</a-tag></a-space>
             <div class="drawer-section-title">推荐话题</div>
-            <a-space wrap><a-tag color="blue" v-for="item in selected.recommendedTopics || []" :key="item">{{ item }}</a-tag></a-space>
+            <a-space wrap><a-tag color="gold" v-for="item in selected.recommendedTopics || []" :key="item">{{ item }}</a-tag></a-space>
             <div class="drawer-section-title">禁忌话题</div>
             <a-space wrap><a-tag color="red" v-for="item in selected.tabooTopics || []" :key="item">{{ item }}</a-tag></a-space>
           </a-tab-pane>
@@ -494,23 +494,25 @@ load();
 .brief-box {
   white-space: pre-wrap;
   padding: 14px;
-  border: 1px solid #e6ebf2;
+  border: 1px solid rgba(214, 226, 243, 0.1);
   border-radius: 8px;
-  background: #f8fafc;
+  background: rgba(5, 10, 16, 0.66);
+  color: #dfe8f5;
   line-height: 1.7;
 }
 
 .info-title {
   margin-bottom: 6px;
-  color: #344054;
+  color: #edf3fb;
   font-weight: 700;
 }
 
 .info-content {
-  color: #475467;
+  color: #b8c4d4;
 }
 
 .brief-box.private {
-  background: #fff7e6;
+  border-color: rgba(198, 163, 96, 0.34);
+  background: rgba(198, 163, 96, 0.08);
 }
 </style>

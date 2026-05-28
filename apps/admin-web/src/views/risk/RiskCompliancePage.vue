@@ -380,13 +380,14 @@ loadAll();
 
 .metric-card {
   padding: 18px;
-  border: 1px solid #e6ebf2;
+  border: 1px solid rgba(214, 226, 243, 0.1);
   border-radius: 8px;
-  background: #ffffff;
+  background: linear-gradient(180deg, rgba(14, 23, 35, 0.96), rgba(8, 14, 23, 0.96));
 }
 
 .metric-card.danger {
-  border-color: #ffccc7;
+  border-color: rgba(255, 120, 117, 0.38);
+  background: rgba(255, 77, 79, 0.08);
 }
 
 .tab-toolbar {
@@ -402,9 +403,16 @@ loadAll();
 .brief-box {
   white-space: pre-wrap;
   padding: 14px;
-  border: 1px solid #e6ebf2;
+  border: 1px solid rgba(214, 226, 243, 0.1);
   border-radius: 8px;
-  background: #f8fafc;
+  background: rgba(5, 10, 16, 0.66);
+  color: #dfe8f5;
   line-height: 1.7;
+}
+
+@media (max-width: 1200px) {
+  .risk-report {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 </style>

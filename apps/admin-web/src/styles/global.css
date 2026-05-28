@@ -1,14 +1,14 @@
 :root {
   color-scheme: dark;
-  --page-bg: #05080d;
-  --panel-bg: rgba(14, 23, 35, 0.94);
-  --panel-bg-2: rgba(8, 14, 23, 0.96);
-  --border: rgba(214, 226, 243, 0.1);
-  --text-main: #edf3fb;
-  --text-muted: #8c98a8;
-  --brand-blue: #4f8cff;
-  --brand-gold: #c6a360;
-  --brand-gold-soft: #ead59a;
+  --page-bg: #020607;
+  --panel-bg: rgba(8, 18, 20, 0.94);
+  --panel-bg-2: rgba(3, 9, 10, 0.96);
+  --border: rgba(246, 234, 208, 0.1);
+  --text-main: #f4efe4;
+  --text-muted: #96978e;
+  --brand-ink: #123037;
+  --brand-gold: #b08a3a;
+  --brand-gold-soft: #f2dc9a;
 }
 
 * {
@@ -24,9 +24,9 @@ body,
 body {
   margin: 0;
   background:
-    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px),
-    linear-gradient(135deg, #05080d 0%, #07111b 56%, #030508 100%);
+    linear-gradient(90deg, rgba(246, 234, 208, 0.018) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(246, 234, 208, 0.014) 1px, transparent 1px),
+    linear-gradient(135deg, #020607 0%, #081518 56%, #010304 100%);
   background-size: 48px 48px, 48px 48px, auto;
   color: var(--text-main);
   font-family: "PingFang SC", "HarmonyOS Sans SC", -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif;
@@ -71,6 +71,52 @@ body {
   padding: 14px;
 }
 
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.summary-grid.compact {
+  grid-template-columns: repeat(7, minmax(110px, 1fr));
+  overflow-x: auto;
+}
+
+.summary-card {
+  min-height: 86px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: linear-gradient(180deg, rgba(14, 23, 35, 0.96), rgba(8, 14, 23, 0.96));
+  color: var(--text-main);
+  text-align: left;
+}
+
+.summary-card.as-button {
+  cursor: pointer;
+}
+
+.summary-card.as-button:hover,
+.summary-card.as-button.active {
+  border-color: rgba(176, 138, 58, 0.58);
+  background: rgba(176, 138, 58, 0.12);
+}
+
+.summary-card span {
+  display: block;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.summary-card strong {
+  display: block;
+  margin-top: 8px;
+  color: var(--text-main);
+  font-size: 24px;
+  line-height: 1.1;
+}
+
 .drawer-section-title {
   margin: 18px 0 8px;
   color: var(--text-main);
@@ -88,8 +134,9 @@ body {
 }
 
 .ant-btn-primary {
-  background: linear-gradient(135deg, var(--brand-blue), #89bdff);
+  background: linear-gradient(135deg, var(--brand-gold), var(--brand-gold-soft));
   border-color: transparent;
+  color: #07100f;
   box-shadow: none;
 }
 
@@ -125,7 +172,7 @@ body {
 }
 
 .ant-table-wrapper .ant-table-tbody > tr:hover > td {
-  background: rgba(79, 140, 255, 0.06) !important;
+  background: rgba(176, 138, 58, 0.08) !important;
 }
 
 .ant-pagination .ant-pagination-item,
@@ -143,13 +190,13 @@ body {
 
 .ant-drawer-content,
 .ant-modal-content {
-  background: #0b1320 !important;
+  background: #071113 !important;
   color: var(--text-main);
 }
 
 .ant-drawer-header,
 .ant-modal-header {
-  background: #0b1320 !important;
+  background: #071113 !important;
   border-color: var(--border) !important;
 }
 
@@ -184,4 +231,22 @@ body {
 
 .ant-tag {
   border-radius: 999px;
+}
+
+.ant-statistic-title {
+  color: var(--text-muted) !important;
+}
+
+.ant-statistic-content {
+  color: var(--text-main) !important;
+}
+
+.ant-alert {
+  border-radius: 8px;
+}
+
+@media (max-width: 1100px) {
+  .summary-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }

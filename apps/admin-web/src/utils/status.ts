@@ -43,6 +43,28 @@ export const statusText: Record<string, string> = {
   risk_hold: '风控冻结'
 };
 
+export const bookingStatusOptions = [
+  { label: '待支付', value: 'pending_payment' },
+  { label: '待匹配', value: 'pending_match' },
+  { label: '已匹配', value: 'matched' },
+  { label: '餐前准备', value: 'brief_preparing' },
+  { label: '待服务', value: 'ready_for_service' },
+  { label: '服务中', value: 'in_service' },
+  { label: '已完成', value: 'completed' },
+  { label: '风控冻结', value: 'risk_hold' },
+  { label: '已取消', value: 'cancelled' }
+];
+
+const bookingFlow = [
+  'pending_payment',
+  'pending_match',
+  'matched',
+  'brief_preparing',
+  'ready_for_service',
+  'in_service',
+  'completed'
+];
+
 export const statusKind: Record<string, StatusKind> = {
   active: 'success',
   paid: 'success',
@@ -91,4 +113,26 @@ export function getStatusText(status: string): string {
 
 export function getStatusKind(status: string): StatusKind {
   return statusKind[status] || 'default';
+}
+
+export function isTerminalBookingStatus(status: string): boolean {
+  return ['completed', 'cancelled'].includes(status);
+}
+
+export function canTransitionBookingStatus(from: string, to: string): boolean {
+  if (from === to) return true;
+  if (isTerminalBookingStatus(from)) return false;
+  if (['risk_hold', 'cancelled'].includes(to)) return true;
+  if (from === 'risk_hold') return ['pending_match', 'matched', 'brief_preparing', 'cancelled'].includes(to);
+  const fromIndex = bookingFlow.indexOf(from);
+  const toIndex = bookingFlow.indexOf(to);
+  if (fromIndex < 0 || toIndex < 0) return false;
+  return toIndex >= fromIndex;
+}
+
+export function suggestNextBookingStatus(status: string): string {
+  if (status === 'risk_hold') return 'pending_match';
+  const current = bookingFlow.indexOf(status);
+  if (current >= 0 && current < bookingFlow.length - 1) return bookingFlow[current + 1];
+  return status;
 }

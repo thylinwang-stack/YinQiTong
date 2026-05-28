@@ -32,8 +32,8 @@
 
 .failed .icon,
 .cancelled .icon {
-  background: rgba(42, 131, 255, 0.12);
-  color: #8bbcff;
+  background: rgba(176, 138, 58, 0.12);
+  color: #ead7a2;
 }
 
 .message {
@@ -42,7 +42,7 @@
 
 .order-no {
   margin-top: 20rpx;
-  color: #cbd5e4;
+  color: #d8cfb6;
   font-size: 24rpx;
 }
 

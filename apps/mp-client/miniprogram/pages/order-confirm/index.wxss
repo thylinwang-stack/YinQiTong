@@ -8,7 +8,7 @@
 }
 
 .edit-link {
-  color: #d8b76a;
+  color: #c9a85c;
   font-size: 24rpx;
 }
 
@@ -17,7 +17,7 @@
   justify-content: space-between;
   gap: 22rpx;
   padding: 14rpx 0;
-  color: #cbd5e4;
+  color: #d8cfb6;
   font-size: 24rpx;
 }
 
@@ -45,7 +45,7 @@
 
 .block-title {
   margin-bottom: 8rpx;
-  color: #cbd5e4;
+  color: #d8cfb6;
   font-size: 22rpx;
 }
 
@@ -96,7 +96,7 @@
 
 .policy-link {
   margin-top: 18rpx;
-  color: #d8b76a;
+  color: #c9a85c;
   font-size: 24rpx;
 }
 

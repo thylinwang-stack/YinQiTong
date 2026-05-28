@@ -59,6 +59,19 @@ http.interceptors.request.use(config => {
   return config;
 });
 
+http.interceptors.response.use(
+  response => response,
+  error => {
+    const status = error?.response?.status;
+    if (status === 401) {
+      localStorage.removeItem('admin_token');
+    }
+    const payload = error?.response?.data;
+    const message = payload?.message || payload?.code || error?.message || '网络请求失败';
+    return Promise.reject(new Error(message));
+  }
+);
+
 function wait<T>(value: T, ms = 180): Promise<T> {
   return new Promise(resolve => window.setTimeout(() => resolve(value), ms));
 }
