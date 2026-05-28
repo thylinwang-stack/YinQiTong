@@ -17,6 +17,7 @@ import {
   MEAL_BRIEF_REPOSITORY,
   MealBriefRecord,
   MealBriefRepository,
+  MealBriefRoleAssignment,
   MealBriefTaskRecord
 } from './repositories/meal-brief.repository';
 
@@ -126,7 +127,7 @@ export class MealBriefService {
     assistantVisibleBrief: string;
     recommendedTopics: string[];
     tabooTopics: string[];
-    roleAssignments: Array<Record<string, unknown>>;
+    roleAssignments: MealBriefRoleAssignment[];
     attentionPoints: string[];
     tasks: MealBriefTaskRecord[];
   }> {
@@ -321,8 +322,8 @@ export class MealBriefService {
     repo: MealBriefRepository,
     action: string,
     resourceId: string,
-    beforeData: Record<string, unknown> | undefined,
-    afterData: Record<string, unknown> | undefined,
+    beforeData: unknown,
+    afterData: unknown,
     actorType: MealBriefActorType,
     actorId?: string,
     metadata?: Record<string, unknown>

@@ -4,10 +4,10 @@
     "lib": ["ES2020"],
     "module": "CommonJS",
     "strict": true,
-    "skipLibCheck": true,
     "noImplicitAny": false,
     "strictNullChecks": false,
     "moduleResolution": "Node",
+    "skipLibCheck": true,
     "types": ["miniprogram-api-typings"],
     "baseUrl": "./miniprogram",
     "paths": {

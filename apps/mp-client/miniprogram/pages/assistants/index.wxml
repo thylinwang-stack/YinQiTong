@@ -23,20 +23,40 @@
     <text class="reset" bindtap="resetFilters">重置筛选</text>
   </view>
 
-  <view class="assistant-card card" wx:for="{{assistants}}" wx:key="id" bindtap="openDetail" data-id="{{item.id}}">
-    <image class="avatar" src="{{item.avatarUrl}}" mode="aspectFill" />
-    <view class="content">
-      <view class="title-row">
-        <view class="name">{{item.workName}}</view>
-        <view class="status-pill">{{item.city}}</view>
-      </view>
-      <view class="muted">{{item.assistantNo}} · {{item.intro}}</view>
-      <view class="tag-row">
-        <view class="tag" wx:for="{{item.styleTags}}" wx:key="*this">{{item}}</view>
-      </view>
-      <view class="skill-row">
-        <text wx:for="{{item.businessSkills}}" wx:key="*this">{{item}}</text>
+  <view class="page-state card" wx:if="{{loading}}">
+    <view class="skeleton-line"></view>
+    <view class="skeleton-line"></view>
+    <view class="skeleton-line"></view>
+  </view>
+
+  <view class="page-state card" wx:elif="{{error}}">
+    <view class="h2">资料加载失败</view>
+    <view class="muted">{{error}}</view>
+    <button class="btn gold" bindtap="retry">重试</button>
+  </view>
+
+  <view class="page-state card" wx:elif="{{assistants.length === 0}}">
+    <view class="h2">暂无符合条件的助理</view>
+    <view class="muted">可以放宽城市、场景或风格筛选。</view>
+    <button class="btn ghost" bindtap="resetFilters">重置筛选</button>
+  </view>
+
+  <block wx:else>
+    <view class="assistant-card card" wx:for="{{assistants}}" wx:key="id" bindtap="openDetail" data-id="{{item.id}}">
+      <image class="avatar" src="{{item.avatarUrl}}" mode="aspectFill" />
+      <view class="content">
+        <view class="title-row">
+          <view class="name">{{item.workName}}</view>
+          <view class="status-pill">{{item.city}}</view>
+        </view>
+        <view class="muted">{{item.assistantNo}} · {{item.intro}}</view>
+        <view class="tag-row">
+          <view class="tag" wx:for="{{item.styleTags}}" wx:key="*this">{{item}}</view>
+        </view>
+        <view class="skill-row">
+          <text wx:for="{{item.businessSkills}}" wx:key="*this">{{item}}</text>
+        </view>
       </view>
     </view>
-  </view>
+  </block>
 </view>

@@ -63,15 +63,16 @@ function wait<T>(value: T, ms = 180): Promise<T> {
   return new Promise(resolve => window.setTimeout(() => resolve(value), ms));
 }
 
-function page<T extends Record<string, unknown>>(list: T[], query: PageQuery = {}): PageResult<T> {
+function page<T>(list: T[], query: PageQuery = {}): PageResult<T> {
   const keyword = String(query.keyword || '').trim();
   const status = String(query.status || '').trim();
   const city = String(query.city || '').trim();
   const filtered = list.filter(item => {
+    const record = item as Record<string, unknown>;
     const text = JSON.stringify(item);
     const matchKeyword = !keyword || text.includes(keyword);
-    const matchStatus = !status || item.status === status;
-    const matchCity = !city || item.city === city;
+    const matchStatus = !status || record.status === status;
+    const matchCity = !city || record.city === city;
     return matchKeyword && matchStatus && matchCity;
   });
   const pageNo = Number(query.page || 1);
@@ -81,10 +82,6 @@ function page<T extends Record<string, unknown>>(list: T[], query: PageQuery = {
     list: filtered.slice(start, start + pageSize),
     total: filtered.length
   };
-}
-
-function typedPage<T>(list: T[], query: PageQuery = {}): PageResult<T> {
-  return page(list as unknown as Record<string, unknown>[], query) as unknown as PageResult<T>;
 }
 
 function prependAudit(action: string, resourceType: string, resourceId: string, metadata: Record<string, unknown> = {}) {
@@ -268,7 +265,7 @@ export const apiClient = {
       const { data } = await http.get('/admin/bookings', { params: query });
       return { list: data.items || data.list || [], total: data.total || 0 };
     }
-    return wait(typedPage(bookings, query));
+    return wait(page(bookings, query));
   },
 
   async updateBookingStatus(id: string, status: string, note?: string): Promise<BookingRecord> {
@@ -313,7 +310,7 @@ export const apiClient = {
       const items = (data.items || []).map(adaptAssistant);
       return { list: items, total: data.total || 0 };
     }
-    return wait(typedPage(assistants, query));
+    return wait(page(assistants, query));
   },
 
   async createAssistant(input: Partial<AssistantRecord>): Promise<AssistantRecord> {
@@ -421,7 +418,7 @@ export const apiClient = {
       const { data } = await http.get('/admin/meal-briefs', { params: query });
       return data;
     }
-    return wait(typedPage(mealBriefs, query));
+    return wait(page(mealBriefs, query));
   },
 
   async createMealBrief(input: Partial<MealBriefRecord> & { bookingNo: string }): Promise<MealBriefRecord> {
@@ -544,11 +541,11 @@ export const apiClient = {
   },
 
   async listFinance(query: PageQuery): Promise<PageResult<FinanceRecord>> {
-    return wait(typedPage(financeRecords, query));
+    return wait(page(financeRecords, query));
   },
 
   async listApprovals(query: PageQuery): Promise<PageResult<ApprovalRecord>> {
-    return wait(typedPage(approvals, query));
+    return wait(page(approvals, query));
   },
 
   async decideApproval(id: string, action: 'approved' | 'rejected', remark: string): Promise<ApprovalRecord> {
@@ -573,7 +570,7 @@ export const apiClient = {
   },
 
   async listAuditLogs(query: PageQuery): Promise<PageResult<AuditLogRecord>> {
-    return wait(typedPage(auditLogs, query));
+    return wait(page(auditLogs, query));
   },
 
   async writeAudit(action: string, resourceType: string, resourceId: string, metadata?: Record<string, unknown>) {
@@ -604,7 +601,7 @@ export const apiClient = {
       const { data } = await http.get('/admin/risk/sensitive-words', { params: query });
       return data;
     }
-    return wait(typedPage(sensitiveWords, query));
+    return wait(page(sensitiveWords, query));
   },
 
   async saveSensitiveWord(id: string | undefined, patch: Partial<SensitiveWordRecord>): Promise<SensitiveWordRecord> {
@@ -634,7 +631,7 @@ export const apiClient = {
       const { data } = await http.get('/admin/risk/profile-reviews', { params: query });
       return data;
     }
-    return wait(typedPage(profileReviews, query));
+    return wait(page(profileReviews, query));
   },
 
   async decideProfileReview(id: string, status: string, imageAuditStatus: string, rejectionReason?: string): Promise<PublicProfileReviewRecord> {
@@ -657,7 +654,7 @@ export const apiClient = {
       const { data } = await http.get('/admin/risk/complaints', { params: query });
       return data;
     }
-    return wait(typedPage(complaints, query));
+    return wait(page(complaints, query));
   },
 
   async updateComplaint(id: string, status: string, resolution?: string): Promise<ComplaintRecord> {
@@ -678,7 +675,7 @@ export const apiClient = {
       const { data } = await http.get('/admin/risk/blacklist', { params: query });
       return data;
     }
-    return wait(typedPage(blacklistEntries, query));
+    return wait(page(blacklistEntries, query));
   },
 
   async saveBlacklist(patch: Partial<BlacklistRecord>): Promise<BlacklistRecord> {
@@ -705,7 +702,7 @@ export const apiClient = {
       const { data } = await http.get('/admin/risk/order-exceptions', { params: query });
       return data;
     }
-    return wait(typedPage(orderExceptions, query));
+    return wait(page(orderExceptions, query));
   },
 
   async resolveOrderException(id: string, status: string): Promise<OrderExceptionRecord> {

@@ -29,7 +29,7 @@
       <text>提交饭局需求</text>
       <text>›</text>
     </view>
-    <view class="menu-item" bindtap="goStaffBrief">
+    <view class="menu-item" wx:if="{{isStaff}}" bindtap="goStaffBrief">
       <text>员工端餐前 Brief</text>
       <text>›</text>
     </view>

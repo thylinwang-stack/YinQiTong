@@ -11,6 +11,7 @@ import {
   ProtocolConfirmationInput,
   StaffMealBrief,
   StaffReviewInput,
+  SupportRequestType,
   ServicePackage,
   ServiceScene
 } from './types';
@@ -24,6 +25,7 @@ export const api = {
         user: { id: 'mock_user', name: profile?.nickname || '商务客户', userType: 'customer', permissions: [] }
       };
       wx.setStorageSync('token', result.token);
+      wx.setStorageSync('user', result.user);
       return Promise.resolve(result);
     }
     return new Promise((resolve, reject) => {
@@ -40,6 +42,7 @@ export const api = {
               data: { code: loginRes.code, ...profile }
             });
             wx.setStorageSync('token', result.token);
+            wx.setStorageSync('user', result.user);
             resolve(result);
           } catch (error) {
             reject(error);
@@ -71,7 +74,7 @@ export const api = {
 
   createBooking(input: BookingDraft): Promise<CreateBookingResult> {
     if (getApiMode() === 'mock') return mockService.createBooking(input);
-    return request<CreateBookingResult>({ url: '/bookings', method: 'POST', data: input });
+    return request<CreateBookingResult>({ url: '/bookings', method: 'POST', data: toBackendBookingPayload(input) });
   },
 
   getMyOrders(): Promise<BookingOrder[]> {
@@ -94,6 +97,24 @@ export const api = {
 
   markOrderPaid(orderId: string): Promise<BookingOrder | undefined> {
     return getApiMode() === 'mock' ? mockService.markOrderPaid(orderId) : api.getOrder(orderId);
+  },
+
+  cancelOrder(orderId: string, reason?: string): Promise<BookingOrder | undefined> {
+    if (getApiMode() === 'mock') return mockService.cancelOrder(orderId, reason);
+    return request<{ order: unknown }>({
+      url: `/orders/${orderId}/cancel`,
+      method: 'POST',
+      data: { reason, actorType: 'customer' }
+    }).then(() => api.getOrder(orderId));
+  },
+
+  requestOrderSupport(orderId: string, type: SupportRequestType, content?: string): Promise<{ accepted: boolean; message: string }> {
+    if (getApiMode() === 'mock') return mockService.requestOrderSupport(orderId, type, content);
+    return request<{ accepted: boolean; message: string }>({
+      url: `/bookings/${orderId}/support-requests`,
+      method: 'POST',
+      data: { type, content }
+    });
   },
 
   getStaffMealBrief(id: string): Promise<StaffMealBrief | undefined> {
@@ -125,6 +146,51 @@ export const api = {
 export async function ensureCustomerLogin(): Promise<void> {
   if (wx.getStorageSync('token')) return;
   await api.loginWithWechat();
+}
+
+function toBackendBookingPayload(input: BookingDraft) {
+  const extra = [
+    ['客户角色', input.hostRole],
+    ['饭局目标', input.banquetGoal],
+    ['嘉宾背景', input.guestProfile],
+    ['餐厅/包间偏好', input.venuePreference],
+    ['联系人', input.contactName],
+    ['联系电话', input.contactPhone],
+    ['助理风格', input.preferredAssistantStyle],
+    ['隐私级别', input.privacyLevel],
+    ['着装要求', input.dressCode],
+    ['语言要求', input.languageRequirement],
+    ['到场安排', input.arrivalPlan],
+    ['可回访时段', input.callbackWindow]
+  ]
+    .filter(([, value]) => Boolean(value))
+    .map(([label, value]) => `${label}：${value}`)
+    .join('\n');
+
+  return {
+    city: input.city,
+    date: input.date,
+    time: input.time,
+    dinnerType: input.dinnerType,
+    guestCount: input.guestCount,
+    assistantCount: input.assistantCount,
+    budget: input.budget,
+    preference: clip(joinLines([input.preference, input.preferredAssistantStyle ? `偏好风格：${input.preferredAssistantStyle}` : '']), 500),
+    taboos: clip(joinLines([input.taboos, input.privacyLevel ? `隐私级别：${input.privacyLevel}` : '']), 500),
+    remark: clip(joinLines([input.remark, extra]), 1000),
+    sceneId: input.sceneId,
+    packageId: input.packageId,
+    boundaryAgreementConfirmed: input.boundaryAgreementConfirmed,
+    protocolVersion: input.protocolVersion
+  };
+}
+
+function joinLines(values: Array<string | undefined>): string {
+  return values.map(item => (item || '').trim()).filter(Boolean).join('\n');
+}
+
+function clip(value: string, max: number): string {
+  return value.length > max ? value.slice(0, max) : value;
 }
 
 export function requestPayment(params: CreatePaymentResult): Promise<void> {

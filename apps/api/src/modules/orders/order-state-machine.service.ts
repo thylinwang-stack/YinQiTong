@@ -93,10 +93,10 @@ export class OrderStateMachineService {
     shouldThrow: boolean,
     code: string,
     message: string,
-    details: Record<string, unknown>
+    details: unknown
   ): false {
     if (shouldThrow) {
-      throw new BusinessException(code, message, HttpStatus.CONFLICT, details);
+      throw new BusinessException(code, message, HttpStatus.CONFLICT, details as Record<string, unknown>);
     }
     return false;
   }

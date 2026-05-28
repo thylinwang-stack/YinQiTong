@@ -6,34 +6,53 @@
     </view>
   </view>
 
-  <view class="package-card card" wx:for="{{packages}}" wx:key="id">
-    <view class="package-head">
-      <view>
-        <view class="name">{{item.name}}</view>
-        <view class="muted">{{item.subtitle}}</view>
-      </view>
-      <view class="price">¥{{item.serviceFee}}</view>
-    </view>
-
-    <view class="metrics">
-      <view>
-        <view class="metric-value">{{item.durationHours}}h</view>
-        <view class="metric-label">服务时长</view>
-      </view>
-      <view>
-        <view class="metric-value">{{item.assistantCount}}</view>
-        <view class="metric-label">助理人数</view>
-      </view>
-      <view>
-        <view class="metric-value">¥{{item.depositAmount}}</view>
-        <view class="metric-label">预约金</view>
-      </view>
-    </view>
-
-    <view class="divider"></view>
-    <view class="includes">
-      <view wx:for="{{item.includes}}" wx:key="*this">· {{item}}</view>
-    </view>
-    <button class="btn gold" bindtap="choosePackage" data-id="{{item.id}}">选择套餐</button>
+  <view class="page-state card" wx:if="{{loading}}">
+    <view class="skeleton-line"></view>
+    <view class="skeleton-line"></view>
+    <view class="skeleton-line"></view>
   </view>
+
+  <view class="page-state card" wx:elif="{{error}}">
+    <view class="h2">套餐加载失败</view>
+    <view class="muted">{{error}}</view>
+    <button class="btn gold" bindtap="retry">重试</button>
+  </view>
+
+  <view class="page-state card" wx:elif="{{packages.length === 0}}">
+    <view class="h2">暂无可选套餐</view>
+    <view class="muted">可以先提交需求，由客服根据饭局目标定制方案。</view>
+  </view>
+
+  <block wx:else>
+    <view class="package-card card" wx:for="{{packages}}" wx:key="id">
+      <view class="package-head">
+        <view>
+          <view class="name">{{item.name}}</view>
+          <view class="muted">{{item.subtitle}}</view>
+        </view>
+        <view class="price">¥{{item.serviceFee}}</view>
+      </view>
+
+      <view class="metrics">
+        <view>
+          <view class="metric-value">{{item.durationHours}}h</view>
+          <view class="metric-label">服务时长</view>
+        </view>
+        <view>
+          <view class="metric-value">{{item.assistantCount}}</view>
+          <view class="metric-label">助理人数</view>
+        </view>
+        <view>
+          <view class="metric-value">¥{{item.depositAmount}}</view>
+          <view class="metric-label">预约金</view>
+        </view>
+      </view>
+
+      <view class="divider"></view>
+      <view class="includes">
+        <view wx:for="{{item.includes}}" wx:key="*this">· {{item}}</view>
+      </view>
+      <button class="btn gold" bindtap="choosePackage" data-id="{{item.id}}">选择套餐</button>
+    </view>
+  </block>
 </view>

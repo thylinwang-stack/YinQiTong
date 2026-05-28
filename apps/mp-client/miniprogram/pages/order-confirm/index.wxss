@@ -7,6 +7,11 @@
   font-size: 28rpx;
 }
 
+.edit-link {
+  color: #d8b76a;
+  font-size: 24rpx;
+}
+
 .summary-row {
   display: flex;
   justify-content: space-between;
@@ -34,6 +39,45 @@
   font-weight: 600;
 }
 
+.summary-block {
+  margin-top: 18rpx;
+}
+
+.block-title {
+  margin-bottom: 8rpx;
+  color: #cbd5e4;
+  font-size: 22rpx;
+}
+
+.price-panel {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18rpx;
+  margin-top: 22rpx;
+}
+
+.price-panel > view {
+  padding: 18rpx;
+  border-radius: 14rpx;
+  background: rgba(5, 13, 24, 0.64);
+}
+
+.metric-value {
+  color: #e2c77e;
+  font-size: 28rpx;
+  font-weight: 700;
+}
+
+.metric-label {
+  margin-top: 8rpx;
+  color: #8b98aa;
+  font-size: 21rpx;
+}
+
+.boundary-card {
+  margin-bottom: 126rpx;
+}
+
 .boundary-text {
   margin: 14rpx 0 20rpx;
   color: #b9c5d6;
@@ -45,6 +89,7 @@
   display: flex;
   align-items: center;
   gap: 14rpx;
+  margin-top: 16rpx;
   color: #ffffff;
   font-size: 24rpx;
 }

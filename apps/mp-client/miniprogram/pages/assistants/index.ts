@@ -5,6 +5,8 @@ Page({
   data: {
     assistants: [] as AssistantPublicProfile[],
     filters: {} as AssistantFilters,
+    loading: false,
+    error: '',
     cityOptions: ['不限', '上海', '北京', '深圳'],
     sceneOptions: ['不限', '商务宴请', '客户接待', '项目沟通', '朋友小聚', '城市到访'],
     styleOptions: ['不限', '沉稳', '知性', '商务感', '大方', '亲和', '控场', '干练', '国际化', '礼宾']
@@ -15,7 +17,14 @@ Page({
   },
 
   async loadAssistants() {
-    this.setData({ assistants: await api.getAssistants(this.data.filters) });
+    this.setData({ loading: true, error: '' });
+    try {
+      this.setData({ assistants: await api.getAssistants(this.data.filters) });
+    } catch (error) {
+      this.setData({ assistants: [], error: (error as Error).message || '助理资料加载失败' });
+    } finally {
+      this.setData({ loading: false });
+    }
   },
 
   async onCityChange(event: any) {
@@ -43,5 +52,9 @@ Page({
 
   openDetail(event: WechatMiniprogram.BaseEvent) {
     wx.navigateTo({ url: `/pages/assistant-detail/index?id=${event.currentTarget.dataset.id}` });
+  },
+
+  retry() {
+    this.loadAssistants();
   }
 });

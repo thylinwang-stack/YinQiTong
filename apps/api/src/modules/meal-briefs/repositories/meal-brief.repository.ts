@@ -1,5 +1,12 @@
 import { MealBriefStatus } from '../meal-brief.enums';
-import { CreateMealBriefDto, ListMealBriefQueryDto, ServiceReviewDto, UpsertMealBriefDto } from '../dto/meal-brief.dto';
+import { CreateMealBriefDto, ListMealBriefQueryDto, RoleAssignmentDto, ServiceReviewDto, UpsertMealBriefDto } from '../dto/meal-brief.dto';
+
+export type MealBriefRoleAssignment = RoleAssignmentDto | {
+  role?: unknown;
+  owner?: unknown;
+  responsibility?: unknown;
+  [key: string]: unknown;
+};
 
 export interface MealBriefRecord {
   id: string;
@@ -14,7 +21,7 @@ export interface MealBriefRecord {
   tabooTopics: string[];
   recommendedTopics: string[];
   dressCode?: string | null;
-  roleAssignments: Array<Record<string, unknown>>;
+  roleAssignments: MealBriefRoleAssignment[];
   attentionPoints: string[];
   managerPrivateNote?: string | null;
   assistantVisibleBrief: string;
@@ -75,8 +82,8 @@ export interface MealBriefRepository {
     action: string;
     resourceType: string;
     resourceId: string;
-    beforeData?: Record<string, unknown>;
-    afterData?: Record<string, unknown>;
+    beforeData?: unknown;
+    afterData?: unknown;
     metadata?: Record<string, unknown>;
   }): Promise<void>;
 }

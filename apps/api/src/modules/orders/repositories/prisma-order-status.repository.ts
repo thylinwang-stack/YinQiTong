@@ -10,9 +10,7 @@ import {
   PaymentCallbackRecord
 } from './order-status.repository';
 
-type PrismaLike = PrismaService & {
-  [key: string]: any;
-};
+type PrismaLike = any;
 
 @Injectable()
 export class PrismaOrderStatusRepository implements OrderStatusRepository {

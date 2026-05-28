@@ -16,7 +16,7 @@ import { RiskDetectionResult, SensitiveWordRule } from '../risk-detector';
 import { ComplaintStatus, OrderExceptionStatus, RiskRecordStatus } from '../risk.enums';
 import { PageResult, RiskComplianceRepository } from './risk-compliance.repository';
 
-type PrismaLike = PrismaService & { [key: string]: any };
+type PrismaLike = any;
 
 @Injectable()
 export class PrismaRiskComplianceRepository implements RiskComplianceRepository {

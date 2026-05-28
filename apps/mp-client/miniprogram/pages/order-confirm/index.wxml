@@ -17,35 +17,59 @@
         <view class="brand-title confirm-brand-title">有个饭局</view>
       </view>
     </view>
-    <view>
-      <view class="h2">订单确认</view>
-    </view>
+    <view class="edit-link" bindtap="editBooking">修改</view>
   </view>
 
   <view class="card" wx:if="{{form}}">
+    <view class="h2">需求摘要</view>
     <view class="summary-row">
-      <text>城市</text>
-      <text>{{form.city}}</text>
-    </view>
-    <view class="summary-row">
-      <text>时间</text>
-      <text>{{form.date}} {{form.time}}</text>
+      <text>城市/时间</text>
+      <text>{{form.city}} · {{form.date}} {{form.time}}</text>
     </view>
     <view class="summary-row">
       <text>饭局类型</text>
       <text>{{form.dinnerType}}</text>
     </view>
     <view class="summary-row">
-      <text>到场人数</text>
-      <text>{{form.guestCount}} 人</text>
-    </view>
-    <view class="summary-row">
-      <text>助理人数</text>
-      <text>{{form.assistantCount}} 人</text>
+      <text>人数配置</text>
+      <text>{{form.guestCount}} 位嘉宾 · {{form.assistantCount}} 位助理</text>
     </view>
     <view class="summary-row">
       <text>预算</text>
       <text class="gold-text">¥{{form.budget}}</text>
+    </view>
+    <view class="divider"></view>
+    <view class="summary-block">
+      <view class="block-title">饭局目标</view>
+      <view class="muted">{{form.banquetGoal || '未填写'}}</view>
+    </view>
+    <view class="summary-block">
+      <view class="block-title">嘉宾背景</view>
+      <view class="muted">{{form.guestProfile || '未填写'}}</view>
+    </view>
+    <view class="summary-block">
+      <view class="block-title">联系人</view>
+      <view class="muted">{{form.contactName || '-'}} · {{form.contactPhone || '-'}}</view>
+    </view>
+  </view>
+
+  <view class="card section">
+    <view class="h2">服务偏好</view>
+    <view class="summary-row">
+      <text>助理风格</text>
+      <text>{{form.preferredAssistantStyle || '待客服确认'}}</text>
+    </view>
+    <view class="summary-row">
+      <text>隐私级别</text>
+      <text>{{form.privacyLevel || '普通商务信息'}}</text>
+    </view>
+    <view class="summary-row">
+      <text>着装/语言</text>
+      <text>{{form.dressCode || '待确认'}} · {{form.languageRequirement || '中文'}}</text>
+    </view>
+    <view class="summary-block" wx:if="{{form.arrivalPlan}}">
+      <view class="block-title">到场安排</view>
+      <view class="muted">{{form.arrivalPlan}}</view>
     </view>
   </view>
 
@@ -53,21 +77,50 @@
     <view class="h2">已选套餐</view>
     <view class="package-name">{{selectedPackage.name}}</view>
     <view class="muted">{{selectedPackage.subtitle}}</view>
-    <view class="summary-row strong">
-      <text>预约金</text>
-      <text>¥{{selectedPackage.depositAmount}}</text>
+    <view class="price-panel">
+      <view>
+        <view class="metric-value">¥{{selectedPackage.depositAmount}}</view>
+        <view class="metric-label">本次支付预约金</view>
+      </view>
+      <view>
+        <view class="metric-value">¥{{selectedPackage.serviceFee}}</view>
+        <view class="metric-label">预计服务费</view>
+      </view>
     </view>
   </view>
 
-  <view class="card section">
-    <view class="brand-chip">有个饭局 · 服务边界协议</view>
+  <view class="card section" wx:else>
+    <view class="h2">费用预估</view>
+    <view class="muted">未选择固定套餐，平台会根据需求确认最终方案。</view>
+    <view class="price-panel">
+      <view>
+        <view class="metric-value">¥{{estimatedDeposit}}</view>
+        <view class="metric-label">本次预计预约金</view>
+      </view>
+      <view>
+        <view class="metric-value">¥{{form.budget}}</view>
+        <view class="metric-label">需求预算</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="card section boundary-card">
+    <view class="brand-chip">有个饭局 · 服务确认</view>
     <view class="boundary-text">
       平台仅提供商务社交氛围协同、餐前准备与礼宾接待服务；不提供任何越界内容，不展示或交换助理私人联系方式；客户与助理沟通通过平台客服或受控消息系统完成。
     </view>
-    <checkbox-group bindchange="onBoundaryChange">
+    <checkbox-group bindchange="onConfirmationChange">
       <label class="checkbox-line">
-        <checkbox value="boundary" checked="{{boundaryChecked}}" color="#D8B76A" />
+        <checkbox value="boundary" checked="{{checks.boundary}}" color="#D8B76A" />
         <text>我已阅读并确认服务边界协议</text>
+      </label>
+      <label class="checkbox-line">
+        <checkbox value="privacy" checked="{{checks.privacy}}" color="#D8B76A" />
+        <text>我同意平台为履约目的处理本次需求信息</text>
+      </label>
+      <label class="checkbox-line">
+        <checkbox value="platformContact" checked="{{checks.platformContact}}" color="#D8B76A" />
+        <text>我确认沟通、支付和服务确认均通过平台完成</text>
       </label>
     </checkbox-group>
     <view class="policy-link" bindtap="goPolicy">查看完整服务协议与隐私政策</view>

@@ -4,11 +4,24 @@ import { ServiceScene } from '../../services/types';
 
 Page({
   data: {
-    scenes: [] as ServiceScene[]
+    scenes: [] as ServiceScene[],
+    loading: false,
+    error: ''
   },
 
   async onLoad() {
-    this.setData({ scenes: await api.getScenes() });
+    await this.loadScenes();
+  },
+
+  async loadScenes() {
+    this.setData({ loading: true, error: '' });
+    try {
+      this.setData({ scenes: await api.getScenes() });
+    } catch (error) {
+      this.setData({ scenes: [], error: (error as Error).message || '场景加载失败' });
+    } finally {
+      this.setData({ loading: false });
+    }
   },
 
   openPackages(event: WechatMiniprogram.BaseEvent) {
@@ -31,5 +44,9 @@ Page({
       sceneId
     });
     wx.navigateTo({ url: `/pages/booking-form/index?sceneId=${sceneId}` });
+  },
+
+  retry() {
+    this.loadScenes();
   }
 });

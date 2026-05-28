@@ -4,7 +4,7 @@ import { MealBriefStatus } from '../meal-brief.enums';
 import { CreateMealBriefDto, ListMealBriefQueryDto, ServiceReviewDto, UpsertMealBriefDto } from '../dto/meal-brief.dto';
 import { MealBriefPageResult, MealBriefRecord, MealBriefRepository, MealBriefTaskRecord } from './meal-brief.repository';
 
-type PrismaLike = PrismaService & { [key: string]: any };
+type PrismaLike = any;
 
 @Injectable()
 export class PrismaMealBriefRepository implements MealBriefRepository {
@@ -124,8 +124,8 @@ export class PrismaMealBriefRepository implements MealBriefRepository {
     action: string;
     resourceType: string;
     resourceId: string;
-    beforeData?: Record<string, unknown>;
-    afterData?: Record<string, unknown>;
+    beforeData?: unknown;
+    afterData?: unknown;
     metadata?: Record<string, unknown>;
   }): Promise<void> {
     await this.db.auditLog.create({

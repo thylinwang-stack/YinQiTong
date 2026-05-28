@@ -36,8 +36,8 @@ export interface CreateAuditLogInput {
   action: string;
   resourceType: 'order' | 'payment_callback';
   resourceId: string;
-  beforeData?: Record<string, unknown>;
-  afterData?: Record<string, unknown>;
+  beforeData?: unknown;
+  afterData?: unknown;
   metadata?: Record<string, unknown>;
 }
 

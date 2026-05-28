@@ -117,3 +117,14 @@ export class CreateBookingDto {
   @IsString()
   protocolVersion?: string;
 }
+
+export class SupportRequestDto {
+  @IsString()
+  @MaxLength(40)
+  type: string;
+
+  @IsOptional()
+  @IsString()
+  @MaxLength(1000)
+  content?: string;
+}

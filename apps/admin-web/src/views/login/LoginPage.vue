@@ -2,9 +2,9 @@
   <main class="login-page">
     <section class="login-panel">
       <div class="brand-line">
-        <span class="brand-mark">饭</span>
+        <span class="brand-mark">礼</span>
         <div>
-          <h1>有个饭局 OA 运营后台</h1>
+          <h1>商务礼宾运营后台</h1>
           <p>客户、订单、助理、财务、风控一体化管理</p>
         </div>
       </div>

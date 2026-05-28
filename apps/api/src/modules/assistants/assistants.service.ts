@@ -15,7 +15,7 @@ import {
   UploadAssistantPhotoDto
 } from './dto/assistant.dto';
 
-type PrismaLike = PrismaService & { [key: string]: any };
+type PrismaLike = any;
 
 @Injectable()
 export class AssistantsService {
@@ -319,8 +319,8 @@ export class AssistantsService {
     action: string,
     resourceType: string,
     resourceId?: string,
-    beforeData?: Record<string, unknown>,
-    afterData?: Record<string, unknown>,
+    beforeData?: unknown,
+    afterData?: unknown,
     metadata?: Record<string, unknown>
   ) {
     return db.auditLog.create({

@@ -8,16 +8,28 @@ import {
   ProtocolConfirmationInput,
   StaffMealBrief,
   StaffReviewInput,
+  SupportRequestType,
   ServicePackage,
   ServiceScene
 } from './types';
 import { assistants, mockOrders, packages, scenes, staffMealBriefs } from './mock-data';
 
+const ORDERS_STORAGE_KEY = 'business_concierge_mock_orders';
+
 const delay = <T>(value: T, ms = 240): Promise<T> =>
   new Promise(resolve => setTimeout(() => resolve(value), ms));
 
-let orders = [...mockOrders];
+let orders = readStoredOrders();
 let briefs = [...staffMealBriefs];
+
+function readStoredOrders(): BookingOrder[] {
+  const stored = wx.getStorageSync(ORDERS_STORAGE_KEY);
+  return Array.isArray(stored) && stored.length ? stored : [...mockOrders];
+}
+
+function persistOrders() {
+  wx.setStorageSync(ORDERS_STORAGE_KEY, orders);
+}
 
 export const mockService = {
   getScenes(): Promise<ServiceScene[]> {
@@ -63,6 +75,7 @@ export const mockService = {
       boundaryConfirmed: true
     };
     orders = [order, ...orders];
+    persistOrders();
     return delay({ bookingId: `booking_${Date.now()}`, order });
   },
 
@@ -99,7 +112,34 @@ export const mockService = {
         ? { ...item, status: 'pending_match', paidAmount: item.depositAmount }
         : item
     );
+    persistOrders();
     return this.getOrder(orderId);
+  },
+
+  cancelOrder(orderId: string, reason?: string): Promise<BookingOrder | undefined> {
+    orders = orders.map(item =>
+      item.id === orderId || item.orderNo === orderId
+        ? {
+            ...item,
+            status: 'cancelled',
+            boundaryConfirmed: item.boundaryConfirmed
+          }
+        : item
+    );
+    persistOrders();
+    return this.getOrder(orderId);
+  },
+
+  requestOrderSupport(_orderId: string, type: SupportRequestType, _content?: string): Promise<{ accepted: true; message: string }> {
+    const messageMap: Record<SupportRequestType, string> = {
+      contact_service: '客服请求已记录，平台将在服务时段前与你确认。',
+      reschedule: '改期申请已记录，客服会确认档期与费用差异。',
+      cancel: '取消申请已记录，请等待客服确认可退金额。',
+      refund: '退款申请已记录，请等待客服核对支付状态。',
+      invoice: '发票申请已记录，客服会与你确认抬头信息。',
+      add_requirement: '补充需求已记录，运营会同步给匹配与 brief 流程。'
+    };
+    return delay({ accepted: true, message: messageMap[type] });
   },
 
   getStaffMealBrief(id: string): Promise<StaffMealBrief | undefined> {

@@ -2,7 +2,7 @@ import { HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { BusinessException } from '@/common/errors/business.exception';
 import { PrismaService } from '@/prisma/prisma.service';
 import { AuthService } from '@/modules/auth/auth.service';
-import { AdminBookingQueryDto, CreateBookingDto, PublicAssistantQueryDto } from './dto/public-api.dto';
+import { AdminBookingQueryDto, CreateBookingDto, PublicAssistantQueryDto, SupportRequestDto } from './dto/public-api.dto';
 
 type PrismaLike = PrismaService & { [key: string]: any };
 
@@ -225,6 +225,38 @@ export class PublicApiService {
     return this.toClientOrder(order, order.booking, order.booking?.scene);
   }
 
+  async createSupportRequest(id: string, dto: SupportRequestDto, authorization?: string) {
+    const user = await this.authService.getUserFromAuthorization(authorization);
+    const order = await this.db.order.findFirst({
+      where: { OR: [...(UUID_PATTERN.test(id) ? [{ id }] : []), { orderNo: id }] },
+      include: { customer: true, booking: { include: { scene: true } } }
+    });
+    if (!order) throw new BusinessException('ORDER_NOT_FOUND', '订单不存在');
+    if (user.userType === 'customer' && order.customer?.userId !== user.id) {
+      throw new BusinessException('ORDER_ACCESS_DENIED', '无权操作该订单', HttpStatus.FORBIDDEN);
+    }
+
+    await this.db.auditLog.create({
+      data: {
+        actorId: user.id,
+        actorType: user.userType || 'customer',
+        action: 'booking.support_request',
+        resourceType: 'order',
+        resourceId: order.id,
+        metadata: {
+          orderNo: order.orderNo,
+          requestType: dto.type,
+          content: dto.content || ''
+        }
+      }
+    });
+
+    return {
+      accepted: true,
+      message: this.supportRequestMessage(dto.type)
+    };
+  }
+
   async listAdminBookings(query: AdminBookingQueryDto) {
     const page = query.page || 1;
     const pageSize = query.pageSize || 10;
@@ -334,6 +366,18 @@ export class PublicApiService {
       exception: 'cancelled'
     };
     return map[status] || 'pending_payment';
+  }
+
+  private supportRequestMessage(type: string) {
+    const map: Record<string, string> = {
+      contact_service: '客服请求已记录，平台将在服务时段前与你确认。',
+      reschedule: '改期申请已记录，客服会确认档期与费用差异。',
+      cancel: '取消申请已记录，请等待客服确认可退金额。',
+      refund: '退款申请已记录，请等待客服核对支付状态。',
+      invoice: '发票申请已记录，客服会与你确认抬头信息。',
+      add_requirement: '补充需求已记录，运营会同步给匹配与 brief 流程。'
+    };
+    return map[type] || '服务请求已记录，客服会尽快处理。';
   }
 
   private fromClientStatus(status?: string) {

@@ -4,11 +4,26 @@ import { appStore } from '../../store/app-store';
 
 Page({
   data: {
-    packages: [] as ServicePackage[]
+    packages: [] as ServicePackage[],
+    sceneId: '',
+    loading: false,
+    error: ''
   },
 
   async onLoad(query: { sceneId?: string }) {
-    this.setData({ packages: await api.getPackages(query.sceneId) });
+    this.setData({ sceneId: query.sceneId || '' });
+    await this.loadPackages();
+  },
+
+  async loadPackages() {
+    this.setData({ loading: true, error: '' });
+    try {
+      this.setData({ packages: await api.getPackages(this.data.sceneId) });
+    } catch (error) {
+      this.setData({ packages: [], error: (error as Error).message || '套餐加载失败' });
+    } finally {
+      this.setData({ loading: false });
+    }
   },
 
   choosePackage(event: WechatMiniprogram.BaseEvent) {
@@ -31,5 +46,9 @@ Page({
       packageId: selected.id
     });
     wx.navigateTo({ url: `/pages/booking-form/index?sceneId=${selected.sceneId}&packageId=${selected.id}` });
+  },
+
+  retry() {
+    this.loadPackages();
   }
 });

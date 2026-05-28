@@ -25,30 +25,44 @@
     </view>
   </scroll-view>
 
-  <view class="order-card card" wx:for="{{visibleOrders}}" wx:key="id" bindtap="openDetail" data-id="{{item.id}}">
-    <view class="order-head">
-      <view>
-        <view class="order-no">{{item.orderNo}}</view>
-        <view class="muted">{{item.sceneName}} · {{item.city}}</view>
-      </view>
-      <view class="status-pill">{{item.statusText}}</view>
-    </view>
-    <view class="divider"></view>
-    <view class="order-line">
-      <text>服务时间</text>
-      <text>{{item.serviceTime}}</text>
-    </view>
-    <view class="order-line">
-      <text>助理人数</text>
-      <text>{{item.assistantCount}} 人</text>
-    </view>
-    <view class="order-line">
-      <text>预约金</text>
-      <text class="gold-text">¥{{item.depositAmount}}</text>
-    </view>
+  <view class="page-state card" wx:if="{{loading}}">
+    <view class="skeleton-line"></view>
+    <view class="skeleton-line"></view>
+    <view class="skeleton-line"></view>
   </view>
 
-  <view class="empty card" wx:if="{{visibleOrders.length === 0}}">
+  <view class="page-state card" wx:elif="{{error}}">
+    <view class="h2">订单加载失败</view>
+    <view class="muted">{{error}}</view>
+    <button class="btn gold" bindtap="retry">重试</button>
+  </view>
+
+  <block wx:else>
+    <view class="order-card card" wx:for="{{visibleOrders}}" wx:key="id" bindtap="openDetail" data-id="{{item.id}}">
+      <view class="order-head">
+        <view>
+          <view class="order-no">{{item.orderNo}}</view>
+          <view class="muted">{{item.sceneName}} · {{item.city}}</view>
+        </view>
+        <view class="status-pill">{{item.statusText}}</view>
+      </view>
+      <view class="divider"></view>
+      <view class="order-line">
+        <text>服务时间</text>
+        <text>{{item.serviceTime}}</text>
+      </view>
+      <view class="order-line">
+        <text>助理人数</text>
+        <text>{{item.assistantCount}} 人</text>
+      </view>
+      <view class="order-line">
+        <text>预约金</text>
+        <text class="gold-text">¥{{item.depositAmount}}</text>
+      </view>
+    </view>
+  </block>
+
+  <view class="empty card" wx:if="{{!loading && !error && visibleOrders.length === 0}}">
     <view class="h2">暂无订单</view>
     <view class="muted">提交需求后，可在这里查看进度。</view>
     <button class="btn gold" bindtap="goBooking">提交需求</button>

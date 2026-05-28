@@ -47,9 +47,23 @@
     <view class="muted">该订单沟通通过平台客服或受控消息系统完成。服务内容仅限商务接待氛围服务、商务社交助理服务、餐前准备与现场协同服务。</view>
   </view>
 
+  <view class="section card service-panel">
+    <view class="h2">订单服务</view>
+    <view class="muted">改期、补充需求、发票和退款均需平台客服确认后生效。</view>
+    <view class="service-grid">
+      <button class="service-btn" wx:for="{{serviceActions}}" wx:key="type" data-type="{{item.type}}" bindtap="onServiceAction">
+        {{item.label}}
+      </button>
+      <button class="service-btn danger" wx:if="{{order.status === 'pending_payment' || order.status === 'pending_match'}}" bindtap="cancelOrder">
+        取消订单
+      </button>
+    </view>
+  </view>
+
   <view class="actions">
     <button class="btn ghost" bindtap="contactService">联系平台客服</button>
     <button class="btn gold" wx:if="{{order.status === 'pending_payment'}}" bindtap="payAgain">继续支付</button>
+    <button class="btn gold" wx:else bindtap="onServiceAction" data-type="add_requirement">补充需求</button>
   </view>
 </view>
 

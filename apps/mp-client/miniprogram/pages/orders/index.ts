@@ -16,16 +16,33 @@ Page({
     tabs,
     activeStatus: 'all',
     orders: [] as Array<BookingOrder & { statusText: string }>,
-    visibleOrders: [] as Array<BookingOrder & { statusText: string }>
+    visibleOrders: [] as Array<BookingOrder & { statusText: string }>,
+    loading: false,
+    error: ''
   },
 
   async onShow() {
-    const orders = (await api.getMyOrders()).map(order => ({
-      ...order,
-      statusText: bookingStatusText[order.status]
-    }));
-    this.setData({ orders });
-    this.filterOrders();
+    await this.loadOrders();
+  },
+
+  async loadOrders() {
+    this.setData({ loading: true, error: '' });
+    try {
+      const orders = (await api.getMyOrders()).map(order => ({
+        ...order,
+        statusText: bookingStatusText[order.status]
+      }));
+      this.setData({ orders });
+      this.filterOrders();
+    } catch (error) {
+      this.setData({
+        orders: [],
+        visibleOrders: [],
+        error: (error as Error).message || '订单加载失败'
+      });
+    } finally {
+      this.setData({ loading: false });
+    }
   },
 
   changeTab(event: WechatMiniprogram.BaseEvent) {
@@ -48,5 +65,9 @@ Page({
 
   goBooking() {
     wx.navigateTo({ url: '/pages/booking-form/index' });
+  },
+
+  retry() {
+    this.loadOrders();
   }
 });

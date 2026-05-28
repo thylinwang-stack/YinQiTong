@@ -1,6 +1,6 @@
 import { api, ensureCustomerLogin, requestPayment } from '../../services/api';
 import { appStore } from '../../store/app-store';
-import { BookingOrder } from '../../services/types';
+import { BookingOrder, SupportRequestType } from '../../services/types';
 import { bookingStatusText } from '../../utils/format';
 
 const steps = [
@@ -17,7 +17,14 @@ Page({
     order: undefined as BookingOrder | undefined,
     statusText: '',
     steps,
-    activeStep: 0
+    activeStep: 0,
+    serviceActions: [
+      { label: '联系客服', type: 'contact_service' },
+      { label: '申请改期', type: 'reschedule' },
+      { label: '补充需求', type: 'add_requirement' },
+      { label: '申请发票', type: 'invoice' },
+      { label: '申请退款', type: 'refund' }
+    ]
   },
 
   async onLoad(query: { id?: string }) {
@@ -40,11 +47,66 @@ Page({
   },
 
   contactService() {
+    this.createSupportRequest('contact_service', '客户从订单详情发起客服咨询');
+  },
+
+  onServiceAction(event: WechatMiniprogram.BaseEvent) {
+    const type = event.currentTarget.dataset.type as SupportRequestType;
+    if (!type) return;
+    const actionMap: Record<SupportRequestType, { title: string; placeholder: string }> = {
+      contact_service: { title: '联系平台客服', placeholder: '请简要说明希望客服协助的事项' },
+      reschedule: { title: '申请改期', placeholder: '请填写希望调整到的日期、时间和原因' },
+      cancel: { title: '取消订单', placeholder: '请填写取消原因' },
+      refund: { title: '申请退款', placeholder: '请说明退款原因，客服会按规则核对' },
+      invoice: { title: '申请发票', placeholder: '请填写发票抬头、税号和接收方式' },
+      add_requirement: { title: '补充需求', placeholder: '请补充嘉宾、餐厅、到场或禁忌事项' }
+    };
+    const config = actionMap[type];
     wx.showModal({
-      title: '平台客服',
-      content: 'MVP 阶段展示客服入口，后续接入受控消息系统。',
-      showCancel: false
+      title: config.title,
+      editable: true,
+      placeholderText: config.placeholder,
+      confirmText: '提交',
+      success: res => {
+        if (res.confirm) {
+          this.createSupportRequest(type, res.content || config.title);
+        }
+      }
     });
+  },
+
+  cancelOrder() {
+    if (!this.data.order) return;
+    wx.showModal({
+      title: '取消订单',
+      editable: true,
+      placeholderText: '请填写取消原因，客服会根据订单阶段确认后续处理',
+      confirmText: '确认取消',
+      success: async res => {
+        if (!res.confirm || !this.data.order) return;
+        try {
+          const order = await api.cancelOrder(this.data.order.id, res.content || '客户主动取消');
+          this.setOrder(order);
+          wx.showToast({ title: '已提交取消', icon: 'success' });
+        } catch (error) {
+          wx.showToast({ title: (error as Error).message || '取消失败', icon: 'none' });
+        }
+      }
+    });
+  },
+
+  async createSupportRequest(type: SupportRequestType, content: string) {
+    if (!this.data.order) return;
+    try {
+      const result = await api.requestOrderSupport(this.data.order.id, type, content);
+      wx.showModal({
+        title: result.accepted ? '已提交' : '未提交',
+        content: result.message,
+        showCancel: false
+      });
+    } catch (error) {
+      wx.showToast({ title: (error as Error).message || '提交失败', icon: 'none' });
+    }
   },
 
   async payAgain() {

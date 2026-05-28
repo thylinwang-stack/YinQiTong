@@ -35,7 +35,16 @@
       <view class="h2">核心场景</view>
       <view class="link" bindtap="goScenes">全部</view>
     </view>
-    <view class="scene-scroll">
+    <view class="page-state card" wx:if="{{loading}}">
+      <view class="skeleton-line"></view>
+      <view class="skeleton-line"></view>
+    </view>
+    <view class="page-state card" wx:elif="{{error}}">
+      <view class="h2">数据加载失败</view>
+      <view class="muted">{{error}}</view>
+      <button class="btn gold" bindtap="retry">重试</button>
+    </view>
+    <view class="scene-scroll" wx:if="{{!loading && !error}}">
       <view class="scene-mini card" wx:for="{{scenes}}" wx:key="id" bindtap="openScene" data-id="{{item.id}}">
         <image class="scene-cover" src="{{item.cover}}" mode="aspectFill" />
         <view class="scene-name">{{item.name}}</view>
@@ -49,7 +58,7 @@
       <view class="h2">商务助理</view>
       <view class="link" bindtap="goAssistants">筛选</view>
     </view>
-    <view class="assistant-card card" wx:for="{{assistants}}" wx:key="id" bindtap="openAssistant" data-id="{{item.id}}">
+    <view class="assistant-card card" wx:if="{{!loading && !error}}" wx:for="{{assistants}}" wx:key="id" bindtap="openAssistant" data-id="{{item.id}}">
       <image class="avatar" src="{{item.avatarUrl}}" mode="aspectFill" />
       <view class="assistant-info">
         <view class="assistant-title">{{item.workName}} · {{item.city}}</view>

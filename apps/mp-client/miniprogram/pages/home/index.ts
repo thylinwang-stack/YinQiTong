@@ -4,18 +4,31 @@ import { AssistantPublicProfile, ServiceScene } from '../../services/types';
 Page({
   data: {
     scenes: [] as ServiceScene[],
-    assistants: [] as AssistantPublicProfile[]
+    assistants: [] as AssistantPublicProfile[],
+    loading: false,
+    error: ''
   },
 
   async onLoad() {
-    const [scenes, assistants] = await Promise.all([
-      api.getScenes(),
-      api.getAssistants({})
-    ]);
-    this.setData({
-      scenes: scenes.slice(0, 4),
-      assistants: assistants.slice(0, 2)
-    });
+    await this.loadHomeData();
+  },
+
+  async loadHomeData() {
+    this.setData({ loading: true, error: '' });
+    try {
+      const [scenes, assistants] = await Promise.all([
+        api.getScenes(),
+        api.getAssistants({})
+      ]);
+      this.setData({
+        scenes: scenes.slice(0, 4),
+        assistants: assistants.slice(0, 2)
+      });
+    } catch (error) {
+      this.setData({ error: (error as Error).message || '首页数据加载失败' });
+    } finally {
+      this.setData({ loading: false });
+    }
   },
 
   goBooking() {
@@ -38,5 +51,9 @@ Page({
   openAssistant(event: WechatMiniprogram.BaseEvent) {
     const id = event.currentTarget.dataset.id;
     wx.navigateTo({ url: `/pages/assistant-detail/index?id=${id}` });
+  },
+
+  retry() {
+    this.loadHomeData();
   }
 });

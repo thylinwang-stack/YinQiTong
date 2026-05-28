@@ -1,13 +1,18 @@
 import { api, ensureCustomerLogin, requestPayment } from '../../services/api';
 import { BookingDraft, ServicePackage } from '../../services/types';
 import { appStore } from '../../store/app-store';
-import { assertBoundaryChecked } from '../../utils/validators';
+import { assertOrderConfirmations } from '../../utils/validators';
 
 Page({
   data: {
     form: undefined as BookingDraft | undefined,
     selectedPackage: undefined as ServicePackage | undefined,
-    boundaryChecked: false,
+    estimatedDeposit: 0,
+    checks: {
+      boundary: false,
+      privacy: false,
+      platformContact: false
+    },
     paying: false
   },
 
@@ -20,26 +25,37 @@ Page({
     }
     this.setData({
       form: state.pendingBooking,
-      selectedPackage: state.selectedPackage
+      selectedPackage: state.selectedPackage,
+      estimatedDeposit: state.selectedPackage?.depositAmount || Math.max(300, Math.round((state.pendingBooking.budget || 0) * 0.2))
     });
   },
 
-  onBoundaryChange(event: any) {
+  onConfirmationChange(event: any) {
     const values = event.detail.value || [];
-    this.setData({ boundaryChecked: values.includes('boundary') });
+    this.setData({
+      checks: {
+        boundary: values.includes('boundary'),
+        privacy: values.includes('privacy'),
+        platformContact: values.includes('platformContact')
+      }
+    });
   },
 
   goPolicy() {
     wx.navigateTo({ url: '/pages/policy/index?tab=service' });
   },
 
+  editBooking() {
+    wx.navigateBack();
+  },
+
   async pay() {
-    const boundary = assertBoundaryChecked(this.data.boundaryChecked);
-    if (!boundary.valid) {
-      wx.showToast({ title: boundary.message || '请确认协议', icon: 'none' });
+    const confirmations = assertOrderConfirmations(this.data.checks);
+    if (!confirmations.valid) {
+      wx.showToast({ title: confirmations.message || '请完成确认', icon: 'none' });
       return;
     }
-    if (!this.data.form) return;
+    if (!this.data.form || this.data.paying) return;
 
     this.setData({ paying: true });
     try {
@@ -47,12 +63,12 @@ Page({
       const { order } = await api.createBooking({
         ...this.data.form,
         boundaryAgreementConfirmed: true,
-        protocolVersion: 'service_boundary_v1'
+        protocolVersion: 'service_boundary_v2'
       });
       await api.confirmServiceBoundary({
         orderId: order.id,
         actorType: 'customer',
-        protocolVersion: 'service_boundary_v1'
+        protocolVersion: 'service_boundary_v2'
       });
       appStore.setLatestOrder(order);
       const payment = await api.createPayment(order.id);
@@ -62,7 +78,7 @@ Page({
       appStore.setPaymentResult({
         orderNo: order.orderNo,
         status: 'success',
-        message: '预约金支付成功，平台将进入需求审核与助理匹配流程。'
+        message: '预约金支付成功，平台将进入需求审核、客服回访与商务助理匹配流程。'
       });
       appStore.clearDraft();
       wx.redirectTo({ url: '/pages/payment-result/index' });
@@ -72,7 +88,7 @@ Page({
       appStore.setPaymentResult({
         orderNo: appStore.getState().latestOrder?.orderNo || '',
         status: isCancel ? 'cancelled' : 'failed',
-        message: isCancel ? '你已取消支付，订单仍保留为待支付状态。' : '支付未完成，请稍后重新发起支付。'
+        message: isCancel ? '你已取消支付，订单仍保留为待支付状态。' : errMsg || '支付未完成，请稍后重新发起支付。'
       });
       wx.redirectTo({ url: '/pages/payment-result/index' });
     } finally {

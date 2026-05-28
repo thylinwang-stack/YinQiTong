@@ -52,6 +52,18 @@ export interface BookingDraft {
   guestCount: number;
   assistantCount: number;
   budget: number;
+  hostRole?: string;
+  banquetGoal?: string;
+  guestProfile?: string;
+  venuePreference?: string;
+  contactName?: string;
+  contactPhone?: string;
+  preferredAssistantStyle?: string;
+  privacyLevel?: string;
+  dressCode?: string;
+  languageRequirement?: string;
+  arrivalPlan?: string;
+  callbackWindow?: string;
   preference: string;
   taboos: string;
   remark: string;
@@ -113,6 +125,14 @@ export interface PaymentResultState {
   status: 'success' | 'failed' | 'cancelled';
   message: string;
 }
+
+export type SupportRequestType =
+  | 'contact_service'
+  | 'reschedule'
+  | 'cancel'
+  | 'refund'
+  | 'invoice'
+  | 'add_requirement';
 
 export type MealBriefStatus =
   | 'draft'

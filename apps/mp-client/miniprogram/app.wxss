@@ -177,6 +177,33 @@ page {
   font-size: 20rpx;
 }
 
+.page-state {
+  padding: 42rpx 28rpx;
+  text-align: center;
+}
+
+.page-state .muted {
+  margin-top: 12rpx;
+}
+
+.page-state .btn {
+  margin-top: 24rpx;
+}
+
+.skeleton-line {
+  height: 24rpx;
+  border-radius: 999rpx;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.skeleton-line + .skeleton-line {
+  margin-top: 18rpx;
+}
+
+.danger-text {
+  color: #ffb4b4;
+}
+
 .brand-lockup {
   display: flex;
   align-items: center;

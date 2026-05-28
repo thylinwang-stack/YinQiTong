@@ -6,23 +6,31 @@
     </view>
   </view>
 
-  <view class="card form-card">
+  <view class="stepper">
+    <view class="step-dot {{currentStep >= index ? 'active' : ''}}" wx:for="{{steps}}" wx:key="label">
+      <view class="step-index">{{index + 1}}</view>
+      <view>{{item.label}}</view>
+    </view>
+  </view>
+
+  <view class="card form-card" wx:if="{{currentStep === 0}}">
+    <view class="form-section-title">基础安排</view>
     <view class="field">
-      <view class="label">城市</view>
-      <picker mode="selector" range="{{cityOptions}}" bindchange="onCityChange">
+      <view class="label">服务城市</view>
+      <picker mode="selector" range="{{cityOptions}}" data-field="city" data-options="cityOptions" bindchange="onOptionChange">
         <view class="picker">{{form.city || '请选择服务城市'}}</view>
       </picker>
     </view>
 
     <view class="grid-2">
       <view class="field">
-        <view class="label">日期</view>
-        <picker mode="date" bindchange="onDateChange">
+        <view class="label">服务日期</view>
+        <picker mode="date" start="{{minDate}}" bindchange="onDateChange">
           <view class="picker">{{form.date || '选择日期'}}</view>
         </picker>
       </view>
       <view class="field">
-        <view class="label">时间</view>
+        <view class="label">开始时间</view>
         <picker mode="time" bindchange="onTimeChange">
           <view class="picker">{{form.time || '选择时间'}}</view>
         </picker>
@@ -31,7 +39,7 @@
 
     <view class="field">
       <view class="label">饭局类型</view>
-      <picker mode="selector" range="{{dinnerTypes}}" bindchange="onDinnerTypeChange">
+      <picker mode="selector" range="{{dinnerTypes}}" data-field="dinnerType" data-options="dinnerTypes" bindchange="onOptionChange">
         <view class="picker">{{form.dinnerType || '请选择饭局类型'}}</view>
       </picker>
     </view>
@@ -48,30 +56,113 @@
     </view>
 
     <view class="field">
-      <view class="label">预算</view>
+      <view class="label">服务预算</view>
       <input class="input" type="number" placeholder="请输入服务预算" value="{{form.budget}}" data-field="budget" bindinput="onNumberInput" />
+      <view class="field-hint">用于匹配服务方案，最终以客服确认后的方案为准。</view>
+    </view>
+  </view>
+
+  <view class="card form-card" wx:if="{{currentStep === 1}}">
+    <view class="form-section-title">关系与目标</view>
+    <view class="field">
+      <view class="label">你的饭局角色</view>
+      <input class="input" placeholder="例如：主陪、邀约方、项目负责人" value="{{form.hostRole}}" data-field="hostRole" bindinput="onTextInput" />
     </view>
 
     <view class="field">
-      <view class="label">偏好</view>
-      <textarea class="textarea" maxlength="120" placeholder="例如：希望助理风格沉稳、适合正式客户晚宴" value="{{form.preference}}" data-field="preference" bindinput="onTextInput" />
+      <view class="label">本次饭局目标</view>
+      <textarea class="textarea" maxlength="160" placeholder="例如：首次接待外地客户，希望氛围自然，推进后续合作沟通" value="{{form.banquetGoal}}" data-field="banquetGoal" bindinput="onTextInput" />
     </view>
 
     <view class="field">
-      <view class="label">禁忌</view>
-      <textarea class="textarea" maxlength="120" placeholder="例如：避免讨论某些行业、隐私或敏感话题" value="{{form.taboos}}" data-field="taboos" bindinput="onTextInput" />
+      <view class="label">嘉宾背景</view>
+      <textarea class="textarea" maxlength="180" placeholder="行业、人数结构、关系阶段、称呼禁忌等" value="{{form.guestProfile}}" data-field="guestProfile" bindinput="onTextInput" />
     </view>
 
     <view class="field">
-      <view class="label">备注</view>
-      <textarea class="textarea" maxlength="200" placeholder="补充接待目标、嘉宾背景、餐厅偏好等" value="{{form.remark}}" data-field="remark" bindinput="onTextInput" />
+      <view class="label">餐厅/包间偏好</view>
+      <textarea class="textarea compact-textarea" maxlength="160" placeholder="已有餐厅、区域偏好、包间要求、停车/动线需求" value="{{form.venuePreference}}" data-field="venuePreference" bindinput="onTextInput" />
+    </view>
+
+    <view class="grid-2">
+      <view class="field">
+        <view class="label">联系人</view>
+        <input class="input" placeholder="姓名" value="{{form.contactName}}" data-field="contactName" bindinput="onTextInput" />
+      </view>
+      <view class="field">
+        <view class="label">手机号</view>
+        <input class="input" type="number" placeholder="用于客服确认" value="{{form.contactPhone}}" data-field="contactPhone" bindinput="onTextInput" />
+      </view>
+    </view>
+  </view>
+
+  <view class="card form-card" wx:if="{{currentStep === 2}}">
+    <view class="form-section-title">风格与边界</view>
+    <view class="field">
+      <view class="label">商务助理风格</view>
+      <picker mode="selector" range="{{styleOptions}}" data-field="preferredAssistantStyle" data-options="styleOptions" bindchange="onOptionChange">
+        <view class="picker">{{form.preferredAssistantStyle || '请选择偏好风格'}}</view>
+      </picker>
+    </view>
+
+    <view class="field">
+      <view class="label">隐私级别</view>
+      <picker mode="selector" range="{{privacyOptions}}" data-field="privacyLevel" data-options="privacyOptions" bindchange="onOptionChange">
+        <view class="picker">{{form.privacyLevel || '请选择隐私级别'}}</view>
+      </picker>
+    </view>
+
+    <view class="grid-2">
+      <view class="field">
+        <view class="label">着装要求</view>
+        <picker mode="selector" range="{{dressCodeOptions}}" data-field="dressCode" data-options="dressCodeOptions" bindchange="onOptionChange">
+          <view class="picker">{{form.dressCode || '请选择'}}</view>
+        </picker>
+      </view>
+      <view class="field">
+        <view class="label">语言需求</view>
+        <picker mode="selector" range="{{languageOptions}}" data-field="languageRequirement" data-options="languageOptions" bindchange="onOptionChange">
+          <view class="picker">{{form.languageRequirement || '请选择'}}</view>
+        </picker>
+      </view>
+    </view>
+
+    <view class="field">
+      <view class="label">到场与接待安排</view>
+      <textarea class="textarea compact-textarea" maxlength="160" placeholder="例如：助理提前 20 分钟到场，先由主陪介绍，不主动触碰核心议题" value="{{form.arrivalPlan}}" data-field="arrivalPlan" bindinput="onTextInput" />
+    </view>
+
+    <view class="field">
+      <view class="label">可回访时段</view>
+      <picker mode="selector" range="{{callbackOptions}}" data-field="callbackWindow" data-options="callbackOptions" bindchange="onOptionChange">
+        <view class="picker">{{form.callbackWindow || '请选择客服回访时段'}}</view>
+      </picker>
+    </view>
+
+    <view class="field">
+      <view class="label">偏好补充</view>
+      <textarea class="textarea" maxlength="220" placeholder="例如：希望助理沉稳克制，适合正式客户晚宴" value="{{form.preference}}" data-field="preference" bindinput="onTextInput" />
+    </view>
+
+    <view class="field">
+      <view class="label">禁忌与敏感事项</view>
+      <textarea class="textarea" maxlength="220" placeholder="例如：避免价格底线、竞品评价、客户个人隐私等话题" value="{{form.taboos}}" data-field="taboos" bindinput="onTextInput" />
+    </view>
+
+    <view class="field">
+      <view class="label">其他备注</view>
+      <textarea class="textarea" maxlength="300" placeholder="补充交通、座次、发票或特殊流程需求" value="{{form.remark}}" data-field="remark" bindinput="onTextInput" />
     </view>
   </view>
 
   <view class="notice card">
     <view class="notice-title">服务边界提示</view>
-    <view class="muted">平台只提供正规商务社交氛围协同、餐前准备与礼宾接待服务。提交后需在订单确认页勾选服务边界协议。</view>
+    <view class="muted">平台只提供正规商务社交氛围协同、餐前准备与礼宾接待服务。所有沟通、支付和履约确认均通过平台完成。</view>
   </view>
 
-  <button class="btn gold submit" bindtap="submit">下一步</button>
+  <view class="form-actions">
+    <button class="btn ghost" wx:if="{{currentStep > 0}}" bindtap="prevStep">上一步</button>
+    <button class="btn gold {{currentStep === 0 ? 'wide' : ''}}" wx:if="{{currentStep < 2}}" bindtap="nextStep">下一步</button>
+    <button class="btn gold" wx:if="{{currentStep === 2}}" bindtap="submit">提交并确认订单</button>
+  </view>
 </view>

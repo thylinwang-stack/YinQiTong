@@ -6,6 +6,8 @@ dist/
 build/
 coverage/
 .vite/
+.tmp/
+apps/mp-client/miniprogram/**/*.js
 
 # Environment and secrets
 .env
@@ -23,6 +25,8 @@ pnpm-debug.log*
 .DS_Store
 .idea/
 .vscode/
+project.private.config.json
+apps/mp-client/project.private.config.json
 
 # Databases and runtime files
 *.sqlite
@@ -36,7 +40,6 @@ pnpm-debug.log*
 .codex/
 auth.json
 cache/
-.tmp/
 tmp/
 sessions/
 shell_snapshots/

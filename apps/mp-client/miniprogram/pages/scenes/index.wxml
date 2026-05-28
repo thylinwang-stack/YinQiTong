@@ -6,24 +6,38 @@
     </view>
   </view>
 
-  <view class="scene-card card" wx:for="{{scenes}}" wx:key="id">
-    <image class="cover" src="{{item.cover}}" mode="aspectFill" />
-    <view class="body">
-      <view class="title-row">
-        <view class="title">{{item.name}}</view>
-        <view class="status-pill">合规服务</view>
-      </view>
-      <view class="muted">{{item.description}}</view>
-      <view class="tag-row">
-        <view class="tag" wx:for="{{item.tags}}" wx:key="*this">{{item}}</view>
-      </view>
-      <view class="scope">
-        <view wx:for="{{item.serviceScope}}" wx:key="*this">· {{item}}</view>
-      </view>
-      <view class="actions">
-        <button class="btn ghost" bindtap="openPackages" data-id="{{item.id}}">查看套餐</button>
-        <button class="btn gold" bindtap="createBooking" data-id="{{item.id}}">提交需求</button>
+  <view class="page-state card" wx:if="{{loading}}">
+    <view class="skeleton-line"></view>
+    <view class="skeleton-line"></view>
+    <view class="skeleton-line"></view>
+  </view>
+
+  <view class="page-state card" wx:elif="{{error}}">
+    <view class="h2">场景加载失败</view>
+    <view class="muted">{{error}}</view>
+    <button class="btn gold" bindtap="retry">重试</button>
+  </view>
+
+  <block wx:else>
+    <view class="scene-card card" wx:for="{{scenes}}" wx:key="id">
+      <image class="cover" src="{{item.cover}}" mode="aspectFill" />
+      <view class="body">
+        <view class="title-row">
+          <view class="title">{{item.name}}</view>
+          <view class="status-pill">合规服务</view>
+        </view>
+        <view class="muted">{{item.description}}</view>
+        <view class="tag-row">
+          <view class="tag" wx:for="{{item.tags}}" wx:key="*this">{{item}}</view>
+        </view>
+        <view class="scope">
+          <view wx:for="{{item.serviceScope}}" wx:key="*this">· {{item}}</view>
+        </view>
+        <view class="actions">
+          <button class="btn ghost" bindtap="openPackages" data-id="{{item.id}}">查看套餐</button>
+          <button class="btn gold" bindtap="createBooking" data-id="{{item.id}}">提交需求</button>
+        </view>
       </view>
     </view>
-  </view>
+  </block>
 </view>

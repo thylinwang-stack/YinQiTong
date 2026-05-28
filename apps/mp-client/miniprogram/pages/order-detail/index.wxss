@@ -82,7 +82,36 @@
 }
 
 .compliance {
-  margin-bottom: 116rpx;
+  margin-bottom: 0;
+}
+
+.service-panel {
+  margin-bottom: 126rpx;
+}
+
+.service-panel .muted {
+  margin-top: 10rpx;
+}
+
+.service-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14rpx;
+  margin-top: 20rpx;
+}
+
+.service-btn {
+  height: 68rpx;
+  border: 1rpx solid rgba(255, 255, 255, 0.1);
+  border-radius: 14rpx;
+  background: rgba(5, 13, 24, 0.68);
+  color: #cbd5e4;
+  font-size: 23rpx;
+}
+
+.service-btn.danger {
+  border-color: rgba(255, 117, 117, 0.32);
+  color: #ffb4b4;
 }
 
 .actions {

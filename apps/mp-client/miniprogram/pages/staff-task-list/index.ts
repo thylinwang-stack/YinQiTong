@@ -1,5 +1,6 @@
 import { api } from '../../services/api';
 import { StaffMealBrief } from '../../services/types';
+import { guardStaffAccess } from '../../utils/access';
 
 Page({
   data: {
@@ -9,6 +10,7 @@ Page({
   },
 
   async onLoad(query: { id?: string }) {
+    if (!guardStaffAccess()) return;
     const briefId = query.id || 'brief_001';
     this.setData({ briefId });
     await this.loadBrief(briefId);

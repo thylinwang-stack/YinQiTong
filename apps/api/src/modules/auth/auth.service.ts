@@ -167,7 +167,7 @@ export class AuthService {
 
   private audit(action: string, resourceType: string, resourceId?: string, metadata: Record<string, unknown> = {}) {
     return this.db.auditLog.create({
-      data: { actorType: 'system', action, resourceType, resourceId, metadata }
+      data: { actorType: 'system', action, resourceType, resourceId, metadata: metadata as any }
     });
   }
 }

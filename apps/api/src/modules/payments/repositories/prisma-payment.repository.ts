@@ -13,7 +13,7 @@ import {
   RefundRecord
 } from './payment.repository';
 
-type PrismaLike = PrismaService & { [key: string]: any };
+type PrismaLike = any;
 
 @Injectable()
 export class PrismaPaymentRepository implements PaymentRepository {
