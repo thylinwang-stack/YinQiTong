@@ -78,11 +78,17 @@ WECHAT_PAY_MCHID=
 WECHAT_PAY_API_V3_KEY=
 WECHAT_PAY_PRIVATE_KEY=
 WECHAT_PAY_SERIAL_NO=
+WECHAT_PAY_PLATFORM_PUBLIC_KEY=
+WECHAT_PAY_PLATFORM_PUBLIC_KEY_PATH=
+WECHAT_PAY_NOTIFY_VERIFY=true
+WECHAT_PAY_API_BASE_URL=https://api.mch.weixin.qq.com
 ```
 
 支付规则：
 
 - `createPayment(orderId)` 只读取后端订单金额，前端不能传金额。
+- `wechat_pay` provider 会调用微信支付 API v3 `JSAPI/小程序下单`，并用商户私钥生成小程序 `wx.requestPayment` 所需 RSA 签名。
+- 支付回调默认校验 `Wechatpay-Signature`，并使用 API v3 Key 解密 `resource.ciphertext`；生产环境必须配置微信支付平台公钥或公钥文件路径。
 - 如果订单为 `quoted`，创建支付单时推进到 `deposit_pending`。
 - 支付成功回调只允许 `deposit_pending -> deposit_paid`。
 - `payment_callback_logs` 使用 `provider + event_id` 做幂等。

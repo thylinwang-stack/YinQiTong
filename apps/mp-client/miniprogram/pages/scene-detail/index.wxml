@@ -1,0 +1,88 @@
+<view class="page safe-bottom">
+  <view class="page-state card" wx:if="{{loading}}">
+    <view class="skeleton-line"></view>
+    <view class="skeleton-line"></view>
+    <view class="skeleton-line"></view>
+  </view>
+
+  <view class="page-state card" wx:elif="{{error}}">
+    <view class="h2">场景内容加载失败</view>
+    <view class="muted">{{error}}</view>
+    <button class="btn gold" bindtap="retry">重试</button>
+  </view>
+
+  <block wx:elif="{{scene}}">
+    <view class="scene-hero card">
+      <image class="scene-cover" src="{{scene.cover}}" mode="aspectFill"></image>
+      <view class="scene-mask"></view>
+      <view class="scene-copy">
+        <view class="brand-chip">场景详情</view>
+        <view class="h1">{{scene.name}}</view>
+        <view class="muted">{{scene.description}}</view>
+      </view>
+    </view>
+
+    <view class="section card">
+      <view class="h2">适合什么场合</view>
+      <view class="tag-row scene-tags">
+        <view class="tag gold" wx:for="{{scene.tags}}" wx:key="*this">{{item}}</view>
+      </view>
+      <view class="divider"></view>
+      <view class="h2">包含</view>
+      <view class="scope-grid">
+        <view class="scope-item" wx:for="{{scene.serviceScope}}" wx:key="*this">
+          <view class="scope-dot"></view>
+          <view>{{item}}</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="section card">
+      <view class="h2">怎么开始</view>
+      <view class="process-item" wx:for="{{processItems}}" wx:key="title">
+        <view class="process-no">0{{index + 1}}</view>
+        <view>
+          <view class="process-title">{{item.title}}</view>
+          <view class="muted">{{item.desc}}</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="section card package-preview" wx:if="{{packages.length}}">
+      <view class="section-head compact-head">
+        <view class="h2">推荐方案</view>
+        <view class="link" bindtap="openPackages">全部方案</view>
+      </view>
+      <view class="package-row">
+        <view>
+          <view class="package-name">{{packages[0].name}}</view>
+          <view class="muted">{{packages[0].subtitle}}</view>
+        </view>
+        <view class="price">¥{{packages[0].serviceFee}}</view>
+      </view>
+    </view>
+
+    <view class="section">
+      <view class="section-head">
+        <view class="h2">适配商务助理</view>
+        <view class="link" bindtap="chooseAssistants">选助理</view>
+      </view>
+      <view class="assistant-card card" wx:for="{{assistants}}" wx:key="id" bindtap="openAssistant" data-id="{{item.id}}">
+        <image class="avatar" src="{{item.avatarUrl}}" mode="aspectFill"></image>
+        <view class="assistant-info">
+          <view class="assistant-title">{{item.workName}} · {{item.city}}</view>
+          <view class="muted">{{item.assistantNo}} · {{item.intro}}</view>
+          <view class="mini-talents" wx:if="{{item.talents && item.talents.length}}">{{item.talents[0]}} · {{item.talents[1]}}</view>
+          <view class="tag-row compact">
+            <view class="tag" wx:for="{{item.styleTags}}" wx:key="*this">{{item}}</view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="scene-actions">
+      <button class="btn ghost" bindtap="createBooking">先提交需求</button>
+      <button class="btn gold" bindtap="chooseAssistants">选助理</button>
+    </view>
+  </block>
+</view>

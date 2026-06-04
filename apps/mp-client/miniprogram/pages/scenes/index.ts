@@ -1,5 +1,4 @@
 import { api } from '../../services/api';
-import { appStore } from '../../store/app-store';
 import { ServiceScene } from '../../services/types';
 
 Page({
@@ -24,26 +23,14 @@ Page({
     }
   },
 
-  openPackages(event: WechatMiniprogram.BaseEvent) {
-    wx.navigateTo({ url: `/pages/packages/index?sceneId=${event.currentTarget.dataset.id}` });
+  openScene(event: WechatMiniprogram.BaseEvent) {
+    wx.navigateTo({ url: `/pages/scene-detail/index?id=${event.currentTarget.dataset.id}` });
   },
 
-  createBooking(event: WechatMiniprogram.BaseEvent) {
-    const sceneId = event.currentTarget.dataset.id as string;
-    appStore.setPendingBooking({
-      city: '',
-      date: '',
-      time: '',
-      dinnerType: '',
-      guestCount: 4,
-      assistantCount: 1,
-      budget: 1500,
-      preference: '',
-      taboos: '',
-      remark: '',
-      sceneId
-    });
-    wx.navigateTo({ url: `/pages/booking-form/index?sceneId=${sceneId}` });
+  chooseAssistants(event: WechatMiniprogram.BaseEvent) {
+    const id = event.currentTarget.dataset.id;
+    const name = event.currentTarget.dataset.name || '';
+    wx.navigateTo({ url: `/pages/assistants/index?scene=${encodeURIComponent(name)}&sceneId=${encodeURIComponent(id || '')}` });
   },
 
   retry() {

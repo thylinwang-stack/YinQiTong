@@ -56,7 +56,7 @@ Page({
       wx.showToast({ title: '员工端需内部账号访问', icon: 'none' });
       return;
     }
-    wx.navigateTo({ url: '/pages/staff-brief/index?id=brief_001' });
+    wx.navigateTo({ url: '/pages/staff-workbench/index' });
   },
 
   goPolicy(event: WechatMiniprogram.BaseEvent) {

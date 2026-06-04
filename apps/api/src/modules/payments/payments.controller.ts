@@ -20,7 +20,7 @@ export class PaymentsController {
   createPayment(
     @Param('orderId') orderId: string,
     @Body() dto: CreatePaymentDto,
-    @Req() req: Request & { user?: { id: string; userType?: string } }
+    @Req() req: Request & { user?: { id: string; userType?: string; openid?: string } }
   ) {
     return this.paymentService.createPayment(orderId, dto, req.user);
   }

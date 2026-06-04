@@ -21,7 +21,7 @@ Page({
         api.getAssistants({})
       ]);
       this.setData({
-        scenes: scenes.slice(0, 4),
+        scenes: scenes.slice(0, 8),
         assistants: assistants.slice(0, 2)
       });
     } catch (error) {
@@ -45,7 +45,13 @@ Page({
 
   openScene(event: WechatMiniprogram.BaseEvent) {
     const id = event.currentTarget.dataset.id;
-    wx.navigateTo({ url: `/pages/packages/index?sceneId=${id}` });
+    wx.navigateTo({ url: `/pages/scene-detail/index?id=${id}` });
+  },
+
+  openSceneByCode(event: WechatMiniprogram.BaseEvent) {
+    const code = event.currentTarget.dataset.code;
+    const scene = this.data.scenes.find(item => item.code === code);
+    wx.navigateTo({ url: scene ? `/pages/scene-detail/index?id=${scene.id}` : `/pages/scene-detail/index?code=${code}` });
   },
 
   openAssistant(event: WechatMiniprogram.BaseEvent) {

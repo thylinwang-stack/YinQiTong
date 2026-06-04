@@ -2,7 +2,13 @@ import { HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { BusinessException } from '@/common/errors/business.exception';
 import { PrismaService } from '@/prisma/prisma.service';
 import { AuthService } from '@/modules/auth/auth.service';
-import { AdminBookingQueryDto, CreateBookingDto, PublicAssistantQueryDto, SupportRequestDto } from './dto/public-api.dto';
+import {
+  AdminBookingQueryDto,
+  CreateBookingDto,
+  PublicAssistantQueryDto,
+  ServiceReviewSubmitDto,
+  SupportRequestDto
+} from './dto/public-api.dto';
 
 type PrismaLike = PrismaService & { [key: string]: any };
 
@@ -13,19 +19,117 @@ const FALLBACK_SCENES = [
     name: '商务宴请',
     summary: '适合客户宴请、合作方接待、重要项目沟通。',
     description: '围绕正式商务会面提供餐前准备、礼宾接待和现场氛围协同。',
-    cover: '/assets/images/home-concierge-hero.jpg',
+    cover: '/assets/images/scene-business-dinner.jpg',
     tags: ['自然开场', '礼宾协同'],
-    serviceScope: ['餐前 brief', '现场协同', '服务复盘']
+    serviceScope: ['餐前简报', '现场协同', '服务复盘']
   },
   {
     id: 'client_reception',
     code: 'client_reception',
     name: '客户接待',
-    summary: '适合外地客户到访、城市接待和轻商务陪同。',
+    summary: '适合外地客户到访、城市接待和轻商务礼宾。',
     description: '协助客户到访接待、动线提醒和轻商务沟通。',
-    cover: '/assets/images/home-concierge-hero.jpg',
+    cover: '/assets/images/scene-client-reception.jpg',
     tags: ['城市礼宾', '得体接待'],
     serviceScope: ['接待动线', '话题准备', '边界提醒']
+  },
+  {
+    id: 'private_tea',
+    code: 'private_tea',
+    name: '私人茶会',
+    summary: '茶艺师、空间氛围与轻社交节奏的得体协同。',
+    description: '适合私享茶叙、客户小范围会面、长辈或重要关系维护。',
+    cover: '/assets/images/scene-private-tea.jpg',
+    tags: ['茶艺师', '私享茶叙', '关系维护'],
+    serviceScope: ['茶席流程建议', '茶艺师服务', '轻话题准备', '会后复盘']
+  },
+  {
+    id: 'wine_reception',
+    code: 'wine_reception',
+    name: '高端酒会',
+    summary: '侍酒师、酒会礼仪与圈层交流的克制协同。',
+    description: '适合高端酒会、品牌私享会和商务沙龙。',
+    cover: '/assets/images/scene-wine-reception.jpg',
+    tags: ['侍酒师', '商务酒会', '圈层沙龙'],
+    serviceScope: ['侍酒建议', '宾客照应', '话题分寸提醒', '现场反馈']
+  },
+  {
+    id: 'golf_social',
+    code: 'golf_social',
+    name: '高尔夫商务同场',
+    summary: '球局礼仪、节奏提醒与商务关系维护协同。',
+    description: '适合高尔夫商务球局、客户休闲接待与圈层活动。',
+    cover: '/assets/images/scene-golf-social.jpg',
+    tags: ['高尔夫', '商务同场', '礼仪协同'],
+    serviceScope: ['球局礼仪提醒', '动线与节奏协同', '客户照应', '服务复盘']
+  },
+  {
+    id: 'city_concierge',
+    code: 'city_concierge',
+    name: '城市临时管家',
+    summary: '当地城市礼宾、到访动线与临时事项统筹。',
+    description: '适合重要客户临时到访、城市接待和多点行程协同。',
+    cover: '/assets/images/scene-city-concierge.jpg',
+    tags: ['城市礼宾', '临时管家', '到访接待'],
+    serviceScope: ['到访动线', '本地礼宾建议', '临时事项协调', '客服跟进']
+  }
+];
+
+const FALLBACK_PACKAGES = [
+  {
+    id: 'pkg_business_standard',
+    sceneId: 'business_dinner',
+    name: '重要客户接待',
+    subtitle: '2 位服务人员，专属餐前准备，主管复核简报',
+    durationHours: 3,
+    assistantCount: 2,
+    depositAmount: 1200,
+    serviceFee: 6800,
+    includes: ['餐前简报', '现场礼宾协同', '服务后复盘']
+  },
+  {
+    id: 'pkg_private_tea',
+    sceneId: 'private_tea',
+    name: '私享茶叙协同',
+    subtitle: '茶艺师服务，茶席流程建议，轻话题简报',
+    durationHours: 3,
+    assistantCount: 1,
+    depositAmount: 800,
+    serviceFee: 2600,
+    includes: ['茶艺师服务', '茶席流程建议', '轻话题准备', '会后复盘']
+  },
+  {
+    id: 'pkg_wine_reception',
+    sceneId: 'wine_reception',
+    name: '酒会侍酒礼宾',
+    subtitle: '侍酒师协同，宾客照应，现场节奏维护',
+    durationHours: 4,
+    assistantCount: 2,
+    depositAmount: 1500,
+    serviceFee: 5200,
+    includes: ['侍酒师协同', '宾客照应', '话题分寸提醒', '现场反馈']
+  },
+  {
+    id: 'pkg_golf_social',
+    sceneId: 'golf_social',
+    name: '高尔夫商务同场',
+    subtitle: '球局礼仪提醒，动线与节奏协同',
+    durationHours: 5,
+    assistantCount: 1,
+    depositAmount: 1200,
+    serviceFee: 4800,
+    includes: ['球局礼仪提醒', '客户照应', '动线协同', '服务复盘']
+  },
+  {
+    id: 'pkg_city_concierge',
+    sceneId: 'city_concierge',
+    name: '城市临时管家',
+    subtitle: '本地礼宾建议，到访动线与临时事项统筹',
+    durationHours: 6,
+    assistantCount: 1,
+    depositAmount: 1600,
+    serviceFee: 5800,
+    includes: ['本地礼宾建议', '到访动线协同', '临时事项统筹', '客服全程跟进']
   }
 ];
 
@@ -65,19 +169,7 @@ export class PublicApiService {
         orderBy: [{ sortOrder: 'asc' }, { createdAt: 'desc' }]
       });
     if (!rows.length) {
-      return [
-        {
-          id: 'pkg_business_standard',
-          sceneId: sceneId || 'business_dinner',
-          name: '重要客户接待',
-          subtitle: '2 位商务助理，专属餐前准备，主管复核 brief',
-          durationHours: 3,
-          assistantCount: 2,
-          depositAmount: 1200,
-          serviceFee: 6800,
-          includes: ['餐前 brief', '现场礼宾协同', '服务后复盘']
-        }
-      ];
+      return FALLBACK_PACKAGES.filter(item => !sceneId || item.sceneId === sceneId);
     }
     return rows.map((row: any) => ({
       id: row.id,
@@ -121,7 +213,7 @@ export class PublicApiService {
         imageAuditStatus: 'approved'
       }
     });
-    if (!row) throw new BusinessException('ASSISTANT_PUBLIC_PROFILE_NOT_FOUND', '商务助理公开资料不存在或未审核通过');
+    if (!row) throw new BusinessException('ASSISTANT_PUBLIC_PROFILE_NOT_FOUND', '服务人员公开资料不存在或未审核通过');
     return this.toPublicAssistant(row);
   }
 
@@ -159,6 +251,11 @@ export class PublicApiService {
           packageId: pkg?.id,
           status: 'deposit_pending',
           city: dto.city,
+          district: dto.district,
+          venueType: dto.venueType,
+          meetingPoint: dto.meetingPoint,
+          arrivalWindow: dto.arrivalWindow,
+          transportNote: dto.transportNote,
           serviceDate,
           serviceTimeText: `${dto.date} ${dto.time}`,
           dinnerType: dto.dinnerType,
@@ -206,7 +303,19 @@ export class PublicApiService {
     if (!customer) return [];
     const orders = await this.db.order.findMany({
       where: { customerId: customer.id },
-      include: { booking: { include: { scene: true } } },
+      include: {
+        mealBrief: { include: { review: true } },
+        booking: {
+          include: {
+            scene: true,
+            assistants: {
+              include: {
+                assistant: { include: { publicProfile: true } }
+              }
+            }
+          }
+        }
+      },
       orderBy: { createdAt: 'desc' }
     });
     return orders.map((order: any) => this.toClientOrder(order, order.booking, order.booking?.scene));
@@ -216,13 +325,109 @@ export class PublicApiService {
     const user = await this.authService.getUserFromAuthorization(authorization);
     const order = await this.db.order.findFirst({
       where: { OR: [...(UUID_PATTERN.test(id) ? [{ id }] : []), { orderNo: id }] },
-      include: { customer: true, booking: { include: { scene: true } } }
+      include: {
+        customer: true,
+        mealBrief: { include: { review: true } },
+        booking: {
+          include: {
+            scene: true,
+            assistants: {
+              include: {
+                assistant: { include: { publicProfile: true } }
+              }
+            }
+          }
+        }
+      }
     });
     if (!order) throw new BusinessException('ORDER_NOT_FOUND', '订单不存在');
     if (user.userType === 'customer' && order.customer?.userId !== user.id) {
       throw new BusinessException('ORDER_ACCESS_DENIED', '无权查看该订单', HttpStatus.FORBIDDEN);
     }
     return this.toClientOrder(order, order.booking, order.booking?.scene);
+  }
+
+  async getServiceReview(id: string, token?: string) {
+    const order = await this.findOrderForReview(id);
+    this.assertReviewToken(order, token);
+    return this.toServiceReview(order);
+  }
+
+  async submitServiceReview(id: string, dto: ServiceReviewSubmitDto, token?: string, authorization?: string) {
+    const user = await this.optionalUser(authorization);
+    const order = await this.findOrderForReview(id);
+    this.assertReviewToken(order, token);
+
+    if (!['completed', 'reviewed', 'settlement_pending', 'settled'].includes(order.status)) {
+      throw new BusinessException('SERVICE_REVIEW_NOT_OPEN', '服务完成后才可以提交评价');
+    }
+
+    const result = await this.db.$transaction(async tx => {
+      const mealBrief = await this.ensureMealBriefForReview(tx, order);
+      await tx.mealBriefReview.upsert({
+        where: { mealBriefId: mealBrief.id },
+        create: {
+          mealBriefId: mealBrief.id,
+          customerFeedback: dto.comment || '',
+          internalSummary: this.composeReviewSummary(dto),
+          rating: dto.overallRating,
+          createdBy: user?.id
+        },
+        update: {
+          customerFeedback: dto.comment || '',
+          internalSummary: this.composeReviewSummary(dto),
+          rating: dto.overallRating,
+          createdBy: user?.id
+        }
+      });
+
+      if (order.status !== 'reviewed') {
+        await tx.order.update({
+          where: { id: order.id },
+          data: { status: 'reviewed' }
+        });
+        if (order.booking?.id) {
+          await tx.booking.update({
+            where: { id: order.booking.id },
+            data: { status: 'reviewed' }
+          });
+        }
+        await tx.orderStatusLog.create({
+          data: {
+            orderId: order.id,
+            fromStatus: order.status,
+            toStatus: 'reviewed',
+            trigger: 'customer_service_review',
+            actorType: user?.userType || 'customer',
+            actorId: user?.id,
+            metadata: { overallRating: dto.overallRating, highlightTags: dto.highlightTags }
+          }
+        });
+      }
+
+      await tx.auditLog.create({
+        data: {
+          actorId: user?.id,
+          actorType: user?.userType || 'customer',
+          action: 'service_review.submit',
+          resourceType: 'order',
+          resourceId: order.id,
+          metadata: {
+            orderNo: order.orderNo,
+            overallRating: dto.overallRating,
+            boundarySenseRating: dto.boundarySenseRating,
+            allowFollowUp: dto.allowFollowUp !== false
+          }
+        }
+      });
+
+      return tx.order.findUnique({
+        where: { id: order.id },
+        include: this.reviewOrderInclude()
+      });
+    });
+
+    return this.toServiceReview(result);
   }
 
   async createSupportRequest(id: string, dto: SupportRequestDto, authorization?: string) {
@@ -323,25 +528,43 @@ export class PublicApiService {
       styleTags: row.styleTags || [],
       sceneSkills: row.sceneSkills || [],
       businessSkills: row.businessSkills || [],
+      talents: row.talents || [],
       intro: row.publicIntro || '',
-      complianceNote: row.complianceNote || '公开资料已审核，不展示私人联系方式。'
+      complianceNote: row.complianceNote || '公开资料已审核，不展示私人联系方式。',
+      recommendReason: this.recommendAssistantReason(row)
     };
   }
 
+  private recommendAssistantReason(row: any) {
+    const scenes = (row.sceneSkills || []).slice(0, 2).join('、') || '商务接待';
+    const skills = (row.businessSkills || []).slice(0, 2).join('、') || '得体表达';
+    return `适合${scenes}场景，优势是${skills}，公开资料已完成平台审核。`;
+  }
+
   private toClientOrder(order: any, booking?: any, scene?: any) {
+    const isReviewable = ['completed', 'reviewed', 'settlement_pending', 'settled'].includes(order.status);
+    const reviewSubmitted = order.status === 'reviewed' || Boolean(order.mealBrief?.review);
     return {
       id: order.id,
       orderNo: order.orderNo,
       status: this.toClientStatus(order.status),
       sceneName: scene?.name || booking?.dinnerType || '商务接待',
       city: booking?.city || '',
+      district: booking?.district || '',
+      venueType: booking?.venueType || '',
+      meetingPoint: booking?.meetingPoint || '',
+      arrivalWindow: booking?.arrivalWindow || '',
       serviceTime: booking?.serviceTimeText || '',
       assistantCount: booking?.assistantCount || 1,
       depositAmount: Number(order.depositAmount || 0),
       serviceFee: Number(order.totalAmount || 0),
       paidAmount: Number(order.paidAmount || 0),
       createdAt: order.createdAt?.toISOString?.() || String(order.createdAt || ''),
-      boundaryConfirmed: Boolean(booking?.boundaryAgreementConfirmed)
+      boundaryConfirmed: Boolean(booking?.boundaryAgreementConfirmed),
+      reviewStatus: isReviewable ? (reviewSubmitted ? 'submitted' : 'pending') : 'not_available',
+      reviewToken: this.reviewToken(order),
+      reviewSubmittedAt: order.mealBrief?.review?.createdAt?.toISOString?.(),
+      assistants: this.toReviewAssistants(booking)
     };
   }
 
@@ -358,7 +581,7 @@ export class PublicApiService {
       prep: 'brief_preparing',
       executing: 'in_service',
       completed: 'completed',
-      reviewed: 'completed',
+      reviewed: 'reviewed',
       settlement_pending: 'completed',
       settled: 'completed',
       cancelled: 'cancelled',
@@ -375,7 +598,7 @@ export class PublicApiService {
       cancel: '取消申请已记录，请等待客服确认可退金额。',
       refund: '退款申请已记录，请等待客服核对支付状态。',
       invoice: '发票申请已记录，客服会与你确认抬头信息。',
-      add_requirement: '补充需求已记录，运营会同步给匹配与 brief 流程。'
+      add_requirement: '补充需求已记录，运营会同步给匹配与简报流程。'
     };
     return map[type] || '服务请求已记录，客服会尽快处理。';
   }
@@ -451,5 +674,131 @@ export class PublicApiService {
     if (UUID_PATTERN.test(sceneId)) return sceneId;
     const scene = await this.db.serviceScene.findUnique({ where: { code: sceneId }, select: { id: true } });
     return scene?.id;
+  }
+
+  private reviewOrderInclude() {
+    return {
+      customer: true,
+      mealBrief: { include: { review: true } },
+      booking: {
+        include: {
+          scene: true,
+          assistants: {
+            include: {
+              assistant: { include: { publicProfile: true } }
+            }
+          }
+        }
+      }
+    };
+  }
+
+  private findOrderForReview(id: string) {
+    return this.db.order.findFirst({
+      where: { OR: [...(UUID_PATTERN.test(id) ? [{ id }] : []), { orderNo: id }] },
+      include: this.reviewOrderInclude()
+    }).then((order: any) => {
+      if (!order) throw new BusinessException('ORDER_NOT_FOUND', '订单不存在');
+      return order;
+    });
+  }
+
+  private assertReviewToken(order: any, token?: string) {
+    if (token && token !== this.reviewToken(order)) {
+      throw new BusinessException('SERVICE_REVIEW_TOKEN_INVALID', '评价链接已失效，请联系平台客服重新发送');
+    }
+  }
+
+  private reviewToken(order: any) {
+    return `review_${order.orderNo}`;
+  }
+
+  private toServiceReview(order: any) {
+    const review = order.mealBrief?.review;
+    const assistants = this.toReviewAssistants(order.booking);
+    const submitted = order.status === 'reviewed' || Boolean(review);
+    const pending = ['completed', 'reviewed', 'settlement_pending', 'settled'].includes(order.status);
+    return {
+      id: review?.id || `srv_${order.orderNo}`,
+      orderId: order.id,
+      orderNo: order.orderNo,
+      status: submitted ? 'submitted' : pending ? 'pending' : 'not_available',
+      sceneName: order.booking?.scene?.name || order.booking?.dinnerType || '商务接待',
+      city: order.booking?.city || order.customer?.city || '',
+      serviceTime: order.booking?.serviceTimeText || '',
+      assistantCount: order.booking?.assistantCount || assistants.length || 1,
+      assistants,
+      reviewToken: this.reviewToken(order),
+      shareTitle: `请评价 ${order.orderNo} 服务体验`,
+      sharePath: `/pages/service-review/index?orderId=${encodeURIComponent(order.id)}&token=${encodeURIComponent(this.reviewToken(order))}`,
+      overallRating: Number(review?.rating || 0),
+      atmosphereRating: Number(review?.rating || 0),
+      professionalismRating: Number(review?.rating || 0),
+      boundarySenseRating: Number(review?.rating || 0),
+      punctualityRating: Number(review?.rating || 0),
+      assistantReviews: assistants.map((assistant: any) => ({
+        assistantId: assistant.assistantId,
+        assistantNo: assistant.assistantNo,
+        rating: Number(review?.rating || 0),
+        comment: ''
+      })),
+      highlightTags: this.parseReviewTags(review?.internalSummary),
+      comment: review?.customerFeedback || '',
+      allowFollowUp: true,
+      submittedAt: review?.createdAt?.toISOString?.()
+    };
+  }
+
+  private toReviewAssistants(booking?: any) {
+    const assignments = booking?.assistants || [];
+    return assignments.map((item: any) => {
+      const assistant = item.assistant || {};
+      const profile = assistant.publicProfile || {};
+      return {
+        assistantId: assistant.id || item.assistantId,
+        assistantNo: assistant.assistantNo || profile.assistantNo || '',
+        workName: profile.workName || assistant.assistantNo || '服务人员',
+        city: profile.city || assistant.city || booking?.city || '',
+        avatarUrl: profile.avatarUrl || '',
+        styleTags: profile.styleTags || [],
+        sceneSkills: profile.sceneSkills || []
+      };
+    });
+  }
+
+  private async ensureMealBriefForReview(tx: any, order: any) {
+    if (order.mealBrief) return order.mealBrief;
+    return tx.mealBrief.create({
+      data: {
+        orderId: order.id,
+        status: 'reviewed',
+        banquetTheme: order.booking?.dinnerType || '商务接待服务复盘',
+        attendeeCount: order.booking?.guestCount,
+        assistantVisibleBrief: '该记录由客户服务评价自动创建，用于承接服务复盘。'
+      }
+    });
+  }
+
+  private composeReviewSummary(dto: ServiceReviewSubmitDto) {
+    return JSON.stringify({
+      atmosphereRating: dto.atmosphereRating,
+      professionalismRating: dto.professionalismRating,
+      boundarySenseRating: dto.boundarySenseRating,
+      punctualityRating: dto.punctualityRating,
+      highlightTags: dto.highlightTags,
+      assistantReviews: dto.assistantReviews,
+      repurchaseIntent: dto.repurchaseIntent,
+      allowFollowUp: dto.allowFollowUp !== false
+    });
+  }
+
+  private parseReviewTags(summary?: string | null) {
+    if (!summary) return [];
+    try {
+      const parsed = JSON.parse(summary);
+      return Array.isArray(parsed.highlightTags) ? parsed.highlightTags : [];
+    } catch {
+      return [];
+    }
   }
 }

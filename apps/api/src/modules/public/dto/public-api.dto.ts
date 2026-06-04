@@ -1,13 +1,17 @@
 import { Type } from 'class-transformer';
 import {
+  ArrayMaxSize,
   IsBoolean,
+  IsArray,
   IsInt,
+  IsNotEmpty,
   IsNumber,
   IsOptional,
   IsString,
   Max,
   MaxLength,
-  Min
+  Min,
+  ValidateNested
 } from 'class-validator';
 
 export class PublicAssistantQueryDto {
@@ -55,6 +59,31 @@ export class CreateBookingDto {
   @IsString()
   @MaxLength(40)
   city: string;
+
+  @IsString()
+  @MaxLength(80)
+  @IsNotEmpty()
+  district: string;
+
+  @IsOptional()
+  @IsString()
+  @MaxLength(80)
+  venueType?: string;
+
+  @IsString()
+  @MaxLength(180)
+  @IsNotEmpty()
+  meetingPoint: string;
+
+  @IsString()
+  @MaxLength(60)
+  @IsNotEmpty()
+  arrivalWindow: string;
+
+  @IsOptional()
+  @IsString()
+  @MaxLength(180)
+  transportNote?: string;
 
   @IsString()
   @MaxLength(30)
@@ -127,4 +156,86 @@ export class SupportRequestDto {
   @IsString()
   @MaxLength(1000)
   content?: string;
+}
+
+export class AssistantServiceReviewDto {
+  @IsString()
+  @MaxLength(80)
+  assistantId: string;
+
+  @IsString()
+  @MaxLength(40)
+  assistantNo: string;
+
+  @Type(() => Number)
+  @IsInt()
+  @Min(1)
+  @Max(5)
+  rating: number;
+
+  @IsOptional()
+  @IsString()
+  @MaxLength(160)
+  comment?: string;
+}
+
+export class ServiceReviewSubmitDto {
+  @Type(() => Number)
+  @IsInt()
+  @Min(1)
+  @Max(5)
+  overallRating: number;
+
+  @Type(() => Number)
+  @IsInt()
+  @Min(1)
+  @Max(5)
+  atmosphereRating: number;
+
+  @Type(() => Number)
+  @IsInt()
+  @Min(1)
+  @Max(5)
+  professionalismRating: number;
+
+  @Type(() => Number)
+  @IsInt()
+  @Min(1)
+  @Max(5)
+  boundarySenseRating: number;
+
+  @Type(() => Number)
+  @IsInt()
+  @Min(1)
+  @Max(5)
+  punctualityRating: number;
+
+  @IsArray()
+  @ArrayMaxSize(10)
+  @ValidateNested({ each: true })
+  @Type(() => AssistantServiceReviewDto)
+  assistantReviews: AssistantServiceReviewDto[];
+
+  @IsArray()
+  @ArrayMaxSize(12)
+  highlightTags: string[];
+
+  @IsOptional()
+  @IsString()
+  @MaxLength(500)
+  comment?: string;
+
+  @IsOptional()
+  @IsBoolean()
+  allowFollowUp?: boolean;
+
+  @IsOptional()
+  @IsString()
+  @MaxLength(20)
+  repurchaseIntent?: string;
+
+  @IsOptional()
+  @IsString()
+  @MaxLength(120)
+  token?: string;
 }

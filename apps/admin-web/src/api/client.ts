@@ -10,6 +10,7 @@ import type {
   FinanceRecord,
   MealBriefRecord,
   OrderExceptionRecord,
+  OperationsHubSummary,
   PageQuery,
   PageResult,
   PublicProfileReviewRecord,
@@ -31,6 +32,8 @@ import {
   currentUser,
   customers,
   financeRecords,
+  cityOperations,
+  fulfillmentQueue,
   leads,
   matching,
   mealBriefs,
@@ -39,6 +42,7 @@ import {
   riskCases,
   riskReport,
   roles,
+  serviceReviews,
   settings,
   sensitiveWords,
   settlements
@@ -279,6 +283,18 @@ export const apiClient = {
       return { list: data.items || data.list || [], total: data.total || 0 };
     }
     return wait(page(bookings, query));
+  },
+
+  async getOperationsHub(): Promise<OperationsHubSummary> {
+    if (!USE_MOCK) {
+      const { data } = await http.get('/admin/operations/hub');
+      return data;
+    }
+    return wait({
+      cities: cityOperations,
+      fulfillmentQueue,
+      serviceReviews
+    });
   },
 
   async updateBookingStatus(id: string, status: string, note?: string): Promise<BookingRecord> {
@@ -554,14 +570,26 @@ export const apiClient = {
   },
 
   async listFinance(query: PageQuery): Promise<PageResult<FinanceRecord>> {
+    if (!USE_MOCK) {
+      const { data } = await http.get('/admin/operations/finance', { params: query });
+      return data;
+    }
     return wait(page(financeRecords, query));
   },
 
   async listApprovals(query: PageQuery): Promise<PageResult<ApprovalRecord>> {
+    if (!USE_MOCK) {
+      const { data } = await http.get('/admin/operations/approvals', { params: query });
+      return data;
+    }
     return wait(page(approvals, query));
   },
 
   async decideApproval(id: string, action: 'approved' | 'rejected', remark: string): Promise<ApprovalRecord> {
+    if (!USE_MOCK) {
+      const { data } = await http.post(`/admin/operations/approvals/${id}/decision`, { action, remark });
+      return data;
+    }
     const item = approvals.find(record => record.id === id);
     if (!item) throw new Error('审批不存在');
     item.status = action;
@@ -571,10 +599,18 @@ export const apiClient = {
   },
 
   async listRoles() {
+    if (!USE_MOCK) {
+      const { data } = await http.get('/admin/operations/roles');
+      return data;
+    }
     return wait(roles);
   },
 
   async updateRolePermissions(id: string, permissions: string[]) {
+    if (!USE_MOCK) {
+      const { data } = await http.patch(`/admin/operations/roles/${id}/permissions`, { permissions });
+      return data;
+    }
     const item = roles.find(role => role.id === id);
     if (!item) throw new Error('角色不存在');
     item.permissions = permissions;
@@ -583,6 +619,10 @@ export const apiClient = {
   },
 
   async listAuditLogs(query: PageQuery): Promise<PageResult<AuditLogRecord>> {
+    if (!USE_MOCK) {
+      const { data } = await http.get('/admin/operations/audit-logs', { params: query });
+      return data;
+    }
     return wait(page(auditLogs, query));
   },
 

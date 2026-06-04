@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="780" viewBox="0 0 1200 780">
+  
+    <defs>
+      <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+        <stop offset="0%" stop-color="#0b2027"/>
+        <stop offset="44%" stop-color="#061116"/>
+        <stop offset="100%" stop-color="#020607"/>
+      </linearGradient>
+      <radialGradient id="softGlow" cx="68%" cy="30%" r="64%">
+        <stop offset="0%" stop-color="#224239" stop-opacity="0.62"/>
+        <stop offset="42%" stop-color="#224239" stop-opacity="0.18"/>
+        <stop offset="100%" stop-color="#020607" stop-opacity="0"/>
+      </radialGradient>
+      <linearGradient id="goldLine" x1="0" x2="1">
+        <stop offset="0%" stop-color="#c2a15b" stop-opacity="0"/>
+        <stop offset="42%" stop-color="#c2a15b" stop-opacity="0.86"/>
+        <stop offset="100%" stop-color="#e5d7ad" stop-opacity="0.22"/>
+      </linearGradient>
+      <linearGradient id="floor" x1="0" x2="0" y1="0" y2="1">
+        <stop offset="0%" stop-color="#10252a" stop-opacity="0.14"/>
+        <stop offset="100%" stop-color="#000000" stop-opacity="0.72"/>
+      </linearGradient>
+      <pattern id="grain" width="96" height="96" patternUnits="userSpaceOnUse">
+        <circle cx="12" cy="18" r="1" fill="#f5e9cc" opacity="0.06"/>
+        <circle cx="58" cy="42" r="0.8" fill="#f5e9cc" opacity="0.035"/>
+        <circle cx="81" cy="74" r="0.9" fill="#ffffff" opacity="0.026"/>
+      </pattern>
+      <filter id="blur28">
+        <feGaussianBlur stdDeviation="28"/>
+      </filter>
+    </defs>
+  <rect width="1200" height="780" fill="url(#bg)"/>
+  <rect width="1200" height="780" fill="url(#softGlow)"/>
+  <rect width="1200" height="780" fill="url(#grain)" opacity="0.48"/>
+  <path d="M0 600 C260 540 445 560 640 596 C820 632 1010 614 1200 548 L1200 780 L0 780 Z" fill="url(#floor)"/>
+  
+    <path d="M0 514 C220 432 408 472 576 502 C780 538 936 492 1200 420 L1200 780 H0 Z" fill="#0d211b" opacity="0.72"/>
+    <path d="M178 548 C376 476 662 508 1016 430" fill="none" stroke="#c2a15b" stroke-width="3" opacity="0.58"/>
+    <path d="M778 278 V518" stroke="#e5d7ad" stroke-opacity="0.34" stroke-width="3"/>
+    <path d="M778 282 C836 298 876 326 918 366 C862 362 820 348 778 330 Z" fill="#c2a15b" opacity="0.46"/>
+    <ellipse cx="778" cy="522" rx="48" ry="10" fill="#020607" opacity="0.5"/>
+    <g stroke="#e5d7ad" stroke-opacity="0.12" stroke-width="1.2">
+      <path d="M120 612 C362 568 594 568 1080 604"/>
+      <path d="M160 674 C402 646 704 642 1040 666"/>
+    </g>
+    <circle cx="320" cy="454" r="10" fill="#e5d7ad" opacity="0.42"/>
+  <rect width="1200" height="780" fill="url(#bg)" opacity="0.08"/>
+  <rect width="1200" height="780" fill="#020607" opacity="0.18"/>
+  <path d="M0 0 H1200 V780 H0 Z" fill="none" stroke="#f6ead0" stroke-opacity="0.025" stroke-width="2"/>
+</svg>

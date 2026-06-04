@@ -1,7 +1,7 @@
 <view class="page safe-bottom" wx:if="{{brief}}">
   <view class="card header-card">
     <view>
-      <view class="eyebrow">STAFF BRIEF</view>
+      <view class="eyebrow">餐前简报</view>
       <view class="h1">{{brief.banquetTheme}}</view>
       <view class="muted">{{brief.orderNo}} · {{brief.sceneName}} · {{brief.city}}</view>
     </view>
@@ -25,7 +25,7 @@
   </view>
 
   <view class="section card">
-    <view class="h2">助理可见 Brief</view>
+    <view class="h2">助理可见简报</view>
     <view class="brief-text">{{brief.assistantVisibleBrief}}</view>
   </view>
 
@@ -73,10 +73,10 @@
 
   <view class="actions">
     <button class="btn ghost" bindtap="openTasks">任务清单</button>
-    <button class="btn gold" disabled="{{brief.status !== 'approved'}}" bindtap="confirmBrief">确认 Brief</button>
+    <button class="btn gold" disabled="{{brief.status !== 'approved'}}" bindtap="confirmBrief">确认简报</button>
   </view>
 </view>
 
 <view class="page" wx:else>
-  <view class="card empty">未找到餐前 brief</view>
+  <view class="card empty">未找到餐前简报</view>
 </view>

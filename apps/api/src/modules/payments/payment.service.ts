@@ -50,10 +50,10 @@ export class PaymentService {
     private readonly orderStateMachine: OrderStateMachineService
   ) {}
 
-  async createPayment(orderId: string, dto: CreatePaymentDto = {}, actor?: { id: string; userType?: string }): Promise<CreatePaymentResponse> {
+  async createPayment(orderId: string, dto: CreatePaymentDto = {}, actor?: { id: string; userType?: string; openid?: string }): Promise<CreatePaymentResponse> {
     const providerName = dto.provider || this.getDefaultProviderName();
     const provider = this.getProvider(providerName);
-    const notifyUrl = process.env.PAYMENT_NOTIFY_URL || 'https://example.com/api/payments/notify';
+    const notifyUrl = this.getRequiredNotifyUrl('PAYMENT_NOTIFY_URL', providerName, 'https://example.com/api/payments/notify');
 
     const { order, payment } = await this.repository.transaction(async repo => {
       const order = await this.findOrderOrThrow(repo, orderId);
@@ -102,7 +102,7 @@ export class PaymentService {
       orderNo: order.orderNo,
       amount: Number(payment.amount),
       description: payment.subject,
-      payerOpenid: dto.payerOpenid,
+      payerOpenid: actor?.openid || dto.payerOpenid,
       notifyUrl
     });
 
@@ -303,6 +303,7 @@ export class PaymentService {
     }
 
     const provider = this.getProvider(providerName || payment.provider);
+    const notifyUrl = this.getRequiredNotifyUrl('REFUND_NOTIFY_URL', provider.name, 'https://example.com/api/payments/refund-notify');
     const result = await provider.refund({
       refundNo: refund.refundNo,
       paymentNo: payment.paymentNo,
@@ -310,7 +311,7 @@ export class PaymentService {
       amount: Number(refund.amount),
       totalAmount: Number(payment.amount),
       reason: String(refund.reason || ''),
-      notifyUrl: process.env.REFUND_NOTIFY_URL || 'https://example.com/api/payments/refund-notify'
+      notifyUrl
     });
 
     return this.repository.transaction(async repo => {
@@ -497,6 +498,14 @@ export class PaymentService {
   private getDefaultProviderName(): PaymentProviderName {
     const value = process.env.PAYMENT_PROVIDER || 'mock';
     return value === 'wechat_pay' ? 'wechat_pay' : 'mock';
+  }
+
+  private getRequiredNotifyUrl(envName: 'PAYMENT_NOTIFY_URL' | 'REFUND_NOTIFY_URL', providerName: PaymentProviderName, fallback: string) {
+    const value = process.env[envName] || fallback;
+    if (providerName === 'wechat_pay' && (!value.startsWith('https://') || value.includes('example.com') || value.includes('127.0.0.1'))) {
+      throw new BusinessException('PAYMENT_NOTIFY_URL_INVALID', `${envName} 必须配置为公网 HTTPS 回调地址`);
+    }
+    return value;
   }
 
   private createNo(prefix: 'PAY' | 'REF'): string {

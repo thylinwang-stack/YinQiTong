@@ -2,7 +2,13 @@ import { Body, Controller, Get, Headers, Param, Post, Query, UseGuards } from '@
 import { BearerAuthGuard } from '@/common/auth/bearer-auth.guard';
 import { PermissionsGuard } from '@/common/auth/permissions.guard';
 import { RequirePermissions } from '@/common/auth/rbac.decorators';
-import { AdminBookingQueryDto, CreateBookingDto, PublicAssistantQueryDto, SupportRequestDto } from './dto/public-api.dto';
+import {
+  AdminBookingQueryDto,
+  CreateBookingDto,
+  PublicAssistantQueryDto,
+  ServiceReviewSubmitDto,
+  SupportRequestDto
+} from './dto/public-api.dto';
 import { PublicApiService } from './public-api.service';
 
 @Controller()
@@ -55,6 +61,20 @@ export class PublicApiController {
     @Headers('authorization') authorization?: string
   ) {
     return this.publicApiService.createSupportRequest(id, dto, authorization);
+  }
+
+  @Get('/orders/:id/service-review')
+  getServiceReview(@Param('id') id: string, @Query('token') token?: string) {
+    return this.publicApiService.getServiceReview(id, token);
+  }
+
+  @Post('/orders/:id/service-review')
+  submitServiceReview(
+    @Param('id') id: string,
+    @Body() dto: ServiceReviewSubmitDto,
+    @Headers('authorization') authorization?: string
+  ) {
+    return this.publicApiService.submitServiceReview(id, dto, dto.token, authorization);
   }
 
   @Get('/admin/bookings')

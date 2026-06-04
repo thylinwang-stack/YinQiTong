@@ -2,6 +2,22 @@
   margin-top: 8rpx;
 }
 
+.category-intro {
+  margin-bottom: 20rpx;
+  border-color: rgba(176, 138, 58, 0.24);
+}
+
+.intro-title {
+  margin-top: 16rpx;
+  color: #fff6de;
+  font-size: 28rpx;
+  font-weight: 650;
+}
+
+.category-intro .muted {
+  margin-top: 12rpx;
+}
+
 .scene-card {
   padding: 0;
   overflow: hidden;

@@ -83,7 +83,7 @@
             <a-alert type="warning" show-icon message="内部资料受字段级权限保护，不能出现在客户端或员工端。" />
             <a-descriptions :column="1" bordered size="small" class="internal-desc">
               <a-descriptions-item label="真实姓名">{{ selected.internalProfile.realName }}</a-descriptions-item>
-              <a-descriptions-item label="手机号">{{ selected.internalProfile.phoneMasked }}</a-descriptions-item>
+              <a-descriptions-item label="内部联系号码">{{ selected.internalProfile.phoneMasked }}</a-descriptions-item>
               <a-descriptions-item label="身份证">{{ selected.internalProfile.idNumberMasked }}</a-descriptions-item>
               <a-descriptions-item label="内部标签">{{ selected.internalProfile.internalTags.join('、') }}</a-descriptions-item>
               <a-descriptions-item label="培训记录">{{ selected.internalProfile.trainingRecords.join('、') }}</a-descriptions-item>
@@ -114,7 +114,7 @@
         <a-tab-pane key="internal" tab="内部资料">
           <a-form layout="vertical">
             <a-form-item label="真实姓名"><a-input v-model:value="realName" /></a-form-item>
-            <a-form-item label="手机号"><a-input v-model:value="phoneMasked" /></a-form-item>
+            <a-form-item label="内部联系号码"><a-input v-model:value="phoneMasked" /></a-form-item>
             <a-form-item label="内部备注"><a-textarea v-model:value="internalNote" :rows="4" /></a-form-item>
           </a-form>
         </a-tab-pane>

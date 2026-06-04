@@ -8,15 +8,22 @@ const tabs = [
   { label: '待匹配', value: 'pending_match' },
   { label: '服务中', value: 'in_service' },
   { label: '已完成', value: 'completed' },
+  { label: '已评价', value: 'reviewed' },
   { label: '已取消', value: 'cancelled' }
 ];
+
+type OrderListItem = BookingOrder & {
+  statusText: string;
+  showReviewAction: boolean;
+  reviewActionText: string;
+};
 
 Page({
   data: {
     tabs,
     activeStatus: 'all',
-    orders: [] as Array<BookingOrder & { statusText: string }>,
-    visibleOrders: [] as Array<BookingOrder & { statusText: string }>,
+    orders: [] as OrderListItem[],
+    visibleOrders: [] as OrderListItem[],
     loading: false,
     error: ''
   },
@@ -28,10 +35,7 @@ Page({
   async loadOrders() {
     this.setData({ loading: true, error: '' });
     try {
-      const orders = (await api.getMyOrders()).map(order => ({
-        ...order,
-        statusText: bookingStatusText[order.status]
-      }));
+      const orders = (await api.getMyOrders()).map(toOrderListItem);
       this.setData({ orders });
       this.filterOrders();
     } catch (error) {
@@ -63,6 +67,13 @@ Page({
     wx.navigateTo({ url: `/pages/order-detail/index?id=${event.currentTarget.dataset.id}` });
   },
 
+  openReview(event: WechatMiniprogram.BaseEvent) {
+    const order = this.data.orders.find(item => item.id === event.currentTarget.dataset.id);
+    if (!order) return;
+    const token = order.reviewToken || `review_${order.orderNo}`;
+    wx.navigateTo({ url: `/pages/service-review/index?orderId=${encodeURIComponent(order.id)}&token=${encodeURIComponent(token)}` });
+  },
+
   goBooking() {
     wx.navigateTo({ url: '/pages/booking-form/index' });
   },
@@ -71,3 +82,13 @@ Page({
     this.loadOrders();
   }
 });
+
+function toOrderListItem(order: BookingOrder): OrderListItem {
+  const reviewSubmitted = order.status === 'reviewed' || order.reviewStatus === 'submitted';
+  return {
+    ...order,
+    statusText: bookingStatusText[order.status],
+    showReviewAction: order.status === 'completed' || order.status === 'reviewed',
+    reviewActionText: reviewSubmitted ? '查看评价' : '评价服务'
+  };
+}

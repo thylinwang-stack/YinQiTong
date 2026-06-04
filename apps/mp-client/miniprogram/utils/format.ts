@@ -10,5 +10,6 @@ export const bookingStatusText: Record<BookingStatus, string> = {
   ready_for_service: '待服务',
   in_service: '服务中',
   completed: '已完成',
+  reviewed: '已评价',
   cancelled: '已取消'
 };

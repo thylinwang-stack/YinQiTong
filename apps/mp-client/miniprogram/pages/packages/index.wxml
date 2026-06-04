@@ -1,8 +1,8 @@
 <view class="page safe-bottom">
   <view class="section-head top">
     <view>
-      <view class="eyebrow">Packages</view>
-      <view class="h2">场景套餐</view>
+      <view class="eyebrow">服务方案</view>
+      <view class="h2">选择服务方案</view>
     </view>
   </view>
 
@@ -20,7 +20,7 @@
 
   <view class="page-state card" wx:elif="{{packages.length === 0}}">
     <view class="h2">暂无可选套餐</view>
-    <view class="muted">可以先提交需求，由客服根据饭局目标定制方案。</view>
+    <view class="muted">可以先提交需求，由客服根据场景目标定制方案。</view>
   </view>
 
   <block wx:else>
@@ -35,12 +35,12 @@
 
       <view class="metrics">
         <view>
-          <view class="metric-value">{{item.durationHours}}h</view>
+          <view class="metric-value">{{item.durationHours}} 小时</view>
           <view class="metric-label">服务时长</view>
         </view>
         <view>
           <view class="metric-value">{{item.assistantCount}}</view>
-          <view class="metric-label">助理人数</view>
+          <view class="metric-label">服务人员</view>
         </view>
         <view>
           <view class="metric-value">¥{{item.depositAmount}}</view>
@@ -52,7 +52,7 @@
       <view class="includes">
         <view wx:for="{{item.includes}}" wx:key="*this">· {{item}}</view>
       </view>
-      <button class="btn gold" bindtap="choosePackage" data-id="{{item.id}}">选择套餐</button>
+      <button class="btn gold" bindtap="choosePackage" data-id="{{item.id}}">下一步选助理</button>
     </view>
   </block>
 </view>

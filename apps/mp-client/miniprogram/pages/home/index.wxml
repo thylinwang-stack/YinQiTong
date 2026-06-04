@@ -1,38 +1,136 @@
 <view class="page safe-bottom">
   <view class="hero home-hero">
-    <image class="hero-image" src="/assets/images/home-private-dining-hero.jpg" mode="aspectFill" />
+    <image class="hero-image" src="/assets/images/home-portfolio.jpg" mode="aspectFill" />
     <view class="hero-shade"></view>
     <view class="hero-content">
-      <view class="brand-lockup hero-brand">
-        <view class="brand-mark">
-          <view class="brand-symbol-inner">
-            <view class="brand-stroke brand-m-left"></view>
-            <view class="brand-stroke brand-m-down"></view>
-            <view class="brand-stroke brand-m-up"></view>
-            <view class="brand-stroke brand-e-vert"></view>
-            <view class="brand-stroke brand-e-top"></view>
-            <view class="brand-stroke brand-e-mid"></view>
-            <view class="brand-stroke brand-e-bottom"></view>
-          </view>
-        </view>
-        <view>
-          <view class="brand-title">有个饭局</view>
-          <view class="brand-slogan">体面饭局 自然发生</view>
-        </view>
+      <view class="home-brand-logo">
+        <image class="home-brand-logo-image" src="/assets/brand/logo-home-lockup-dark.png" mode="aspectFit"></image>
       </view>
-      <view class="eyebrow hero-eyebrow">MEET · EAT</view>
-      <view class="h1">高净值人情场，得体有人照应</view>
-      <view class="hero-copy">以餐前 brief、礼宾接待与现场氛围协同，让重要会面更自然、更体面、更有分寸。</view>
+      <view class="h1">重要会面，安排得体</view>
+      <view class="hero-copy">以商务饭局为入口，延展到茶会、酒会、球局、展览、沙龙与城市礼宾，配置合规服务团队，提前准备、现场协同、全程留痕。</view>
       <view class="hero-actions">
         <button class="btn gold" bindtap="goBooking">提交需求</button>
-        <button class="btn ghost" bindtap="goAssistants">查看助理</button>
+        <button class="btn ghost" bindtap="goScenes">选场景</button>
+      </view>
+    </view>
+  </view>
+
+  <view class="section card service-matrix">
+    <view class="section-head compact-head">
+      <view>
+        <view class="eyebrow">场景服务</view>
+        <view class="h2">从宴请到礼宾的得体安排</view>
+      </view>
+      <view class="brand-chip">9 类服务矩阵</view>
+    </view>
+    <view class="matrix-grid">
+      <view class="matrix-item primary" bindtap="openSceneByCode" data-code="business_dinner">
+        <image class="matrix-bg" src="/assets/images/scene-business-dinner.jpg" mode="aspectFill"></image>
+        <view class="matrix-shade"></view>
+        <view class="matrix-content">
+          <view class="matrix-title">商务饭局</view>
+          <view class="muted">宴请接待、项目沟通、重要会面。</view>
+        </view>
+      </view>
+      <view class="matrix-item" bindtap="openSceneByCode" data-code="private_tea">
+        <image class="matrix-bg" src="/assets/images/scene-private-tea.jpg" mode="aspectFill"></image>
+        <view class="matrix-shade"></view>
+        <view class="matrix-content">
+          <view class="matrix-title">私人茶会</view>
+          <view class="muted">茶艺师、茶席流程与轻话题协同。</view>
+        </view>
+      </view>
+      <view class="matrix-item" bindtap="openSceneByCode" data-code="wine_reception">
+        <image class="matrix-bg" src="/assets/images/scene-wine-reception.jpg" mode="aspectFill"></image>
+        <view class="matrix-shade"></view>
+        <view class="matrix-content">
+          <view class="matrix-title">高端酒会</view>
+          <view class="muted">侍酒师、宾客照应与圈层沙龙礼仪。</view>
+        </view>
+      </view>
+      <view class="matrix-item" bindtap="openSceneByCode" data-code="golf_social">
+        <image class="matrix-bg" src="/assets/images/scene-golf-social.jpg" mode="aspectFill"></image>
+        <view class="matrix-shade"></view>
+        <view class="matrix-content">
+          <view class="matrix-title">高尔夫同场</view>
+          <view class="muted">球局礼仪、动线节奏与商务关系维护。</view>
+        </view>
+      </view>
+      <view class="matrix-item" bindtap="openSceneByCode" data-code="city_concierge">
+        <image class="matrix-bg" src="/assets/images/scene-city-concierge.jpg" mode="aspectFill"></image>
+        <view class="matrix-shade"></view>
+        <view class="matrix-content">
+          <view class="matrix-title">城市临时管家</view>
+          <view class="muted">当地礼宾、到访动线、临时事项统筹与平台客服跟进。</view>
+        </view>
+      </view>
+      <view class="matrix-item" bindtap="openSceneByCode" data-code="closed_salon">
+        <image class="matrix-bg" src="/assets/images/scene-closed-salon.jpg" mode="aspectFill"></image>
+        <view class="matrix-shade"></view>
+        <view class="matrix-content">
+          <view class="matrix-title">闭门沙龙</view>
+          <view class="muted">小范围圈层交流、议题节奏与现场分寸协同。</view>
+        </view>
+      </view>
+      <view class="matrix-item" bindtap="openSceneByCode" data-code="art_preview">
+        <image class="matrix-bg" src="/assets/images/scene-art-preview.jpg" mode="aspectFill"></image>
+        <view class="matrix-shade"></view>
+        <view class="matrix-content">
+          <view class="matrix-title">艺术展览</view>
+          <view class="muted">观展礼宾、审美话题与私享预览协同。</view>
+        </view>
+      </view>
+      <view class="matrix-item" bindtap="openSceneByCode" data-code="tennis_social">
+        <image class="matrix-bg" src="/assets/images/scene-tennis-social.jpg" mode="aspectFill"></image>
+        <view class="matrix-shade"></view>
+        <view class="matrix-content">
+          <view class="matrix-title">运动社交</view>
+          <view class="muted">网球、轻运动场景与会后轻餐衔接。</view>
+        </view>
+      </view>
+      <view class="matrix-item wide" bindtap="openSceneByCode" data-code="brand_private_event">
+        <image class="matrix-bg" src="/assets/images/scene-brand-private-event.jpg" mode="aspectFill"></image>
+        <view class="matrix-shade"></view>
+        <view class="matrix-content">
+          <view class="matrix-title">品牌私享会</view>
+          <view class="muted">贵宾接待、现场礼宾与体验节奏维护。</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="section card home-assurance">
+    <view class="section-head compact-head">
+      <view class="h2">履约保障</view>
+      <view class="brand-chip">流程可控</view>
+    </view>
+    <view class="assurance-grid">
+      <view class="assurance-item">
+        <view class="assurance-no">01</view>
+        <view class="assurance-title">平台匹配</view>
+        <view class="muted">按城市、档期、场景和服务反馈安排团队。</view>
+      </view>
+      <view class="assurance-item">
+        <view class="assurance-no">02</view>
+        <view class="assurance-title">餐前简报</view>
+        <view class="muted">服务目标、嘉宾背景、禁忌和分工提前确认。</view>
+      </view>
+      <view class="assurance-item">
+        <view class="assurance-no">03</view>
+        <view class="assurance-title">受控沟通</view>
+        <view class="muted">需求变更、异常处理和评价都在平台内留痕。</view>
+      </view>
+      <view class="assurance-item">
+        <view class="assurance-no">04</view>
+        <view class="assurance-title">服务评价</view>
+        <view class="muted">每单完成后回收反馈，用于质检和后续匹配。</view>
       </view>
     </view>
   </view>
 
   <view class="section">
     <view class="section-head">
-      <view class="h2">核心场景</view>
+      <view class="h2">会面方式</view>
       <view class="link" bindtap="goScenes">全部</view>
     </view>
     <view class="page-state card" wx:if="{{loading}}">
@@ -55,7 +153,7 @@
 
   <view class="section">
     <view class="section-head">
-      <view class="h2">商务助理</view>
+      <view class="h2">服务团队</view>
       <view class="link" bindtap="goAssistants">筛选</view>
     </view>
     <view class="assistant-card card" wx:if="{{!loading && !error}}" wx:for="{{assistants}}" wx:key="id" bindtap="openAssistant" data-id="{{item.id}}">
@@ -72,6 +170,6 @@
 
   <view class="section compliance card">
     <view class="brand-chip">有个饭局 · 合规服务边界</view>
-    <view class="muted">平台仅提供正规商务社交氛围协同、餐前准备与礼宾接待服务。所有沟通通过平台客服或受控消息系统完成。</view>
+    <view class="muted">平台仅提供正规商务社交氛围协同、餐前准备、礼宾接待与现场流程协同服务。所有沟通通过平台客服或受控消息系统完成。</view>
   </view>
 </view>

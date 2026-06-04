@@ -66,6 +66,56 @@ export interface BookingRecord {
   }>;
 }
 
+export interface CityOperationRecord {
+  city: string;
+  assistantPool: number;
+  availableToday: number;
+  utilizationRate: number;
+  complaintRate: number;
+  coverageStatus: string;
+  responseSlaMinutes: number;
+  note: string;
+}
+
+export interface FulfillmentQueueRecord {
+  id: string;
+  orderNo: string;
+  customerName: string;
+  city: string;
+  sceneName: string;
+  serviceTime: string;
+  stage: string;
+  briefStatus: string;
+  assistantStatus: string;
+  riskLevel: string;
+  owner: string;
+  nextAction: string;
+}
+
+export interface ServiceReviewRecord {
+  id: string;
+  orderNo: string;
+  customerName: string;
+  assistantNo: string;
+  assistantName: string;
+  city: string;
+  overallRating: number;
+  boundarySenseRating: number;
+  atmosphereRating: number;
+  highlightTags: string[];
+  repurchaseIntent?: string;
+  status: string;
+  submittedAt: string;
+  followUpRequired: boolean;
+  internalNote?: string;
+}
+
+export interface OperationsHubSummary {
+  cities: CityOperationRecord[];
+  fulfillmentQueue: FulfillmentQueueRecord[];
+  serviceReviews: ServiceReviewRecord[];
+}
+
 export interface AssistantRecord {
   id: string;
   assistantNo: string;

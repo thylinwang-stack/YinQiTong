@@ -78,7 +78,7 @@ Page({
       appStore.setPaymentResult({
         orderNo: order.orderNo,
         status: 'success',
-        message: '预约金支付成功，平台将进入需求审核、客服回访与商务助理匹配流程。'
+        message: '预约金支付成功，平台将进入需求审核、客服回访与服务团队匹配流程。'
       });
       appStore.clearDraft();
       wx.redirectTo({ url: '/pages/payment-result/index' });

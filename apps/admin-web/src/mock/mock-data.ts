@@ -5,12 +5,15 @@ import type {
   BlacklistRecord,
   BasicRecord,
   BookingRecord,
+  CityOperationRecord,
   ComplaintRecord,
   FinanceRecord,
+  FulfillmentQueueRecord,
   MealBriefRecord,
   OrderExceptionRecord,
   PublicProfileReviewRecord,
   RiskReportSummary,
+  ServiceReviewRecord,
   SensitiveWordRecord
 } from '@/types/domain';
 
@@ -72,6 +75,121 @@ export const bookings: BookingRecord[] = [
   }
 ];
 
+export const cityOperations: CityOperationRecord[] = [
+  {
+    city: '上海',
+    assistantPool: 42,
+    availableToday: 13,
+    utilizationRate: 78,
+    complaintRate: 1.8,
+    coverageStatus: 'healthy',
+    responseSlaMinutes: 15,
+    note: '晚宴档期供给稳定，重点客户优先保留 BA-0218/BA-0419。'
+  },
+  {
+    city: '北京',
+    assistantPool: 36,
+    availableToday: 7,
+    utilizationRate: 86,
+    complaintRate: 2.4,
+    coverageStatus: 'constrained',
+    responseSlaMinutes: 22,
+    note: '周五客户接待需求集中，需提前锁定城市到访礼宾档。'
+  },
+  {
+    city: '深圳',
+    assistantPool: 29,
+    availableToday: 5,
+    utilizationRate: 91,
+    complaintRate: 3.2,
+    coverageStatus: 'at_risk',
+    responseSlaMinutes: 28,
+    note: '高端商务宴请供给偏紧，建议扩大沉稳/国际化标签助理池。'
+  }
+];
+
+export const fulfillmentQueue: FulfillmentQueueRecord[] = [
+  {
+    id: 'ful_001',
+    orderNo: 'BS20260525001',
+    customerName: '陆先生',
+    city: '上海',
+    sceneName: '商务宴请',
+    serviceTime: '2026-06-02 19:00',
+    stage: 'pending_match',
+    briefStatus: 'draft',
+    assistantStatus: 'pending_confirm',
+    riskLevel: 'normal',
+    owner: '订单运营 Alice',
+    nextAction: '确认助理档期并生成餐前 brief'
+  },
+  {
+    id: 'ful_002',
+    orderNo: 'BS20260521002',
+    customerName: '辰海科技',
+    city: '北京',
+    sceneName: '客户接待',
+    serviceTime: '2026-05-29 18:30',
+    stage: 'brief_preparing',
+    briefStatus: 'submitted',
+    assistantStatus: 'pending_confirm',
+    riskLevel: 'normal',
+    owner: '订单运营 Ben',
+    nextAction: '运营审核 brief 并提醒助理确认边界'
+  },
+  {
+    id: 'ful_003',
+    orderNo: 'BS20260518003',
+    customerName: '周女士',
+    city: '深圳',
+    sceneName: '项目沟通',
+    serviceTime: '2026-05-28 20:00',
+    stage: 'review_pending',
+    briefStatus: 'reviewed',
+    assistantStatus: 'completed',
+    riskLevel: 'medium',
+    owner: '质检 May',
+    nextAction: '跟进客户评价与助理复盘'
+  }
+];
+
+export const serviceReviews: ServiceReviewRecord[] = [
+  {
+    id: 'rev_001',
+    orderNo: 'BS20260518003',
+    customerName: '周女士',
+    assistantNo: 'BA-0218',
+    assistantName: '林澈',
+    city: '上海',
+    overallRating: 5,
+    boundarySenseRating: 5,
+    atmosphereRating: 5,
+    highlightTags: ['分寸得体', '自然破冰', '不抢主角'],
+    repurchaseIntent: '愿意',
+    status: 'excellent',
+    submittedAt: '2026-05-20 22:18',
+    followUpRequired: false,
+    internalNote: '适合作为重要客户宴请优先候选。'
+  },
+  {
+    id: 'rev_002',
+    orderNo: 'BS20260521002',
+    customerName: '辰海科技',
+    assistantNo: 'BA-0346',
+    assistantName: '许知意',
+    city: '北京',
+    overallRating: 4,
+    boundarySenseRating: 5,
+    atmosphereRating: 4,
+    highlightTags: ['沟通清晰', 'brief 执行到位'],
+    repurchaseIntent: '视场景',
+    status: 'follow_up',
+    submittedAt: '2026-05-29 22:40',
+    followUpRequired: true,
+    internalNote: '客户提到开局略拘谨，运营需复盘开场脚本。'
+  }
+];
+
 export const assistants: AssistantRecord[] = [
   {
     id: 'ast_001',
@@ -108,7 +226,7 @@ export const assistants: AssistantRecord[] = [
       avatarUrl: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=600&q=80',
       imageAuditStatus: 'manual_review',
       styleTags: ['大方', '亲和', '控场'],
-      sceneSkills: ['项目沟通', '朋友小聚'],
+      sceneSkills: ['项目沟通', '轻商务接待'],
       businessSkills: ['轻松破冰', '场面照应', '话题延展'],
       publicIntro: '适合轻商务聚会与项目初谈，表达自然。'
     },
@@ -148,7 +266,7 @@ export const mealBriefs: MealBriefRecord[] = [
     customerBackground: '客户为华东区渠道负责人，第一次到访北京团队，关注项目交付稳定性与长期合作节奏。',
     diningPurpose: '降低初次会面的生硬感，帮助双方在正式议题之外建立基础信任。',
     attendeeCount: 7,
-    guestIdentities: ['渠道负责人', '项目负责人', '陪同商务经理'],
+    guestIdentities: ['渠道负责人', '项目负责人', '随行商务经理'],
     atmosphereNeeds: '克制、稳重、自然破冰，不抢客户主场。',
     tabooTopics: ['具体价格底线', '竞品负面评价', '客户个人隐私'],
     recommendedTopics: ['北京城市印象', '行业趋势', '客户过往项目经验', '团队协作方式'],
@@ -293,7 +411,7 @@ export const auditLogs: AuditLogRecord[] = [
 
 export const roles = [
   { id: 'role_001', code: 'super_admin', name: '超级管理员', permissions: ['*'] },
-  { id: 'role_002', code: 'order_operator', name: '订单运营', permissions: ['dashboard:view', 'booking:read', 'booking:update', 'assistant:read', 'assistant:update', 'assistant:audit', 'meal_brief:read', 'meal_brief:update', 'meal_brief:manager_note:read', 'meal_brief:submit', 'meal_brief:approve', 'meal_brief:generate_tasks', 'meal_brief:reminder', 'meal_brief:review', 'audit_log:create'] },
+  { id: 'role_002', code: 'order_operator', name: '订单运营', permissions: ['dashboard:view', 'operations:read', 'booking:read', 'booking:update', 'assistant:read', 'assistant:update', 'assistant:audit', 'meal_brief:read', 'meal_brief:update', 'meal_brief:manager_note:read', 'meal_brief:submit', 'meal_brief:approve', 'meal_brief:generate_tasks', 'meal_brief:reminder', 'meal_brief:review', 'audit_log:create'] },
   { id: 'role_003', code: 'finance', name: '财务人员', permissions: ['finance:read', 'refund:approve', 'settlement:update', 'audit_log:create'] },
   { id: 'role_004', code: 'risk', name: '风控合规', permissions: ['risk:read', 'risk:update', 'risk:report', 'risk:profile_review', 'risk:blacklist', 'risk:complaint', 'risk:exception', 'audit_log:read', 'audit_log:create'] }
 ];

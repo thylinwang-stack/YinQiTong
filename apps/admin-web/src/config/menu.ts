@@ -5,6 +5,7 @@ export const adminMenus: MenuItemConfig[] = [
   { key: 'customers', title: '客户 CRM', path: '/customers', icon: 'TeamOutlined', permission: 'customer:read' },
   { key: 'leads', title: '需求/线索管理', path: '/leads', icon: 'InboxOutlined', permission: 'lead:read' },
   { key: 'orders', title: '订单管理', path: '/orders', icon: 'ProfileOutlined', permission: 'booking:read' },
+  { key: 'operations', title: '履约中台', path: '/operations', icon: 'ControlOutlined', permission: 'operations:read' },
   { key: 'assistants', title: '商务助理管理', path: '/assistants', icon: 'IdcardOutlined', permission: 'assistant:read' },
   { key: 'availability', title: '助理档期', path: '/availability', icon: 'CalendarOutlined', permission: 'availability:read' },
   { key: 'matching', title: '排班匹配', path: '/matching', icon: 'BranchesOutlined', permission: 'matching:read' },

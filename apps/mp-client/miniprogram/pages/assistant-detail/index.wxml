@@ -1,44 +1,72 @@
 <view class="page safe-bottom" wx:if="{{assistant}}">
   <view class="profile-hero card">
     <image class="portrait" src="{{assistant.avatarUrl}}" mode="aspectFill" />
+    <view class="profile-shade"></view>
+    <view class="profile-pills">
+      <view class="brand-chip">{{assistant.assistantNo}}</view>
+      <view class="brand-chip">{{sceneName ? sceneName : '公开资料已审'}}</view>
+    </view>
     <view class="profile-main">
-      <view class="eyebrow">{{assistant.assistantNo}}</view>
-      <view class="h1">{{assistant.workName}}</view>
-      <view class="city">{{assistant.city}} · 商务社交助理</view>
+      <view class="name-row">
+        <view class="h1">{{assistant.workName}}</view>
+        <view class="city">{{assistant.city}}</view>
+      </view>
+      <view class="profile-quote">{{assistant.intro}}</view>
       <view class="tag-row">
         <view class="tag gold" wx:for="{{assistant.styleTags}}" wx:key="*this">{{item}}</view>
       </view>
     </view>
   </view>
 
-  <view class="section card">
-    <view class="h2">公开简介</view>
-    <view class="muted intro">{{assistant.intro}}</view>
+  <view class="profile-signal-grid">
+    <view class="profile-signal">
+      <view>适配场景</view>
+      <text>{{sceneName ? sceneName : assistant.sceneSkills[0]}}</text>
+    </view>
+    <view class="profile-signal">
+      <view>服务城市</view>
+      <text>{{assistant.city}}</text>
+    </view>
+    <view class="profile-signal">
+      <view>公开能力</view>
+      <text>{{assistant.talents ? assistant.talents.length : 0}} 项</text>
+    </view>
+  </view>
+
+  <view class="section card" wx:if="{{assistant.recommendReason}}">
+    <view class="h2">为什么适合</view>
+    <view class="recommend-box">{{assistant.recommendReason}}</view>
   </view>
 
   <view class="section card">
-    <view class="h2">擅长场景</view>
+    <view class="h2">可展示能力</view>
+    <view class="capability-list">
+      <view class="capability-item" wx:for="{{assistant.talents}}" wx:key="*this">
+        <text>0{{index + 1}}</text>
+        <view>{{item}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="section card">
+    <view class="h2">现场能力</view>
+    <view class="skill-list">
+      <view wx:for="{{assistant.businessSkills}}" wx:key="*this">· {{item}}</view>
+    </view>
     <view class="tag-row block">
       <view class="tag" wx:for="{{assistant.sceneSkills}}" wx:key="*this">{{item}}</view>
     </view>
   </view>
 
-  <view class="section card">
-    <view class="h2">商务能力</view>
-    <view class="skill-list">
-      <view wx:for="{{assistant.businessSkills}}" wx:key="*this">· {{item}}</view>
-    </view>
-  </view>
-
   <view class="section card compliance">
-    <view class="h2">服务说明</view>
+    <view class="h2">平台边界</view>
     <view class="muted">{{assistant.complianceNote}}</view>
-    <view class="muted privacy">为保护双方隐私，平台不展示真实手机号、微信号、身份证、住址等信息。</view>
+    <view class="muted privacy">为保护双方隐私，平台不展示私人联系方式、实名证件、住址等敏感信息。</view>
   </view>
 
-  <button class="btn gold fixed-btn" bindtap="goBooking">提交需求</button>
+  <button class="btn gold fixed-btn" bindtap="goBooking">加入需求单</button>
 </view>
 
 <view class="page" wx:else>
-  <view class="card empty">未找到该商务助理资料</view>
+  <view class="card empty">未找到该服务人员公开资料</view>
 </view>

@@ -1,0 +1,66 @@
+<view class="page safe-bottom">
+  <view class="card header-card">
+    <view class="eyebrow">员工执行台</view>
+    <view class="h1">移动执行台</view>
+    <view class="muted">只保留现场履约动作：档期、简报、签到、反馈与结算。</view>
+  </view>
+
+  <view class="metric-grid">
+    <view class="metric-card">
+      <view class="metric-value">{{todayCount}}</view>
+      <view class="metric-label">今日任务</view>
+    </view>
+    <view class="metric-card">
+      <view class="metric-value">{{pendingConfirmCount}}</view>
+      <view class="metric-label">待确认</view>
+    </view>
+    <view class="metric-card">
+      <view class="metric-value">{{pendingTaskCount}}</view>
+      <view class="metric-label">待完成项</view>
+    </view>
+    <view class="metric-card">
+      <view class="metric-value">{{pendingSettlementCount}}</view>
+      <view class="metric-label">结算跟进</view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="work-card card" wx:for="{{workItems}}" wx:key="id">
+      <view class="work-head">
+        <view>
+          <view class="work-title">{{item.banquetTheme}}</view>
+          <view class="muted">{{item.orderNo}} · {{item.sceneName}} · {{item.city}}</view>
+        </view>
+        <view class="status-pill">{{item.statusText}}</view>
+      </view>
+      <view class="divider"></view>
+      <view class="info-line">
+        <text>服务时间</text>
+        <text>{{item.serviceTime}}</text>
+      </view>
+      <view class="info-line">
+        <text>任务进度</text>
+        <text>{{item.taskDone}} / {{item.taskTotal}}</text>
+      </view>
+      <view class="info-line">
+        <text>签到状态</text>
+        <text>{{item.checkInText}}</text>
+      </view>
+      <view class="work-actions">
+        <button class="service-btn" bindtap="openBrief" data-id="{{item.briefId}}">查看简报</button>
+        <button class="service-btn primary" bindtap="openTasks" data-id="{{item.briefId}}">任务清单</button>
+      </view>
+      <view class="work-actions check-actions">
+        <button class="service-btn primary" wx:if="{{item.checkInStatus === 'not_started'}}" bindtap="checkIn" data-id="{{item.briefId}}" data-action="check_in">到场签到</button>
+        <button class="service-btn primary" wx:elif="{{item.checkInStatus === 'checked_in'}}" bindtap="checkIn" data-id="{{item.briefId}}" data-action="check_out">服务签退</button>
+        <button class="service-btn disabled" wx:else disabled>已完成签退</button>
+        <button class="service-btn" bindtap="openBrief" data-id="{{item.briefId}}">反馈复盘</button>
+      </view>
+    </view>
+  </view>
+
+  <view class="section card">
+    <view class="h2">执行边界</view>
+    <view class="muted">不通过私聊承接临时需求，不交换私人联系方式；现场变化、客户反馈和异常情况统一回传平台。</view>
+  </view>
+</view>

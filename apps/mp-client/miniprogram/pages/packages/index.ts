@@ -6,12 +6,13 @@ Page({
   data: {
     packages: [] as ServicePackage[],
     sceneId: '',
+    sceneName: '',
     loading: false,
     error: ''
   },
 
-  async onLoad(query: { sceneId?: string }) {
-    this.setData({ sceneId: query.sceneId || '' });
+  async onLoad(query: { sceneId?: string; scene?: string }) {
+    this.setData({ sceneId: query.sceneId || '', sceneName: query.scene ? decodeURIComponent(query.scene) : '' });
     await this.loadPackages();
   },
 
@@ -45,7 +46,9 @@ Page({
       sceneId: selected.sceneId,
       packageId: selected.id
     });
-    wx.navigateTo({ url: `/pages/booking-form/index?sceneId=${selected.sceneId}&packageId=${selected.id}` });
+    wx.navigateTo({
+      url: `/pages/assistants/index?scene=${encodeURIComponent(this.data.sceneName)}&sceneId=${encodeURIComponent(selected.sceneId)}&packageId=${encodeURIComponent(selected.id)}`
+    });
   },
 
   retry() {

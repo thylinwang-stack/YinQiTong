@@ -40,7 +40,15 @@ export const statusText: Record<string, string> = {
   succeeded: '成功',
   published: '已发布',
   draft: '草稿',
-  risk_hold: '风控冻结'
+  risk_hold: '风控冻结',
+  healthy: '健康',
+  constrained: '偏紧',
+  at_risk: '需关注',
+  pending_confirm: '待确认',
+  review_pending: '待评价',
+  excellent: '优秀',
+  follow_up: '需回访',
+  normal: '正常'
 };
 
 export const bookingStatusOptions = [
@@ -104,7 +112,15 @@ export const statusKind: Record<string, StatusKind> = {
   high: 'error',
   critical: 'error',
   blocked: 'error',
-  risk_hold: 'error'
+  risk_hold: 'error',
+  healthy: 'success',
+  constrained: 'warning',
+  at_risk: 'error',
+  pending_confirm: 'warning',
+  review_pending: 'warning',
+  excellent: 'success',
+  follow_up: 'warning',
+  normal: 'success'
 };
 
 export function getStatusText(status: string): string {

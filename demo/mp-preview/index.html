@@ -88,12 +88,39 @@
         padding: 14px 14px 22px;
       }
 
+      .page:not(#home) {
+        padding-top: 48px;
+      }
+
       .page.active {
         display: block;
       }
 
       .page::-webkit-scrollbar {
         width: 0;
+      }
+
+      .back-button {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        z-index: 20;
+        display: none;
+        align-items: center;
+        gap: 4px;
+        height: 30px;
+        padding: 0 10px;
+        border: 1px solid rgba(246, 234, 208, 0.12);
+        border-radius: 999px;
+        background: rgba(3, 8, 10, 0.74);
+        color: #f2dc9a;
+        font-size: 12px;
+        cursor: pointer;
+        backdrop-filter: blur(10px);
+      }
+
+      .back-button.show {
+        display: flex;
       }
 
       .bottom-nav {
@@ -129,7 +156,7 @@
         border-radius: 8px;
         background:
           linear-gradient(180deg, rgba(2, 5, 6, 0.06) 0%, rgba(2, 5, 6, 0.52) 54%, rgba(2, 5, 6, 0.98) 100%),
-          url("./assets/home-private-dining-hero.jpg");
+          url("./assets/home-portfolio.jpg");
         background-size: cover;
         background-position: center 38%;
         box-shadow: 0 14px 42px rgba(0, 0, 0, 0.32);
@@ -151,16 +178,25 @@
         margin: 46px 16px 0;
       }
 
+      .home-brand-logo {
+        width: 262px;
+        height: 65px;
+        margin: 46px 16px 20px;
+      }
+
+      .home-brand-logo img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+
       .brand-mark {
         position: relative;
         flex: 0 0 auto;
         width: 54px;
         height: 54px;
-        border: 1px solid rgba(176, 138, 58, 0.18);
         border-radius: 13px;
-        background:
-          radial-gradient(circle at 30% 20%, rgba(36, 73, 66, 0.58), transparent 44%),
-          linear-gradient(145deg, #081719 0%, #03090a 68%, #010303 100%);
         box-shadow: 0 10px 28px rgba(0, 0, 0, 0.34);
         overflow: hidden;
       }
@@ -174,18 +210,24 @@
       .brand-symbol-inner {
         position: absolute;
         inset: 0 auto auto 0;
-        width: 54px;
-        height: 54px;
+        width: 100%;
+        height: 100%;
       }
 
       .brand-mark.small .brand-symbol-inner {
-        transform: scale(0.704);
-        transform-origin: left top;
+        transform: none;
       }
 
       .brand-stroke {
         position: absolute;
         border-radius: 999px;
+        display: none;
+      }
+
+      .brand-symbol-image {
+        display: block;
+        width: 100%;
+        height: 100%;
       }
 
       .brand-m-left {
@@ -287,7 +329,7 @@
       }
 
       .hero-body {
-        margin-top: 20px;
+        margin-top: 0;
         padding: 0 16px 16px;
       }
 
@@ -434,6 +476,135 @@
         font-size: 10px;
       }
 
+      .service-matrix {
+        border-color: rgba(216, 183, 106, 0.18);
+      }
+
+      .matrix-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+        margin-top: 12px;
+      }
+
+      .matrix-item {
+        position: relative;
+        min-height: 74px;
+        padding: 10px;
+        border: 1px solid rgba(246, 234, 208, 0.08);
+        border-radius: 8px;
+        overflow: hidden;
+        background: rgba(5, 13, 24, 0.56);
+      }
+
+      .matrix-item::before,
+      .matrix-item::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+      }
+
+      .matrix-item::before {
+        opacity: 0.66;
+        background-image: var(--matrix-image);
+        background-size: cover;
+        background-position: center;
+      }
+
+      .matrix-item::after {
+        background:
+          linear-gradient(180deg, rgba(2, 5, 6, 0.06), rgba(2, 5, 6, 0.78)),
+          linear-gradient(90deg, rgba(2, 5, 6, 0.78), rgba(2, 5, 6, 0.16));
+      }
+
+      .matrix-item[data-scene="business"] { --matrix-image: url("./assets/scene-business-dinner.jpg"); }
+      .matrix-item[data-scene="tea"] { --matrix-image: url("./assets/scene-private-tea.jpg"); }
+      .matrix-item[data-scene="wine"] { --matrix-image: url("./assets/scene-wine-reception.jpg"); }
+      .matrix-item[data-scene="golf"] { --matrix-image: url("./assets/scene-golf-social.jpg"); }
+      .matrix-item[data-scene="city"] { --matrix-image: url("./assets/scene-city-concierge.jpg"); }
+      .matrix-item[data-scene="salon"] { --matrix-image: url("./assets/scene-closed-salon.jpg"); }
+      .matrix-item[data-scene="art"] { --matrix-image: url("./assets/scene-art-preview.jpg"); }
+      .matrix-item[data-scene="tennis"] { --matrix-image: url("./assets/scene-tennis-social.jpg"); }
+      .matrix-item[data-scene="brand"] { --matrix-image: url("./assets/scene-brand-private-event.jpg"); }
+
+      .matrix-item.primary {
+        border-color: rgba(216, 183, 106, 0.28);
+      }
+
+      .matrix-item.wide {
+        grid-column: 1 / -1;
+        min-height: 62px;
+      }
+
+      .matrix-title {
+        position: relative;
+        z-index: 1;
+        color: #fff6de;
+        font-size: 12px;
+        line-height: 1.2;
+        font-weight: 650;
+      }
+
+      .matrix-item .muted {
+        position: relative;
+        z-index: 1;
+        margin-top: 6px;
+        font-size: 10px;
+        line-height: 1.45;
+      }
+
+      .assurance-grid,
+      .support-grid,
+      .workbench-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+        margin-top: 12px;
+      }
+
+      .assurance-item,
+      .support-item,
+      .workbench-item {
+        padding: 10px;
+        border: 1px solid rgba(246, 234, 208, 0.09);
+        border-radius: 8px;
+        background: rgba(5, 13, 24, 0.54);
+      }
+
+      .assurance-item strong,
+      .support-item strong,
+      .workbench-item strong {
+        display: block;
+        color: #fff6de;
+        font-size: 12px;
+        font-weight: 600;
+      }
+
+      .assurance-item span,
+      .support-item span,
+      .workbench-item span {
+        display: block;
+        margin-top: 5px;
+        color: var(--muted);
+        font-size: 10px;
+        line-height: 1.45;
+      }
+
+      .support-item {
+        cursor: pointer;
+        transition: border-color 0.18s ease, background 0.18s ease, transform 0.18s ease;
+      }
+
+      .support-item:active {
+        transform: translateY(1px);
+      }
+
+      .support-item.primary {
+        grid-column: 1 / -1;
+        border-color: rgba(145, 216, 255, 0.2);
+        background: rgba(5, 18, 28, 0.7);
+      }
+
       .tag.gold {
         background: rgba(216, 183, 106, 0.13);
         color: var(--gold-soft);
@@ -451,25 +622,153 @@
         align-items: center;
       }
 
-      .scene-art,
-      .avatar-art {
+      .scene-ctas {
+        display: grid;
+        grid-template-columns: 0.9fr 1fr;
+        gap: 8px;
+        margin-top: 8px;
+      }
+
+      .scene-ctas .btn {
+        min-height: 32px;
+        padding: 0 10px;
+        font-size: 11px;
+      }
+
+      .scene-detail-hero {
+        position: relative;
+        min-height: 260px;
+        overflow: hidden;
+        padding: 0;
+      }
+
+      .scene-detail-art {
+        position: absolute;
+        inset: 0;
+        background:
+          linear-gradient(180deg, rgba(2, 5, 6, 0.06), rgba(2, 5, 6, 0.94)),
+          var(--scene-image, url("./assets/scene-business-dinner.jpg"));
+        background-size: cover;
+        background-position: center;
+      }
+
+      .scene-detail-copy {
+        position: absolute;
+        left: 14px;
+        right: 14px;
+        bottom: 14px;
+      }
+
+      .scope-grid,
+      .process-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+        margin-top: 12px;
+      }
+
+      .scope-card,
+      .process-card {
+        min-height: 58px;
+        padding: 10px;
+        border: 1px solid rgba(246, 234, 208, 0.09);
+        border-radius: 8px;
+        background: rgba(5, 13, 24, 0.54);
+        color: #d8cfb6;
+        font-size: 10.5px;
+        line-height: 1.45;
+      }
+
+      .process-card strong {
+        display: block;
+        margin-bottom: 4px;
+        color: #fff6de;
+        font-size: 11.5px;
+      }
+
+      .scene-art {
         width: 92px;
         height: 84px;
         border-radius: 8px;
         background:
           linear-gradient(180deg, rgba(2, 5, 6, 0.08), rgba(2, 5, 6, 0.46)),
-          url("./assets/home-private-dining-hero.jpg");
+          url("./assets/scene-business-dinner.jpg");
         background-size: cover;
         background-position: center 36%;
       }
 
-      .avatar-art {
-        border-radius: 8px;
+      .scene-art.tea {
         background:
-          linear-gradient(180deg, rgba(5, 8, 13, 0), rgba(5, 8, 13, 0.32)),
-          url("https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=420&q=80");
+          linear-gradient(180deg, rgba(2, 5, 6, 0.08), rgba(2, 5, 6, 0.46)),
+          url("./assets/scene-private-tea.jpg");
         background-size: cover;
-        background-position: center top;
+        background-position: center;
+      }
+
+      .scene-art.wine {
+        background:
+          linear-gradient(180deg, rgba(2, 5, 6, 0.08), rgba(2, 5, 6, 0.46)),
+          url("./assets/scene-wine-reception.jpg");
+        background-size: cover;
+        background-position: center;
+      }
+
+      .scene-art.golf {
+        background:
+          linear-gradient(180deg, rgba(2, 5, 6, 0.08), rgba(2, 5, 6, 0.46)),
+          url("./assets/scene-golf-social.jpg");
+        background-size: cover;
+        background-position: center;
+      }
+
+      .scene-art.city {
+        background:
+          linear-gradient(180deg, rgba(2, 5, 6, 0.08), rgba(2, 5, 6, 0.46)),
+          url("./assets/scene-city-concierge.jpg");
+        background-size: cover;
+        background-position: center;
+      }
+
+      .scene-art.salon {
+        background:
+          linear-gradient(180deg, rgba(2, 5, 6, 0.08), rgba(2, 5, 6, 0.46)),
+          url("./assets/scene-closed-salon.jpg");
+        background-size: cover;
+        background-position: center;
+      }
+
+      .scene-art.art {
+        background:
+          linear-gradient(180deg, rgba(2, 5, 6, 0.08), rgba(2, 5, 6, 0.46)),
+          url("./assets/scene-art-preview.jpg");
+        background-size: cover;
+        background-position: center;
+      }
+
+      .scene-art.tennis {
+        background:
+          linear-gradient(180deg, rgba(2, 5, 6, 0.08), rgba(2, 5, 6, 0.46)),
+          url("./assets/scene-tennis-social.jpg");
+        background-size: cover;
+        background-position: center;
+      }
+
+      .scene-art.brand {
+        background:
+          linear-gradient(180deg, rgba(2, 5, 6, 0.08), rgba(2, 5, 6, 0.46)),
+          url("./assets/scene-brand-private-event.jpg");
+        background-size: cover;
+        background-position: center;
+      }
+
+      .avatar-art,
+      .avatar-img {
+        flex: 0 0 auto;
+        width: 92px;
+        height: 116px;
+        border-radius: 8px;
+        object-fit: cover;
+        background: #071316;
       }
 
       .avatar-art.alt {
@@ -509,6 +808,191 @@
 
       .assistant-row .content {
         flex: 1;
+      }
+
+      .recommend-line {
+        margin-top: 9px;
+        padding: 9px;
+        border: 1px solid rgba(216, 183, 106, 0.18);
+        border-radius: 8px;
+        background: rgba(216, 183, 106, 0.08);
+        color: #e4d5ab;
+        font-size: 10.5px;
+        line-height: 1.55;
+      }
+
+      .talent-line {
+        margin-top: 8px;
+        color: #f1e2bd;
+        font-size: 10.5px;
+        line-height: 1.45;
+      }
+
+      .talent-label {
+        color: var(--gold);
+      }
+
+      .profile-hero {
+        position: relative;
+        min-height: 318px;
+        padding: 0;
+        overflow: hidden;
+        border-color: rgba(216, 183, 106, 0.22);
+        background: #071316;
+      }
+
+      .profile-cover {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center 18%;
+        filter: saturate(0.96) contrast(1.02);
+      }
+
+      .profile-gradient {
+        position: absolute;
+        inset: 0;
+        background:
+          linear-gradient(180deg, rgba(2, 5, 6, 0.02) 0%, rgba(2, 5, 6, 0.14) 38%, rgba(2, 5, 6, 0.9) 100%),
+          linear-gradient(90deg, rgba(2, 5, 6, 0.68), rgba(2, 5, 6, 0.08) 54%, rgba(2, 5, 6, 0.36));
+      }
+
+      .profile-topline {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        right: 12px;
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+      }
+
+      .profile-copy {
+        position: absolute;
+        left: 13px;
+        right: 13px;
+        bottom: 13px;
+      }
+
+      .profile-name-row {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .profile-city {
+        color: #d8cfb6;
+        font-size: 11px;
+        white-space: nowrap;
+      }
+
+      .profile-quote {
+        margin-top: 9px;
+        padding: 10px;
+        border: 1px solid rgba(216, 183, 106, 0.2);
+        border-radius: 8px;
+        background: rgba(3, 8, 10, 0.56);
+        color: #fff0c8;
+        font-size: 12px;
+        line-height: 1.55;
+        backdrop-filter: blur(10px);
+      }
+
+      .profile-copy .tag-row {
+        margin-top: 10px;
+      }
+
+      .profile-meta {
+        color: #d8cfb6;
+        font-size: 11px;
+        line-height: 1.6;
+      }
+
+      .profile-signal-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 8px;
+        margin-top: 10px;
+      }
+
+      .profile-signal {
+        min-height: 52px;
+        padding: 9px;
+        border: 1px solid rgba(246, 234, 208, 0.08);
+        border-radius: 8px;
+        background: rgba(5, 13, 24, 0.62);
+      }
+
+      .profile-signal span {
+        display: block;
+        color: #9aa195;
+        font-size: 9px;
+        line-height: 1.3;
+      }
+
+      .profile-signal strong {
+        display: block;
+        margin-top: 5px;
+        color: #fff6de;
+        font-size: 11.5px;
+        line-height: 1.35;
+      }
+
+      .profile-section-title {
+        color: #fff6de;
+        font-size: 13px;
+        font-weight: 650;
+      }
+
+      .profile-fit-text {
+        margin-top: 9px;
+        color: #d8cfb6;
+        font-size: 11.5px;
+        line-height: 1.65;
+      }
+
+      .profile-capability-grid {
+        display: grid;
+        gap: 8px;
+        margin-top: 10px;
+      }
+
+      .profile-capability {
+        display: grid;
+        grid-template-columns: 28px 1fr;
+        gap: 8px;
+        align-items: center;
+        padding: 9px;
+        border: 1px solid rgba(246, 234, 208, 0.08);
+        border-radius: 8px;
+        background: rgba(5, 13, 24, 0.54);
+      }
+
+      .profile-capability span {
+        color: var(--gold);
+        font-size: 10px;
+        letter-spacing: 0.5px;
+      }
+
+      .profile-capability strong {
+        color: #f1e2bd;
+        font-size: 11px;
+        line-height: 1.45;
+        font-weight: 500;
+      }
+
+      .profile-point {
+        margin-top: 8px;
+        padding: 9px;
+        border: 1px solid rgba(246, 234, 208, 0.08);
+        border-radius: 8px;
+        background: rgba(5, 13, 24, 0.54);
+        color: #d8cfb6;
+        font-size: 11px;
+        line-height: 1.5;
       }
 
       .filters {
@@ -561,6 +1045,74 @@
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 10px;
+      }
+
+      .confirm-card-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        margin-bottom: 11px;
+      }
+
+      .confirm-status {
+        color: #91d8ff;
+        font-size: 10px;
+      }
+
+      .location-title {
+        color: #fff6de;
+        font-size: 17px;
+        line-height: 1.35;
+        font-weight: 600;
+      }
+
+      .location-subtitle {
+        margin-top: 7px;
+        color: #aab9c7;
+        font-size: 11px;
+        line-height: 1.5;
+      }
+
+      .confirm-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        margin-top: 13px;
+      }
+
+      .confirm-item {
+        min-height: 58px;
+        padding: 10px;
+        border: 1px solid rgba(246, 234, 208, 0.08);
+        border-radius: 8px;
+        background: rgba(5, 13, 24, 0.58);
+      }
+
+      .confirm-item span,
+      .confirm-block span {
+        display: block;
+        color: #8f9baa;
+        font-size: 10px;
+        line-height: 1;
+      }
+
+      .confirm-item strong,
+      .confirm-block strong {
+        display: block;
+        margin-top: 7px;
+        color: #fff6de;
+        font-size: 11.5px;
+        line-height: 1.45;
+        font-weight: 600;
+      }
+
+      .confirm-block {
+        margin-top: 10px;
+        padding: 10px;
+        border: 1px solid rgba(145, 216, 255, 0.12);
+        border-radius: 8px;
+        background: rgba(3, 12, 20, 0.62);
       }
 
       .summary-row,
@@ -786,6 +1338,194 @@
         line-height: 1.7;
       }
 
+      .review-panel {
+        border-color: rgba(216, 183, 106, 0.22);
+      }
+
+      .review-hero-card {
+        position: relative;
+        overflow: hidden;
+        border-color: rgba(216, 183, 106, 0.18);
+        background:
+          radial-gradient(circle at 86% 2%, rgba(145, 216, 255, 0.16), transparent 34%),
+          linear-gradient(145deg, rgba(9, 22, 25, 0.96), rgba(3, 8, 10, 0.94));
+      }
+
+      .review-hero-title {
+        margin-top: 9px;
+        color: #fff6de;
+        font-size: 18px;
+        line-height: 1.25;
+        font-weight: 650;
+      }
+
+      .review-hero-meta {
+        margin-top: 8px;
+        color: #9eb0c2;
+        font-size: 10.5px;
+        line-height: 1.55;
+      }
+
+      .review-score-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        align-items: center;
+      }
+
+      .review-score-number {
+        display: grid;
+        place-items: center;
+        flex-shrink: 0;
+        width: 46px;
+        height: 46px;
+        border: 1px solid rgba(216, 183, 106, 0.28);
+        border-radius: 50%;
+        background: rgba(216, 183, 106, 0.12);
+        color: #f6e9c6;
+        font-size: 18px;
+        font-weight: 700;
+      }
+
+      .rating-line {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 10px 0;
+        border-top: 1px solid rgba(246, 234, 208, 0.07);
+        color: #d8cfb6;
+        font-size: 12px;
+      }
+
+      .stars {
+        color: #d8b76a;
+        letter-spacing: 2px;
+        font-size: 17px;
+        line-height: 1;
+      }
+
+      .review-star {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 18px;
+        height: 18px;
+        border: 0;
+        background: transparent;
+        color: rgba(246, 234, 208, 0.3);
+        font-size: 17px;
+        line-height: 1;
+        cursor: pointer;
+      }
+
+      .review-star.active {
+        color: #d8b76a;
+      }
+
+      .stars.muted-stars {
+        color: rgba(246, 234, 208, 0.3);
+      }
+
+      .review-assistant {
+        display: grid;
+        gap: 10px;
+        padding: 12px;
+        border: 1px solid rgba(246, 234, 208, 0.08);
+        border-radius: 8px;
+        background: rgba(5, 13, 24, 0.54);
+      }
+
+      .review-assistant + .review-assistant {
+        margin-top: 8px;
+      }
+
+      .review-assistant-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+      }
+
+      .review-note {
+        margin-top: 12px;
+        padding: 10px;
+        border: 1px solid rgba(145, 216, 255, 0.12);
+        border-radius: 8px;
+        background: rgba(3, 12, 20, 0.58);
+        color: #9eb0c2;
+        font-size: 10.5px;
+        line-height: 1.55;
+      }
+
+      .tag.selectable {
+        border: 1px solid rgba(246, 234, 208, 0.08);
+        background: rgba(246, 234, 208, 0.06);
+        color: #aeb8c6;
+        cursor: pointer;
+      }
+
+      .tag.selectable.active {
+        border-color: rgba(216, 183, 106, 0.36);
+        background: rgba(216, 183, 106, 0.16);
+        color: var(--gold-soft);
+      }
+
+      .repurchase-options {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+        margin-top: 10px;
+      }
+
+      .repurchase-option {
+        height: 32px;
+        border: 1px solid rgba(246, 234, 208, 0.1);
+        border-radius: 8px;
+        background: rgba(5, 13, 24, 0.62);
+        color: #aeb8c6;
+        font-size: 11px;
+        line-height: 32px;
+        text-align: center;
+      }
+
+      .repurchase-option.active {
+        border-color: rgba(216, 183, 106, 0.36);
+        background: rgba(216, 183, 106, 0.16);
+        color: var(--gold-soft);
+      }
+
+      .customer-sheet {
+        position: absolute;
+        inset: 0;
+        z-index: 30;
+        display: none;
+        align-items: flex-end;
+        padding: 14px;
+        background: rgba(0, 0, 0, 0.48);
+        backdrop-filter: blur(8px);
+      }
+
+      .customer-sheet.show {
+        display: flex;
+      }
+
+      .customer-sheet-card {
+        width: 100%;
+        padding: 14px;
+        border: 1px solid rgba(216, 183, 106, 0.2);
+        border-radius: 14px;
+        background: linear-gradient(180deg, rgba(8, 18, 20, 0.98), rgba(3, 8, 10, 0.98));
+        box-shadow: 0 -18px 50px rgba(0, 0, 0, 0.36);
+      }
+
+      .customer-sheet-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-top: 12px;
+      }
+
       @media (max-width: 860px) {
         .shell {
           grid-template-columns: 1fr;
@@ -818,54 +1558,98 @@
           <span>5G</span>
         </div>
         <div class="screen">
+          <button class="back-button" id="backButton" type="button">‹ 返回</button>
           <section id="home" class="page active">
             <div class="hero">
               <div class="hero-top">
                 <span class="signal">合规边界已确认</span>
                 <span class="signal">上海 · 今日可排</span>
               </div>
-              <div class="brand-lockup hero-brand">
-                <div class="brand-mark" aria-hidden="true">
-                  <div class="brand-symbol-inner">
-                    <div class="brand-stroke brand-m-left"></div>
-                    <div class="brand-stroke brand-m-down"></div>
-                    <div class="brand-stroke brand-m-up"></div>
-                    <div class="brand-stroke brand-e-vert"></div>
-                    <div class="brand-stroke brand-e-top"></div>
-                    <div class="brand-stroke brand-e-mid"></div>
-                    <div class="brand-stroke brand-e-bottom"></div>
-                  </div>
-                </div>
-                <div>
-                  <div class="brand-title">有个饭局</div>
-                  <div class="brand-slogan">体面饭局 自然发生</div>
-                </div>
+              <div class="home-brand-logo" aria-label="有个饭局">
+                <img src="./assets/logo-home-lockup-dark.svg" alt="有个饭局 体面饭局自然发生" />
               </div>
               <div class="hero-body">
-                <div class="eyebrow">MEET · EAT</div>
-                <div class="h1">高净值人情场，得体有人照应</div>
-                <p class="muted">以餐前 brief、礼宾接待与现场氛围协同，让重要会面更自然、更体面、更有分寸。</p>
+                <div class="h1">重要会面，安排得体</div>
+                <p class="muted">以商务饭局为入口，延展到茶会、酒会、球局、展览、沙龙与城市礼宾，配置合规服务团队。</p>
                 <div class="tag-row">
                   <span class="tag gold">绿色正规</span>
                   <span class="tag">受控沟通</span>
-                  <span class="tag">餐前 brief</span>
+                  <span class="tag">场景简报</span>
                 </div>
-                <button class="btn gold full" style="margin-top: 16px" data-go="booking">提交需求</button>
+                <button class="btn gold full" style="margin-top: 16px" data-go="scenes">选场景</button>
               </div>
             </div>
 
             <div class="insight-row">
               <div class="insight"><strong>12h</strong><span>提前准备</span></div>
               <div class="insight"><strong>3步</strong><span>受控服务</span></div>
-              <div class="insight"><strong>0私联</strong><span>平台沟通</span></div>
+              <div class="insight"><strong>全留痕</strong><span>流程可控</span></div>
+            </div>
+
+            <div class="section card service-matrix">
+              <div class="section-head">
+                <div>
+                  <div class="eyebrow">场景服务</div>
+                  <div class="h2">从宴请到礼宾的得体安排</div>
+                </div>
+                <span class="brand-chip">9 类服务矩阵</span>
+              </div>
+              <div class="matrix-grid">
+                <div class="matrix-item primary" data-go="scene-detail" data-scene="business">
+                  <div class="matrix-title">商务饭局</div>
+                  <p class="muted">宴请接待、项目沟通、重要会面。</p>
+                </div>
+                <div class="matrix-item" data-go="scene-detail" data-scene="tea">
+                  <div class="matrix-title">私人茶会</div>
+                  <p class="muted">茶艺师、茶席流程、轻话题。</p>
+                </div>
+                <div class="matrix-item" data-go="scene-detail" data-scene="wine">
+                  <div class="matrix-title">高端酒会</div>
+                  <p class="muted">侍酒师、宾客照应、酒会礼仪。</p>
+                </div>
+                <div class="matrix-item" data-go="scene-detail" data-scene="golf">
+                  <div class="matrix-title">高尔夫同场</div>
+                  <p class="muted">球局礼仪、动线节奏、关系维护。</p>
+                </div>
+                <div class="matrix-item" data-go="scene-detail" data-scene="city">
+                  <div class="matrix-title">城市临时管家</div>
+                  <p class="muted">本地礼宾、到访动线、临时事项统筹。</p>
+                </div>
+                <div class="matrix-item" data-go="scene-detail" data-scene="salon">
+                  <div class="matrix-title">闭门沙龙</div>
+                  <p class="muted">小范围圈层交流、议题控场、分寸协同。</p>
+                </div>
+                <div class="matrix-item" data-go="scene-detail" data-scene="art">
+                  <div class="matrix-title">艺术展览</div>
+                  <p class="muted">观展陪同、审美话题、私享预览。</p>
+                </div>
+                <div class="matrix-item" data-go="scene-detail" data-scene="tennis">
+                  <div class="matrix-title">运动社交</div>
+                  <p class="muted">网球、轻运动、会后轻餐衔接。</p>
+                </div>
+                <div class="matrix-item wide" data-go="scene-detail" data-scene="brand">
+                  <div class="matrix-title">品牌私享会</div>
+                  <p class="muted">贵宾接待、现场礼宾、体验节奏维护。</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="section card">
+              <div class="h2">履约保障</div>
+              <div class="assurance-grid">
+                <div class="assurance-item"><strong>平台匹配</strong><span>按城市、档期、场景和服务反馈安排团队。</span></div>
+                <div class="assurance-item"><strong>餐前简报</strong><span>服务目标、嘉宾背景、禁忌与分工提前确认。</span></div>
+                <div class="assurance-item"><strong>受控沟通</strong><span>需求变更、异常处理和评价都在平台内留痕。</span></div>
+                <div class="assurance-item"><strong>服务评价</strong><span>每单完成后回收反馈，用于质检和后续匹配。</span></div>
+              </div>
             </div>
 
             <div class="section">
               <div class="section-head">
-                <div class="h2">服务场景</div>
+                <div class="h2">会面方式</div>
                 <button class="btn ghost" data-go="scenes">查看</button>
               </div>
-              <div class="card scene">
+              <div class="card scene" data-go="scene-detail" data-scene="business">
                 <div class="scene-art"></div>
                 <div>
                   <h3>商务宴请</h3>
@@ -877,14 +1661,16 @@
 
             <div class="section">
               <div class="section-head">
-                <div class="h2">推荐商务助理</div>
+                <div class="h2">推荐服务团队</div>
                 <button class="btn ghost" data-go="assistants">筛选</button>
               </div>
               <div class="card assistant-row">
-                <div class="avatar-art"></div>
+                <img class="avatar-img" src="./assets/assistants/business-01.jpg" alt="" />
                 <div class="content">
                   <h3>BA-0218 · 林澈</h3>
-                  <p class="muted">上海 · 公开资料已审核，只展示工作名、城市与商务能力标签。</p>
+                  <p class="muted">上海 · 公开资料已审核，只展示工作名、城市、特长与商务能力标签。</p>
+                  <div class="recommend-line">适合重要客户晚宴。稳住开场，接住冷场，不抢主位。</div>
+                  <div class="talent-line"><span class="talent-label">可展示特长：</span>钢琴十级 · 商务英语接待 50+ 场 · 美术馆观展 80+ 次</div>
                   <div class="tag-row"><span class="tag">沉稳</span><span class="tag">正式宴请</span></div>
                 </div>
               </div>
@@ -892,103 +1678,289 @@
 
             <div class="section card">
               <div class="brand-chip">有个饭局 · 合规边界</div>
-              <p class="muted" style="margin-top: 10px">平台只提供商务社交氛围协同、餐前准备与礼宾接待服务。客户与助理沟通通过平台客服或受控消息系统完成。</p>
+              <p class="muted" style="margin-top: 10px">平台只提供商务社交氛围协同、餐前准备、礼宾接待与现场流程协同服务。客户与服务团队沟通通过平台客服或受控消息系统完成。</p>
             </div>
           </section>
 
           <section id="scenes" class="page">
             <div class="section-head">
               <div>
-                <div class="eyebrow">SCENES</div>
-                <div class="h2">场景套餐</div>
+                <div class="eyebrow">场景矩阵</div>
+                <div class="h2">选一种会面方式</div>
               </div>
             </div>
-            <div class="card scene">
+            <div class="card">
+              <div class="brand-chip">按场景配置</div>
+              <p class="muted" style="margin-top: 10px">饭局只是入口。茶会、酒会、球局、展览、沙龙与城市礼宾，统一由平台团队、简报、协议与客服留痕承接。</p>
+            </div>
+            <div class="card scene" data-go="scene-detail" data-scene="business">
               <div class="scene-art"></div>
               <div>
-                <h3>重要客户接待</h3>
-                <p class="muted">2 位商务助理，专属餐前准备，主管复核 brief。</p>
+                <h3>商务宴请</h3>
+                <p class="muted">客户宴请、合作方接待、项目沟通，专属餐前准备。</p>
                 <div class="summary-row"><span>预约金</span><strong class="gold-text">¥1200</strong></div>
-                <button class="btn gold full" data-go="booking">选择套餐</button>
+                <div class="scene-ctas">
+                  <button class="btn ghost full" data-go="scene-detail" data-scene="business">详情</button>
+                  <button class="btn gold full" data-go="assistants" data-scene="business">选助理</button>
+                </div>
               </div>
             </div>
-            <div class="card scene">
-              <div class="scene-art"></div>
+            <div class="card scene" data-go="scene-detail" data-scene="tea">
+              <div class="scene-art tea"></div>
               <div>
-                <h3>项目沟通辅助</h3>
-                <p class="muted">适合首次会面或合作推进，强调得体破冰。</p>
-                <div class="summary-row"><span>预约金</span><strong class="gold-text">¥500</strong></div>
+                <h3>私人茶会</h3>
+                <p class="muted">茶艺师、茶席流程、轻话题与关系维护。</p>
+                <div class="summary-row"><span>预约金</span><strong class="gold-text">¥800</strong></div>
+                <div class="scene-ctas">
+                  <button class="btn ghost full" data-go="scene-detail" data-scene="tea">详情</button>
+                  <button class="btn gold full" data-go="assistants" data-scene="tea">选助理</button>
+                </div>
               </div>
+            </div>
+            <div class="card scene" data-go="scene-detail" data-scene="wine">
+              <div class="scene-art wine"></div>
+              <div>
+                <h3>高端酒会</h3>
+                <p class="muted">侍酒师协同、宾客照应、圈层沙龙礼仪。</p>
+                <div class="summary-row"><span>预约金</span><strong class="gold-text">¥1500</strong></div>
+                <div class="scene-ctas">
+                  <button class="btn ghost full" data-go="scene-detail" data-scene="wine">详情</button>
+                  <button class="btn gold full" data-go="assistants" data-scene="wine">选助理</button>
+                </div>
+              </div>
+            </div>
+            <div class="card scene" data-go="scene-detail" data-scene="golf">
+              <div class="scene-art golf"></div>
+              <div>
+                <h3>高尔夫商务同场</h3>
+                <p class="muted">球局礼仪、动线节奏与商务关系维护。</p>
+                <div class="summary-row"><span>预约金</span><strong class="gold-text">¥1200</strong></div>
+                <div class="scene-ctas">
+                  <button class="btn ghost full" data-go="scene-detail" data-scene="golf">详情</button>
+                  <button class="btn gold full" data-go="assistants" data-scene="golf">选助理</button>
+                </div>
+              </div>
+            </div>
+            <div class="card scene" data-go="scene-detail" data-scene="city">
+              <div class="scene-art city"></div>
+              <div>
+                <h3>城市临时管家</h3>
+                <p class="muted">当地礼宾、到访动线和临时事项统筹。</p>
+                <div class="summary-row"><span>预约金</span><strong class="gold-text">¥1600</strong></div>
+                <div class="scene-ctas">
+                  <button class="btn ghost full" data-go="scene-detail" data-scene="city">详情</button>
+                  <button class="btn gold full" data-go="assistants" data-scene="city">选助理</button>
+                </div>
+              </div>
+            </div>
+            <div class="card scene" data-go="scene-detail" data-scene="salon">
+              <div class="scene-art salon"></div>
+              <div>
+                <h3>闭门沙龙</h3>
+                <p class="muted">小范围圈层交流、议题节奏与现场分寸协同。</p>
+                <div class="summary-row"><span>预约金</span><strong class="gold-text">¥1800</strong></div>
+                <div class="scene-ctas">
+                  <button class="btn ghost full" data-go="scene-detail" data-scene="salon">详情</button>
+                  <button class="btn gold full" data-go="assistants" data-scene="salon">选助理</button>
+                </div>
+              </div>
+            </div>
+            <div class="card scene" data-go="scene-detail" data-scene="art">
+              <div class="scene-art art"></div>
+              <div>
+                <h3>艺术展览</h3>
+                <p class="muted">观展陪同、审美话题准备与私享预览礼宾。</p>
+                <div class="summary-row"><span>预约金</span><strong class="gold-text">¥1200</strong></div>
+                <div class="scene-ctas">
+                  <button class="btn ghost full" data-go="scene-detail" data-scene="art">详情</button>
+                  <button class="btn gold full" data-go="assistants" data-scene="art">选助理</button>
+                </div>
+              </div>
+            </div>
+            <div class="card scene" data-go="scene-detail" data-scene="tennis">
+              <div class="scene-art tennis"></div>
+              <div>
+                <h3>运动社交</h3>
+                <p class="muted">网球、轻运动场景与会后轻餐衔接协同。</p>
+                <div class="summary-row"><span>预约金</span><strong class="gold-text">¥1200</strong></div>
+                <div class="scene-ctas">
+                  <button class="btn ghost full" data-go="scene-detail" data-scene="tennis">详情</button>
+                  <button class="btn gold full" data-go="assistants" data-scene="tennis">选助理</button>
+                </div>
+              </div>
+            </div>
+            <div class="card scene" data-go="scene-detail" data-scene="brand">
+              <div class="scene-art brand"></div>
+              <div>
+                <h3>品牌私享会</h3>
+                <p class="muted">贵宾接待、现场礼宾与体验节奏维护。</p>
+                <div class="summary-row"><span>预约金</span><strong class="gold-text">¥2000</strong></div>
+                <div class="scene-ctas">
+                  <button class="btn ghost full" data-go="scene-detail" data-scene="brand">详情</button>
+                  <button class="btn gold full" data-go="assistants" data-scene="brand">选助理</button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section id="scene-detail" class="page">
+            <div class="card scene-detail-hero">
+              <div class="scene-detail-art" id="sceneDetailArt"></div>
+              <div class="scene-detail-copy">
+                <div class="brand-chip">场景详情</div>
+                <div class="h1" id="sceneDetailTitle">商务宴请</div>
+                <p class="muted" id="sceneDetailDesc">客户宴请、合作方接待、项目沟通，专属餐前准备。</p>
+              </div>
+            </div>
+            <div class="card section">
+              <div class="h2">包含</div>
+              <div class="scope-grid" id="sceneDetailScope"></div>
+            </div>
+            <div class="card section">
+              <div class="h2">怎么开始</div>
+              <div class="process-grid">
+                <div class="process-card"><strong>1. 明确场景</strong><span>确认目标、边界和服务方式。</span></div>
+                <div class="process-card"><strong>2. 选择助理</strong><span>按城市、气质、风格和公开资料筛选。</span></div>
+                <div class="process-card"><strong>3. 提交需求</strong><span>补充时间、人数、预算和禁忌事项。</span></div>
+                <div class="process-card"><strong>平台复核</strong><span>客服确认后进入匹配和餐前简报。</span></div>
+              </div>
+            </div>
+            <div class="section">
+              <div class="section-head">
+                <div class="h2">适配商务助理</div>
+                <button class="btn ghost" data-go="assistants">选助理</button>
+              </div>
+              <div id="sceneAssistantPreview"></div>
+            </div>
+            <div class="grid-2 section">
+              <button class="btn ghost full" data-go="booking">先提交需求</button>
+              <button class="btn gold full" data-go="assistants">选助理</button>
             </div>
           </section>
 
           <section id="assistants" class="page">
             <div class="section-head">
               <div>
-                <div class="eyebrow">ASSISTANTS</div>
-                <div class="h2">商务助理</div>
+                <div class="eyebrow">商务助理</div>
+                <div class="h2">选择助理</div>
               </div>
             </div>
             <div class="filters">
-              <div class="chip">上海</div>
-              <div class="chip">商务宴请</div>
-              <div class="chip">沉稳</div>
+              <div class="chip" id="assistantSceneLabel">商务宴请</div>
+              <div class="chip">6 位可选</div>
+              <div class="chip">公开资料已审</div>
             </div>
-            <div class="card assistant-row">
-              <div class="avatar-art"></div>
-              <div class="content">
-                <h3>BA-0218 · 林澈</h3>
-                <p class="muted">上海 · 擅长正式商务场合的自然破冰与节奏协同。</p>
-                <div class="tag-row"><span class="tag">沉稳</span><span class="tag">商务感</span><span class="tag gold">公开资料已审</span></div>
+            <div id="assistantList"></div>
+          </section>
+
+          <section id="assistant-profile" class="page">
+            <div class="section-head">
+              <div>
+                <div class="eyebrow">公开档案</div>
+                <div class="h2" id="profileTitle">公开资料</div>
               </div>
             </div>
-            <div class="card assistant-row">
-              <div class="avatar-art alt"></div>
-              <div class="content">
-                <h3>BA-0346 · 许知远</h3>
-                <p class="muted">北京 · 适合轻商务聚会与项目初谈，表达自然。</p>
-                <div class="tag-row"><span class="tag">亲和</span><span class="tag">控场</span><span class="tag gold">图片已审核</span></div>
+            <div class="card profile-hero">
+              <img class="profile-cover" id="profileImage" src="./assets/assistants/business-01.jpg" alt="" />
+              <div class="profile-gradient"></div>
+              <div class="profile-topline">
+                <div class="brand-chip" id="profileNo">BA-0218</div>
+                <div class="brand-chip" id="profileScenePill">商务宴请</div>
+              </div>
+              <div class="profile-copy">
+                <div class="profile-name-row">
+                  <div class="h1" id="profileHeroName">林澈</div>
+                  <div class="profile-city" id="profileCity">上海</div>
+                </div>
+                <div class="profile-quote" id="profileIntro">适合重要客户晚宴。稳住开场，接住冷场，不抢主位。</div>
+                <div class="tag-row" id="profileTags"></div>
               </div>
             </div>
+            <div class="profile-signal-grid" id="profileSignals"></div>
+            <div class="card section">
+              <div class="profile-section-title">为什么适合</div>
+              <div class="profile-fit-text" id="profileDecision">适合商务宴请：稳住开场，接住冷场，不抢主位。</div>
+            </div>
+            <div class="card section">
+              <div class="profile-section-title">可展示特长</div>
+              <div class="profile-capability-grid" id="profileTalents"></div>
+            </div>
+            <div class="card section">
+              <div class="profile-section-title">平台边界</div>
+              <div class="profile-point">仅展示编号、工作名、城市、公开能力与合规形象照；不展示真实手机号、微信号、身份证、住址等隐私信息。</div>
+            </div>
+            <button class="btn gold full section" data-go="booking">加入需求单</button>
           </section>
 
           <section id="booking" class="page">
             <div class="section-head">
               <div>
-                <div class="eyebrow">REQUEST</div>
-                <div class="h2">提交饭局需求</div>
+                <div class="eyebrow">需求提交</div>
+                <div class="h2">提交场景需求</div>
               </div>
             </div>
             <div class="card">
               <div class="grid-2">
                 <div class="field">
                   <div class="label">城市</div>
-                  <input class="input" value="上海" />
+                  <input class="input" id="bookingCity" value="上海" />
+                </div>
+                <div class="field">
+                  <div class="label">区域/商圈</div>
+                  <input class="input" id="bookingDistrict" value="静安区 · 南京西路商圈" />
                 </div>
                 <div class="field">
                   <div class="label">日期</div>
-                  <input class="input" value="2026-06-02" />
+                  <input class="input" id="bookingDate" value="2026-06-02" />
                 </div>
                 <div class="field">
                   <div class="label">时间</div>
-                  <input class="input" value="19:00" />
+                  <input class="input" id="bookingTime" value="19:00" />
                 </div>
                 <div class="field">
                   <div class="label">到场人数</div>
-                  <input class="input" value="6" />
+                  <input class="input" id="bookingGuestCount" value="6" />
+                </div>
+                <div class="field">
+                  <div class="label">服务人员</div>
+                  <input class="input" id="bookingAssistantCount" value="1" />
+                </div>
+                <div class="field">
+                  <div class="label">预算</div>
+                  <input class="input" id="bookingBudget" value="6000" />
+                </div>
+                <div class="field">
+                  <div class="label">到场窗口</div>
+                  <input class="input" id="bookingArrivalWindow" value="18:30-18:50 到场确认" />
                 </div>
               </div>
               <div class="field">
-                <div class="label">饭局类型</div>
-                <input class="input" value="商务宴请" />
+                <div class="label">场景类型</div>
+                <input class="input" id="bookingScene" value="商务宴请" />
+              </div>
+              <div class="field">
+                <div class="label">场地类型</div>
+                <input class="input" id="bookingVenueType" value="高端商务餐厅 / 私宴包间" />
+              </div>
+              <div class="field">
+                <div class="label">会合点</div>
+                <textarea class="textarea" id="bookingMeetingPoint">南京西路核心商圈，具体包间与入场动线由平台客服确认后同步。</textarea>
+              </div>
+              <div class="field">
+                <div class="label">场景目标</div>
+                <textarea class="textarea" id="bookingGoal">外地客户到访接待，希望现场自然打开话题，保持正式但不生硬。</textarea>
+              </div>
+              <div class="field">
+                <div class="label">嘉宾背景</div>
+                <textarea class="textarea" id="bookingGuestProfile">6 位左右，主宾为外地合作方负责人，首次线下会面，需要称呼、座次和轻话题提前准备。</textarea>
               </div>
               <div class="field">
                 <div class="label">偏好</div>
-                <textarea class="textarea">希望助理风格沉稳，适合正式客户晚宴。</textarea>
+                <textarea class="textarea" id="bookingPreference">希望服务团队沉稳克制，适合正式客户晚宴。</textarea>
               </div>
               <div class="field">
                 <div class="label">禁忌与备注</div>
-                <textarea class="textarea">避免讨论合同争议、个人隐私；请提前准备城市与行业轻话题。</textarea>
+                <textarea class="textarea" id="bookingTaboos">避免讨论合同争议、个人隐私；请提前准备城市与行业轻话题。</textarea>
               </div>
               <button class="btn gold full" data-go="confirm">进入订单确认</button>
             </div>
@@ -999,31 +1971,60 @@
               <div class="brand-lockup">
                 <div class="brand-mark small" aria-hidden="true">
                   <div class="brand-symbol-inner">
-                    <div class="brand-stroke brand-m-left"></div>
-                    <div class="brand-stroke brand-m-down"></div>
-                    <div class="brand-stroke brand-m-up"></div>
-                    <div class="brand-stroke brand-e-vert"></div>
-                    <div class="brand-stroke brand-e-top"></div>
-                    <div class="brand-stroke brand-e-mid"></div>
-                    <div class="brand-stroke brand-e-bottom"></div>
+                    <img class="brand-symbol-image" src="./assets/logo-symbol-dark.svg" alt="" />
                   </div>
                 </div>
                 <div>
-                <div class="eyebrow">CONFIRM</div>
+                <div class="eyebrow">订单确认</div>
                 <div class="h2">订单确认</div>
                 </div>
               </div>
             </div>
             <div class="card">
-              <div class="summary-row"><span>城市</span><strong>上海</strong></div>
-              <div class="summary-row"><span>时间</span><strong>2026-06-02 19:00</strong></div>
-              <div class="summary-row"><span>场景</span><strong>商务宴请</strong></div>
-              <div class="summary-row"><span>商务助理</span><strong>1 人</strong></div>
-              <div class="summary-row"><span>预约金</span><strong class="gold-text">¥600</strong></div>
+              <div class="confirm-card-head">
+                <div class="brand-chip">到场信息</div>
+                <div class="confirm-status">需平台复核</div>
+              </div>
+              <div class="location-title" id="confirmLocationTitle">上海 · 静安区 · 南京西路商圈</div>
+              <div class="location-subtitle">这是服务团队确认档期和是否接单的核心信息，客服会在派单前复核具体场地与动线。</div>
+              <div class="confirm-grid">
+                <div class="confirm-item"><span>场地类型</span><strong id="confirmVenueType">高端商务餐厅 / 私宴包间</strong></div>
+                <div class="confirm-item"><span>到场窗口</span><strong id="confirmArrivalWindow">18:30-18:50 到场确认</strong></div>
+                <div class="confirm-item"><span>服务时间</span><strong id="confirmServiceTime">2026-06-02 19:00</strong></div>
+                <div class="confirm-item"><span>交通/动线</span><strong id="confirmTransportNote">提前 30 分钟抵达，客服统一同步会合点</strong></div>
+              </div>
+              <div class="confirm-block">
+                <span>会合点</span>
+                <strong id="confirmMeetingPoint">南京西路核心商圈，具体包间与入场动线由平台客服确认后同步。</strong>
+              </div>
+            </div>
+            <div class="card section">
+              <div class="h2">需求摘要</div>
+              <div class="summary-row"><span>场景</span><strong id="confirmScene">商务宴请</strong></div>
+              <div class="summary-row"><span>到场人数</span><strong id="confirmGuestCount">6 位嘉宾</strong></div>
+              <div class="summary-row"><span>服务人员</span><strong id="confirmAssistantCount">1 位</strong></div>
+              <div class="summary-row"><span>意向助理</span><strong id="confirmAssistant">平台推荐匹配</strong></div>
+              <div class="summary-row"><span>需求预算</span><strong id="confirmBudget">¥6000</strong></div>
+              <div class="summary-row"><span>预约金</span><strong class="gold-text" id="confirmDeposit">¥1200</strong></div>
+            </div>
+            <div class="card section">
+              <div class="h2">接单判断</div>
+              <div class="confirm-block">
+                <span>场景目标</span>
+                <strong id="confirmGoal">外地客户到访接待，希望现场自然打开话题，保持正式但不生硬。</strong>
+              </div>
+              <div class="confirm-block">
+                <span>嘉宾背景</span>
+                <strong id="confirmGuestProfile">6 位左右，主宾为外地合作方负责人，首次线下会面，需要称呼、座次和轻话题提前准备。</strong>
+              </div>
+              <div class="confirm-block">
+                <span>禁忌与备注</span>
+                <strong id="confirmTaboos">避免讨论合同争议、个人隐私；请提前准备城市与行业轻话题。</strong>
+              </div>
             </div>
             <div class="card section">
               <div class="brand-chip">有个饭局 · 服务边界协议</div>
-              <p class="muted" style="margin-top: 10px">平台仅提供商务社交氛围协同、餐前准备与礼宾接待服务；不展示或交换助理私人联系方式；沟通通过平台客服或受控消息系统完成。</p>
+              <p class="muted" style="margin-top: 10px">平台仅提供商务社交氛围协同、餐前准备、礼宾接待与现场流程协同服务；不展示或交换服务人员私人联系方式；沟通通过平台客服或受控消息系统完成。</p>
               <label class="checkbox-line">
                 <input id="boundary" type="checkbox" />
                 <span>我已阅读并确认服务边界协议</span>
@@ -1037,24 +2038,20 @@
               <div class="brand-lockup">
                 <div class="brand-mark small" aria-hidden="true">
                   <div class="brand-symbol-inner">
-                    <div class="brand-stroke brand-m-left"></div>
-                    <div class="brand-stroke brand-m-down"></div>
-                    <div class="brand-stroke brand-m-up"></div>
-                    <div class="brand-stroke brand-e-vert"></div>
-                    <div class="brand-stroke brand-e-top"></div>
-                    <div class="brand-stroke brand-e-mid"></div>
-                    <div class="brand-stroke brand-e-bottom"></div>
+                    <img class="brand-symbol-image" src="./assets/logo-symbol-dark.svg" alt="" />
                   </div>
                 </div>
                 <div>
-                <div class="eyebrow">ORDERS</div>
+                <div class="eyebrow">订单详情</div>
                 <div class="h2">订单详情</div>
                 </div>
               </div>
             </div>
             <div class="card">
               <div class="summary-row"><span>订单号</span><strong>BS20260525001</strong></div>
-              <div class="summary-row"><span>状态</span><strong class="gold-text">餐前准备中</strong></div>
+              <div class="summary-row"><span>状态</span><strong id="orderStatusText" class="gold-text">服务完成 · 待评价</strong></div>
+              <div class="summary-row"><span>场景</span><strong id="orderSceneText">商务宴请</strong></div>
+              <div class="summary-row"><span>意向助理</span><strong id="orderAssistantText">林澈（BA-0218）</strong></div>
               <div class="summary-row"><span>服务时间</span><strong>2026-06-02 19:00</strong></div>
             </div>
             <div class="card section">
@@ -1062,18 +2059,121 @@
               <div class="timeline">
                 <div class="step done"><div class="dot"></div><div><strong>支付预约金</strong><p class="muted">客户确认协议并支付成功</p></div></div>
                 <div class="step done"><div class="dot"></div><div><strong>平台匹配</strong><p class="muted">运营根据城市、档期和场景匹配</p></div></div>
-                <div class="step done"><div class="dot"></div><div><strong>餐前准备</strong><p class="muted">生成可执行 brief 与任务清单</p></div></div>
-                <div class="step"><div class="dot"></div><div><strong>现场执行</strong><p class="muted">助理确认任务后执行</p></div></div>
+                <div class="step done"><div class="dot"></div><div><strong>餐前准备</strong><p class="muted">生成可执行简报与任务清单</p></div></div>
+                <div class="step done"><div class="dot"></div><div><strong>现场执行</strong><p class="muted">服务团队确认任务后执行</p></div></div>
+                <div class="step"><div class="dot"></div><div><strong>服务评价</strong><p class="muted">完成后转发独立评价页给客户</p></div></div>
               </div>
             </div>
-            <button class="btn ghost full section" data-go="staff">查看员工端 Brief</button>
+            <div class="card section">
+              <div class="h2">安心履约</div>
+              <p class="muted" style="margin-top: 8px">平台把关键动作拆成可追踪节点，客户不用在私聊里追进度。</p>
+              <div class="assurance-grid">
+                <div class="assurance-item"><strong>服务边界</strong><span>客户已确认协议，助理确认后进入执行。</span></div>
+                <div class="assurance-item"><strong>餐前简报</strong><span>主题、禁忌、话题和分工已生成。</span></div>
+                <div class="assurance-item"><strong>服务团队</strong><span id="orderTeamText">BA-0218、BA-0521 公开资料已审核。</span></div>
+                <div class="assurance-item"><strong>受控服务</strong><span>补充需求、发票、退款均由平台客服处理。</span></div>
+              </div>
+            </div>
+            <div class="card section review-panel">
+              <div class="summary-row"><span>评价状态</span><strong id="reviewStatusText" class="gold-text">待评价</strong></div>
+              <p class="muted" style="margin-top: 10px">服务完成后开放评价，页面可单独转发给客户。当前入口用于演示评价体验。</p>
+              <button class="btn gold full" style="margin-top: 14px" data-go="review">查看评价页演示</button>
+            </div>
+            <div class="card section">
+              <div class="h2">平台客服</div>
+              <p class="muted" style="margin-top: 8px">正式小程序将拉起企业微信客服；所有需求先写入平台留痕，再进入受控沟通。</p>
+              <div class="support-grid">
+                <div class="support-item primary" data-support="contact_service"><strong>联系企业微信客服</strong><span>订单问题、现场变更、异常情况统一进客服通道。</span></div>
+                <div class="support-item" data-support="add_requirement"><strong>补充需求</strong><span>嘉宾、禁忌、到场安排。</span></div>
+                <div class="support-item" data-support="reschedule"><strong>申请改期</strong><span>客服确认档期与费用差异。</span></div>
+                <div class="support-item" data-support="invoice"><strong>申请发票</strong><span>抬头与接收方式留痕。</span></div>
+                <div class="support-item" data-support="refund"><strong>申请退款</strong><span>按支付状态和规则核对。</span></div>
+              </div>
+            </div>
+            <button class="btn ghost full section" data-go="staff">查看员工端简报</button>
+          </section>
+
+          <section id="review" class="page">
+            <div class="section-head">
+              <div class="brand-lockup">
+                <div class="brand-mark small" aria-hidden="true">
+                  <div class="brand-symbol-inner">
+                    <img class="brand-symbol-image" src="./assets/logo-symbol-dark.svg" alt="" />
+                  </div>
+                </div>
+                <div>
+                  <div class="eyebrow">服务评价</div>
+                  <div class="h2">服务团队评价</div>
+                </div>
+              </div>
+            </div>
+            <div class="card review-hero-card">
+              <div class="brand-chip">独立评价页</div>
+              <div class="review-hero-title">请评价本次服务体验</div>
+              <div class="review-hero-meta">订单 BS20260518003 · 商务宴请 · 上海<br />仅用于复盘、质检和后续匹配，不公开客户身份。</div>
+              <div class="review-note">本页可单独转发给客户填写；不展示服务人员私人联系方式。</div>
+            </div>
+            <div class="card section">
+              <div class="review-score-head">
+                <div>
+                  <div class="h2">整体感受</div>
+                  <p class="muted" style="margin-top: 6px">先给整体分，再细分到执行维度。</p>
+                </div>
+                <div class="review-score-number" id="overallScoreText">5</div>
+              </div>
+              <div class="rating-line"><span>综合体验</span><span class="stars" data-rating-group="overall"></span></div>
+              <div class="rating-line"><span>氛围协同</span><span class="stars" data-rating-group="atmosphere"></span></div>
+              <div class="rating-line"><span>专业表达</span><span class="stars" data-rating-group="professional"></span></div>
+              <div class="rating-line"><span>分寸边界</span><span class="stars" data-rating-group="boundary"></span></div>
+              <div class="rating-line"><span>准时可靠</span><span class="stars" data-rating-group="punctuality"></span></div>
+            </div>
+            <div class="card section">
+              <div class="h2">服务人员评价</div>
+              <p class="muted" style="margin-top: 6px">逐一评价公开编号对应的服务表现。</p>
+              <div class="review-assistant">
+                <div class="review-assistant-head"><strong>BA-0218 · 林澈</strong><span class="gold-text" id="assistantScoreA">5 / 5</span></div>
+                <span class="stars" data-rating-group="assistantA"></span>
+                <textarea class="textarea" style="margin-top: 0">表达克制，开场自然，现场分寸感很好。</textarea>
+              </div>
+              <div class="review-assistant">
+                <div class="review-assistant-head"><strong>BA-0521 · 周予安</strong><span class="gold-text" id="assistantScoreB">4 / 5</span></div>
+                <span class="stars" data-rating-group="assistantB"></span>
+                <textarea class="textarea" style="margin-top: 0">餐前准备到位，现场节奏控制稳定。</textarea>
+              </div>
+            </div>
+            <div class="card section">
+              <div class="h2">复盘重点</div>
+              <div class="tag-row"><span class="tag selectable active">分寸得体</span><span class="tag selectable active">自然破冰</span><span class="tag selectable">不抢主角</span><span class="tag selectable">准时可靠</span><span class="tag selectable">简报执行到位</span></div>
+              <textarea class="textarea" style="margin-top: 12px">整体自然得体，餐前准备到位，现场节奏控制很好。</textarea>
+              <div style="margin-top: 12px">
+                <div class="label">后续是否愿意继续使用</div>
+                <div class="repurchase-options">
+                  <div class="repurchase-option active" data-repurchase>愿意</div>
+                  <div class="repurchase-option" data-repurchase>视场景</div>
+                  <div class="repurchase-option" data-repurchase>暂不</div>
+                </div>
+              </div>
+            </div>
+            <button class="btn gold full section" id="reviewSubmit">提交评价</button>
           </section>
 
           <section id="staff" class="page">
             <div class="section-head">
               <div>
-                <div class="eyebrow">STAFF BRIEF</div>
-                <div class="h2">餐前 Brief</div>
+                <div class="eyebrow">员工执行台</div>
+                <div class="h2">移动执行台</div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="workbench-grid">
+                <div class="workbench-item"><strong>1</strong><span>今日任务</span></div>
+                <div class="workbench-item"><strong>2/4</strong><span>任务进度</span></div>
+                <div class="workbench-item"><strong>待签到</strong><span>现场状态</span></div>
+                <div class="workbench-item"><strong>待结算</strong><span>结算跟进</span></div>
+              </div>
+              <div class="grid-2" style="margin-top: 12px">
+                <button class="btn gold full" data-toast="已到场签到">到场签到</button>
+                <button class="btn ghost full" data-toast="签退后进入复盘">服务签退</button>
               </div>
             </div>
             <div class="card">
@@ -1082,19 +2182,19 @@
               <div class="summary-row"><span>着装</span><strong>深色商务装</strong></div>
             </div>
             <div class="card section">
-              <div class="h2">助理可见 Brief</div>
+              <div class="h2">员工可见简报</div>
               <p class="brief-text" style="margin-top: 12px">目标是让初次会面更自然。建议围绕城市印象、行业趋势、项目经验等轻商务话题展开。注意保持克制，不主动触碰价格底线、竞品负面评价和客户个人隐私。</p>
               <div class="tag-row"><span class="tag">城市印象</span><span class="tag">行业趋势</span><span class="tag red">避开价格底线</span></div>
             </div>
             <div class="card section">
               <div class="h2">任务清单</div>
-              <div class="task"><div class="check">✓</div><div><strong>阅读餐前 brief</strong><p class="muted">确认主题、氛围需求和禁忌话题。</p></div></div>
+              <div class="task"><div class="check">✓</div><div><strong>阅读餐前简报</strong><p class="muted">确认主题、氛围需求和禁忌话题。</p></div></div>
               <div class="task"><div class="check"></div><div><strong>确认着装与到场时间</strong><p class="muted">服务前 20 分钟到场。</p></div></div>
             </div>
             <div class="card section">
               <div class="h2">服务边界确认</div>
               <label class="checkbox-line"><input id="staffBoundary" type="checkbox" /><span>我已阅读并确认服务边界协议</span></label>
-              <button class="btn gold full" style="margin-top: 14px" id="staffConfirm">确认 Brief</button>
+              <button class="btn gold full" style="margin-top: 14px" id="staffConfirm">确认简报</button>
             </div>
           </section>
 
@@ -1103,17 +2203,11 @@
               <div class="brand-lockup">
                 <div class="brand-mark small" aria-hidden="true">
                   <div class="brand-symbol-inner">
-                    <div class="brand-stroke brand-m-left"></div>
-                    <div class="brand-stroke brand-m-down"></div>
-                    <div class="brand-stroke brand-m-up"></div>
-                    <div class="brand-stroke brand-e-vert"></div>
-                    <div class="brand-stroke brand-e-top"></div>
-                    <div class="brand-stroke brand-e-mid"></div>
-                    <div class="brand-stroke brand-e-bottom"></div>
+                    <img class="brand-symbol-image" src="./assets/logo-symbol-dark.svg" alt="" />
                   </div>
                 </div>
                 <div>
-                <div class="eyebrow">ACCOUNT</div>
+                <div class="eyebrow">用户中心</div>
                 <div class="h2">用户中心</div>
                 </div>
               </div>
@@ -1135,26 +2229,43 @@
             <button class="nav-item" data-go="orders">订单</button>
             <button class="nav-item" data-go="profile">我的</button>
           </div>
+          <div class="customer-sheet" id="customerServiceSheet" aria-hidden="true">
+            <div class="customer-sheet-card">
+              <div class="brand-chip">企业微信客服</div>
+              <div class="h2" id="customerServiceTitle" style="margin-top: 10px">联系平台客服</div>
+              <p class="muted" style="margin-top: 8px">正式小程序将调用企业微信客服接口，当前 demo 用此面板模拟受控沟通入口。</p>
+              <div class="confirm-block">
+                <span>订单</span>
+                <strong>BS20260525001 · <span id="customerServiceScene">商务宴请</span></strong>
+              </div>
+              <textarea class="textarea" id="customerServiceNote" style="margin-top: 10px">请客服协助处理本次订单需求。</textarea>
+              <div class="customer-sheet-actions">
+                <button class="btn ghost full" id="customerServiceClose">稍后处理</button>
+                <button class="btn gold full" id="customerServiceOpen">拉起企业微信客服</button>
+              </div>
+            </div>
+          </div>
           <div class="toast" id="toast"></div>
         </div>
       </section>
 
       <aside class="side">
-        <div class="eyebrow">Mini Program Demo</div>
+        <div class="eyebrow">小程序演示版</div>
         <h1>有个饭局小程序演示版</h1>
-        <p>这是基于当前项目内容生成的可交互预览：展示客户端下单链路、协议确认、支付结果、订单进度，以及员工端餐前 brief 与任务确认。左侧手机框可以直接点击操作。</p>
+        <p>这是基于当前项目内容生成的可交互预览：覆盖商务宴请、私人茶会、酒会沙龙、高尔夫同场、城市礼宾、闭门沙龙、艺术展览、运动社交与品牌私享会，展示下单、协议、支付、订单、评价和员工端执行台。</p>
         <div class="demo-actions">
           <button class="btn gold" data-go="booking">体验下单</button>
-          <button class="btn primary" data-go="staff">员工端 Brief</button>
-          <button class="btn ghost" data-go="assistants">查看助理</button>
+          <button class="btn primary" data-go="staff">员工端执行台</button>
+          <button class="btn ghost" data-go="review">客户评价</button>
+          <button class="btn ghost" data-go="assistants">选助理</button>
         </div>
         <div class="flow">
-          <div class="flow-card"><div class="num">01</div><h3>需求提交</h3><p>城市、日期、人数、预算、偏好、禁忌和备注。</p></div>
+          <div class="flow-card"><div class="num">01</div><h3>需求提交</h3><p>城市、区域、场地、会合点、人数、预算、偏好和禁忌。</p></div>
           <div class="flow-card"><div class="num">02</div><h3>协议与支付</h3><p>必须确认服务边界协议，支付平台预约金。</p></div>
-          <div class="flow-card"><div class="num">03</div><h3>餐前 Brief</h3><p>运营生成助理可执行任务清单和现场分工。</p></div>
-          <div class="flow-card"><div class="num">04</div><h3>合规风控</h3><p>敏感词、资料审核、投诉与异常订单留痕。</p></div>
+          <div class="flow-card"><div class="num">03</div><h3>服务准备</h3><p>城市团队、档期匹配、餐前简报和异常风险统一推进。</p></div>
+          <div class="flow-card"><div class="num">04</div><h3>评价质检</h3><p>客户评价进入服务评分、复盘培训和后续匹配。</p></div>
         </div>
-        <div class="notice">说明：这是浏览器预览 demo，用于直观看小程序产品形态；真实微信端代码仍在 <strong>apps/mp-client/miniprogram</strong>，需用微信开发者工具打开运行。</div>
+        <div class="notice">说明：这是浏览器预览版，用于直观看小程序产品形态；真实微信端代码仍在小程序源码目录，需用微信开发者工具打开运行。</div>
       </aside>
     </main>
 
@@ -1162,6 +2273,235 @@
       const pages = Array.from(document.querySelectorAll(".page"));
       const navItems = Array.from(document.querySelectorAll(".nav-item"));
       const toast = document.getElementById("toast");
+      const backButton = document.getElementById("backButton");
+      const customerServiceSheet = document.getElementById("customerServiceSheet");
+      let pageHistory = ["home"];
+      let currentPage = "home";
+      const supportCopy = {
+        contact_service: ["联系平台客服", "请客服协助处理本次订单需求。"],
+        add_requirement: ["补充需求", "请客服补充同步嘉宾、禁忌、到场或现场安排。"],
+        reschedule: ["申请改期", "请客服协助确认新的日期、时间和费用差异。"],
+        invoice: ["申请发票", "请客服协助确认发票抬头、税号和接收方式。"],
+        refund: ["申请退款", "请客服按支付状态和订单阶段核对退款规则。"]
+      };
+      const sceneContent = {
+        business: {
+          title: "商务宴请",
+          desc: "客户宴请、合作方接待、重要项目沟通，重点是餐前准备、现场礼宾和自然氛围协同。",
+          image: "url('./assets/scene-business-dinner.jpg')",
+          scope: ["餐前简报", "现场礼宾协同", "话题氛围辅助", "服务后复盘"]
+        },
+        tea: {
+          title: "私人茶会",
+          desc: "茶艺师、茶席流程与轻话题节奏协同，适合小范围会面、关系维护和长辈接待。",
+          image: "url('./assets/scene-private-tea.jpg')",
+          scope: ["茶艺师服务", "茶席流程建议", "轻话题准备", "会后反馈"]
+        },
+        wine: {
+          title: "高端酒会",
+          desc: "侍酒师协同、宾客照应与酒会礼仪控制，适合品牌私享会、商务酒会和圈层沙龙。",
+          image: "url('./assets/scene-wine-reception.jpg')",
+          scope: ["侍酒建议", "宾客照应", "话题分寸提醒", "现场反馈"]
+        },
+        golf: {
+          title: "高尔夫商务同场",
+          desc: "围绕球局礼仪、动线节奏和商务关系维护做协同，让休闲场景保持得体边界。",
+          image: "url('./assets/scene-golf-social.jpg')",
+          scope: ["球局礼仪提醒", "动线与节奏协同", "客户照应", "服务复盘"]
+        },
+        city: {
+          title: "城市临时管家",
+          desc: "当地礼宾、到访动线与临时事项统筹，适合高净值客户临时到访和多点行程协同。",
+          image: "url('./assets/scene-city-concierge.jpg')",
+          scope: ["到访动线", "本地礼宾建议", "临时事项协调", "客服跟进"]
+        },
+        salon: {
+          title: "闭门沙龙",
+          desc: "小范围圈层交流、私享议题和会员制空间场景，重点是议题节奏、宾客照应和现场分寸。",
+          image: "url('./assets/scene-closed-salon.jpg')",
+          scope: ["议题节奏准备", "宾客照应", "轻话题协同", "内部复盘"]
+        },
+        art: {
+          title: "艺术展览",
+          desc: "适合艺术展览、画廊私享预览和文化场景会面，提供审美话题、观展动线与礼宾协同。",
+          image: "url('./assets/scene-art-preview.jpg')",
+          scope: ["观展动线建议", "审美话题准备", "嘉宾照应", "服务后反馈"]
+        },
+        tennis: {
+          title: "运动社交",
+          desc: "围绕网球、轻运动和会后轻餐展开，帮助休闲场景保持自然、健康和得体边界。",
+          image: "url('./assets/scene-tennis-social.jpg')",
+          scope: ["运动礼仪提醒", "场地动线协同", "会后轻餐衔接", "服务复盘"]
+        },
+        brand: {
+          title: "品牌私享会",
+          desc: "适合品牌私享会、贵宾预览和高端体验活动，重点是接待秩序、礼宾动线与体验节奏。",
+          image: "url('./assets/scene-brand-private-event.jpg')",
+          scope: ["贵宾接待", "现场礼宾", "体验节奏维护", "异常提醒"]
+        }
+      };
+      let currentSceneKey = "business";
+      let currentAssistant = null;
+      const sceneDeposits = {
+        business: 1200,
+        tea: 800,
+        wine: 1500,
+        golf: 1200,
+        city: 1600,
+        salon: 1800,
+        art: 1200,
+        tennis: 1200,
+        brand: 2000
+      };
+      const cityDistrictDefaults = {
+        上海: "静安区 · 南京西路商圈",
+        北京: "朝阳区 · 国贸/三里屯",
+        深圳: "南山区 · 后海/深圳湾",
+        杭州: "西湖区 · 湖滨/龙井",
+        广州: "天河区 · 珠江新城",
+        成都: "锦江区 · 太古里/金融城",
+        苏州: "工业园区 · 金鸡湖",
+        南京: "秦淮区 · 新街口/老门东"
+      };
+      const sceneExecutionDefaults = {
+        business: {
+          venueType: "高端商务餐厅 / 私宴包间",
+          arrivalWindow: "18:30-18:50 到场确认",
+          transportNote: "提前 30 分钟抵达，客服统一同步包间与动线",
+          goal: "重要客户晚宴接待，希望现场自然打开话题，保持正式但不生硬。",
+          guestProfile: "6 位左右，主宾为合作方负责人，首次线下会面，需要称呼、座次和轻话题提前准备。"
+        },
+        tea: {
+          venueType: "私享茶室 / 会所茶空间",
+          arrivalWindow: "14:10-14:25 茶席确认",
+          transportNote: "提前核对茶室包间、入场路线和茶席位置",
+          goal: "以茶叙方式维护关系，节奏安静，话题轻，但不失礼貌和分寸。",
+          guestProfile: "小范围会面，重视文化感和安静交流，需要提前准备茶席流程与称呼。"
+        },
+        wine: {
+          venueType: "会员制酒会空间 / 品鉴会场",
+          arrivalWindow: "19:10-19:30 现场就位",
+          transportNote: "提前确认签到动线、主宾位置和酒水节奏",
+          goal: "品牌或商务酒会接待，需要宾客照应、话题衔接和现场秩序协同。",
+          guestProfile: "宾客流动性较强，需识别主宾、重点客户和不可打扰对象。"
+        },
+        golf: {
+          venueType: "高尔夫俱乐部 / 会所轻餐区",
+          arrivalWindow: "开球前 45 分钟到场",
+          transportNote: "提前确认会所、球车、练习区和会后轻餐动线",
+          goal: "球局中保持礼仪和轻松氛围，会后自然衔接轻餐或项目沟通。",
+          guestProfile: "2-4 组球友或商务客户，重视运动礼仪、边界感和节奏控制。"
+        },
+        city: {
+          venueType: "酒店大堂 / 商务车动线 / 城市接待点",
+          arrivalWindow: "按航班/高铁到达前 20 分钟就位",
+          transportNote: "提前确认抵达口、车辆位置、酒店或会面点",
+          goal: "外地贵宾临时到访，需要本地礼宾、路线衔接和临时事项统筹。",
+          guestProfile: "高净值客户或重要合作方，行程可能临时变化，需要响应快且表达克制。"
+        },
+        salon: {
+          venueType: "闭门沙龙空间 / 会员制会客厅",
+          arrivalWindow: "活动前 30 分钟完成场地确认",
+          transportNote: "提前确认签到、座次、议题流程和退场动线",
+          goal: "小范围圈层交流，重点维持议题节奏、宾客照应和现场分寸。",
+          guestProfile: "参会者关系密度高，需避免过度热络，重点识别主持人和核心嘉宾。"
+        },
+        art: {
+          venueType: "画廊 / 美术馆私享预览",
+          arrivalWindow: "开场前 25 分钟完成观展动线确认",
+          transportNote: "提前确认入口、展线、休息区和展后轻餐位置",
+          goal: "观展会面需要审美话题、礼宾动线和轻量陪同协同。",
+          guestProfile: "客户关注审美和体验，不宜强推话题，需要留足空间。"
+        },
+        tennis: {
+          venueType: "网球俱乐部 / 轻运动场地",
+          arrivalWindow: "开场前 35 分钟到场",
+          transportNote: "提前确认更衣、场地、休息区和会后轻餐安排",
+          goal: "运动社交中保持自然、健康和得体，帮助会后轻餐顺畅衔接。",
+          guestProfile: "轻运动客户或朋友小局，需要气氛自然，不制造过度热闹。"
+        },
+        brand: {
+          venueType: "品牌私享空间 / 贵宾预览会场",
+          arrivalWindow: "活动前 40 分钟就位",
+          transportNote: "提前确认签到、贵宾休息区、展示动线和异常处理口径",
+          goal: "贵宾体验需要礼宾秩序、现场节奏维护和重点客户照应。",
+          guestProfile: "品牌贵宾、合作方或私域客户，重视体验完整度和低调的服务存在感。"
+        }
+      };
+      const assistantProfiles = {
+        business: [
+          { no: "BA-0218", name: "林澈", city: "上海", img: "business-01.jpg", tags: ["沉稳", "正式感", "形象合规"], talents: ["钢琴十级", "商务英语接待 50+ 场", "美术馆观展 80+ 次"], intro: "适合重要客户晚宴。稳住开场，接住冷场，不抢主位。" },
+          { no: "BA-0266", name: "许知意", city: "北京", img: "business-02.jpg", tags: ["大方", "亲和", "控场"], talents: ["主持训练 120 小时", "网球 NTRP 3.0", "流行钢琴曲目 18 首"], intro: "适合第一次见面的局。开口自然，分寸清楚，场子不冷。" },
+          { no: "BA-0317", name: "周予安", city: "深圳", img: "business-03.jpg", tags: ["干练", "清爽", "礼宾"], talents: ["半马 2小时05分", "英语寒暄 80+ 句", "摄影修图 300+ 张"], intro: "适合高规格接待。逻辑清楚，反应快，执行不拖泥带水。" },
+          { no: "BA-0412", name: "沈清予", city: "杭州", img: "business-04.jpg", tags: ["温和", "书卷气", "稳"], talents: ["国画花鸟 60+ 幅", "古典音乐歌单 200 首", "瑜伽 200 小时训练"], intro: "适合不宜太热闹的局。存在感轻，但能稳住礼貌和气氛。" },
+          { no: "BA-0489", name: "唐若宁", city: "成都", img: "business-05.jpg", tags: ["松弛", "会接话", "轻商务"], talents: ["声乐训练 4 年", "羽毛球校队 2 年", "展览导览 30+ 场"], intro: "适合气氛要轻松的局。会接话，会留白，不把场面推过头。" },
+          { no: "BA-0560", name: "程以安", city: "广州", img: "business-06.jpg", tags: ["利落", "商务感", "细节控"], talents: ["商务接待复盘 70+ 场", "普拉提训练 180 小时", "粤语普通话双语切换"], intro: "适合目标明确的饭局。提前做功课，现场少出错。" }
+        ],
+        tea: [
+          { no: "BA-0616", name: "苏言", city: "杭州", img: "tea-01.jpg", tags: ["清雅", "安静", "茶席感"], talents: ["茶艺培训 160 小时", "古琴曲目 8 首", "书法临帖 3 年"], intro: "适合安静茶局。节奏慢，话不多，但每句都有位置。" },
+          { no: "BA-0673", name: "顾清岚", city: "苏州", img: "tea-02.jpg", tags: ["温婉", "礼貌", "文化感"], talents: ["苏式评弹曲目 10 首", "茶席布置 50+ 次", "园林导览 40+ 次"], intro: "适合偏中式的关系局。懂礼貌，也懂什么时候不说话。" },
+          { no: "BA-0729", name: "叶听晚", city: "上海", img: "tea-03.jpg", tags: ["知性", "克制", "审美好"], talents: ["美术馆导览 60+ 场", "油画临摹 40+ 幅", "英语阅读书单 120 本"], intro: "适合有审美门槛的局。话题干净，不油，不浮。" },
+          { no: "BA-0788", name: "陆青禾", city: "南京", img: "tea-04.jpg", tags: ["柔和", "耐心", "会照应"], talents: ["瑜伽 300 小时训练", "插花作品 80+ 件", "普通话一级乙等"], intro: "适合慢热客户。能让人放松，但不会让场面失焦。" },
+          { no: "BA-0835", name: "宋知微", city: "北京", img: "tea-05.jpg", tags: ["清醒", "稳准", "书卷气"], talents: ["辩论赛校队 2 年", "古典文学阅读 100+ 本", "普拉提训练 160 小时"], intro: "适合要谈事的茶局。能把散话收住，也能把话题递出去。" },
+          { no: "BA-0891", name: "温栀", city: "成都", img: "tea-06.jpg", tags: ["亲和", "自然", "茶艺师"], talents: ["茶艺师课程 180 小时", "民谣吉他曲目 20 首", "徒步 100+ 公里"], intro: "适合轻松茶叙。亲和但不黏，热络但不闹。" }
+        ],
+        wine: [
+          { no: "BA-0918", name: "陈若白", city: "上海", img: "wine-01.jpg", tags: ["成熟", "利落", "酒会感"], talents: ["WSET 二级", "爵士乐歌单 300 首", "商务沙龙协同 40+ 场"], intro: "适合品牌酒会。能照应，能退场，不制造多余热闹。" },
+          { no: "BA-0972", name: "梁景初", city: "广州", img: "wine-02.jpg", tags: ["大气", "从容", "国际化"], talents: ["英语商务接待 80+ 场", "拉丁舞训练 3 年", "红酒品鉴笔记 120 篇"], intro: "适合人多的酒会。看得见全场，也守得住边界。" },
+          { no: "BA-1030", name: "夏知夏", city: "深圳", img: "wine-03.jpg", tags: ["明亮", "会破冰", "不浮夸"], talents: ["声乐舞台 20+ 次", "网球训练 260 小时", "活动主持 30+ 场"], intro: "适合需要打开气氛的酒会。热度够，但不会过火。" },
+          { no: "BA-1086", name: "何映宁", city: "北京", img: "wine-04.jpg", tags: ["冷静", "高级", "审美型"], talents: ["美术馆导览 90+ 场", "法语寒暄 60 句", "普拉提训练 200 小时"], intro: "适合品牌局。气质冷静，话题有质感，不急着靠近。" },
+          { no: "BA-1151", name: "孟听澜", city: "杭州", img: "wine-05.jpg", tags: ["温柔", "细致", "礼宾"], talents: ["小提琴曲目 15 首", "插花作品 100+ 件", "礼仪培训 120 小时"], intro: "适合规格高但不宜张扬的酒会。细节好，存在感刚好。" },
+          { no: "BA-1198", name: "江晚晴", city: "成都", img: "wine-06.jpg", tags: ["松弛", "自然", "社交感"], talents: ["爵士舞训练 4 年", "摄影作品 500+ 张", "威士忌品鉴笔记 80 篇"], intro: "适合不想冷场的局。自然接话，不硬推关系。" }
+        ],
+        golf: [
+          { no: "BA-1260", name: "林予鹿", city: "深圳", img: "golf-01.jpg", tags: ["运动感", "清爽", "高尔夫"], talents: ["高尔夫练习 300 小时", "10 公里 55 分钟", "英语球局寒暄 50 句"], intro: "适合商务球局。懂节奏，懂礼仪，也懂什么时候安静。" },
+          { no: "BA-1314", name: "乔安然", city: "上海", img: "golf-02.jpg", tags: ["活力", "亲和", "边界感"], talents: ["网球 NTRP 3.5", "高尔夫下场 30+ 次", "爵士鼓基础曲目 12 首"], intro: "适合轻松球局。能打开话题，但不会把场子带偏。" },
+          { no: "BA-1377", name: "姜一禾", city: "北京", img: "golf-03.jpg", tags: ["利落", "专注", "执行强"], talents: ["高尔夫规则学习 100 小时", "普拉提 200 小时训练", "半马 2小时12分"], intro: "适合时间紧的球局。执行利落，不让流程散掉。" },
+          { no: "BA-1425", name: "贺南星", city: "杭州", img: "golf-04.jpg", tags: ["安静", "耐心", "观察力"], talents: ["瑜伽 300 小时训练", "徒步 200+ 公里", "摄影作品 400+ 张"], intro: "适合不喜欢被打扰的客户。照应到位，但不贴身。" },
+          { no: "BA-1489", name: "安予希", city: "成都", img: "golf-05.jpg", tags: ["开朗", "运动", "松弛"], talents: ["羽毛球市级业余赛 8 强", "高尔夫练习 180 小时", "民谣吉他曲目 25 首"], intro: "适合轻社交球局。把气氛打开，但不显得用力。" },
+          { no: "BA-1536", name: "秦若川", city: "广州", img: "golf-06.jpg", tags: ["大方", "稳", "礼仪感"], talents: ["高尔夫下场 40+ 次", "粤语普通话双语切换", "商务礼仪培训 100 小时"], intro: "适合球局转晚宴。前后场能接上，不断档。" }
+        ],
+        city: [
+          { no: "BA-1602", name: "沈南枝", city: "上海", img: "city-01.jpg", tags: ["可靠", "本地通", "细节控"], talents: ["上海接待动线 120+ 条", "英语接待 80+ 场", "摄影修图 500+ 张"], intro: "适合外地贵宾到访。路线、时间、称呼，都能提前稳住。" },
+          { no: "BA-1668", name: "白以宁", city: "北京", img: "city-02.jpg", tags: ["端正", "礼宾", "稳重"], talents: ["北京文化线路 60+ 条", "书法临帖 4 年", "普通话一级乙等"], intro: "适合规格高的接待。礼貌端正，安排有章法。" },
+          { no: "BA-1721", name: "谢云舒", city: "深圳", img: "city-03.jpg", tags: ["高效", "国际化", "反应快"], talents: ["英语商务沟通 100+ 场", "网球 NTRP 3.0", "展会接待 50+ 场"], intro: "适合节奏快的客户。改程不慌，信息不乱。" },
+          { no: "BA-1790", name: "罗知予", city: "杭州", img: "city-04.jpg", tags: ["审美好", "温和", "城市感"], talents: ["杭州审美路线 45 条", "茶席布置 60+ 次", "美术馆观展 100+ 次"], intro: "适合看重体验的客户。路线不俗，安排不浮夸。" },
+          { no: "BA-1833", name: "段清和", city: "成都", img: "city-05.jpg", tags: ["松弛", "会安排", "亲和"], talents: ["成都本地路线 80+ 条", "民谣吉他曲目 30 首", "徒步 180+ 公里"], intro: "适合临时来访。安排舒服，不端着，也不乱热情。" },
+          { no: "BA-1905", name: "梅若安", city: "广州", img: "city-06.jpg", tags: ["干练", "周到", "南方礼宾"], talents: ["粤语普通话双语切换", "广州动线 90+ 条", "急救培训 24 小时"], intro: "适合高要求临时接待。响应快，事落地，人不乱。" }
+        ],
+        salon: [
+          { no: "BA-0266", name: "许知意", city: "北京", img: "business-02.jpg", tags: ["控场", "亲和", "议题感"], talents: ["主持训练 120 小时", "网球 NTRP 3.0", "流行钢琴曲目 18 首"], intro: "适合闭门小局。能把话题递出去，也知道什么时候收住。" },
+          { no: "BA-0835", name: "宋知微", city: "北京", img: "tea-05.jpg", tags: ["清醒", "稳准", "书卷气"], talents: ["辩论赛校队 2 年", "古典文学阅读 100+ 本", "普拉提训练 160 小时"], intro: "适合有明确议题的沙龙。逻辑稳，不抢话，不让场面散。" },
+          { no: "BA-0918", name: "陈若白", city: "上海", img: "wine-01.jpg", tags: ["成熟", "利落", "沙龙感"], talents: ["WSET 二级", "爵士乐歌单 300 首", "商务沙龙协同 40+ 场"], intro: "适合私享交流。能照应宾客，也能让节奏保持高级和安静。" },
+          { no: "BA-1668", name: "白以宁", city: "北京", img: "city-02.jpg", tags: ["端正", "礼宾", "稳重"], talents: ["北京文化线路 60+ 条", "书法临帖 4 年", "普通话一级乙等"], intro: "适合规格高的闭门会。称呼、座次、节奏都能提前稳住。" },
+          { no: "BA-0412", name: "沈清予", city: "杭州", img: "business-04.jpg", tags: ["温和", "书卷气", "稳"], talents: ["国画花鸟 60+ 幅", "古典音乐歌单 200 首", "瑜伽 200 小时训练"], intro: "适合不宜热闹的沙龙。存在感轻，但能把礼貌和分寸托住。" },
+          { no: "BA-1151", name: "孟听澜", city: "杭州", img: "wine-05.jpg", tags: ["温柔", "细致", "礼宾"], talents: ["小提琴曲目 15 首", "插花作品 100+ 件", "礼仪培训 120 小时"], intro: "适合重视细节的私享会。照应到位，表达克制，氛围不浮。" }
+        ],
+        art: [
+          { no: "BA-0729", name: "叶听晚", city: "上海", img: "tea-03.jpg", tags: ["知性", "克制", "审美好"], talents: ["美术馆导览 60+ 场", "油画临摹 40+ 幅", "英语阅读书单 120 本"], intro: "适合展览预览。话题干净，有审美判断，不把观展变成表演。" },
+          { no: "BA-1086", name: "何映宁", city: "北京", img: "wine-04.jpg", tags: ["冷静", "高级", "审美型"], talents: ["美术馆导览 90+ 场", "法语寒暄 60 句", "普拉提训练 200 小时"], intro: "适合品牌与艺术交叉场景。气质冷静，表达有距离感。" },
+          { no: "BA-1790", name: "罗知予", city: "杭州", img: "city-04.jpg", tags: ["审美好", "温和", "城市感"], talents: ["杭州审美路线 45 条", "茶席布置 60+ 次", "美术馆观展 100+ 次"], intro: "适合看重体验的客户。路线不俗，话题不俗，安排不浮夸。" },
+          { no: "BA-0412", name: "沈清予", city: "杭州", img: "business-04.jpg", tags: ["温和", "书卷气", "稳"], talents: ["国画花鸟 60+ 幅", "古典音乐歌单 200 首", "瑜伽 200 小时训练"], intro: "适合安静观展。能提供轻话题，也能把空间留给客户。" },
+          { no: "BA-0673", name: "顾清岚", city: "苏州", img: "tea-02.jpg", tags: ["温婉", "礼貌", "文化感"], talents: ["苏式评弹曲目 10 首", "茶席布置 50+ 次", "园林导览 40+ 次"], intro: "适合偏文化审美的会面。懂礼貌，也懂少说话的价值。" },
+          { no: "BA-1151", name: "孟听澜", city: "杭州", img: "wine-05.jpg", tags: ["温柔", "细致", "礼宾"], talents: ["小提琴曲目 15 首", "插花作品 100+ 件", "礼仪培训 120 小时"], intro: "适合展后轻餐衔接。细节好，照应自然，不制造压力。" }
+        ],
+        tennis: [
+          { no: "BA-1314", name: "乔安然", city: "上海", img: "golf-02.jpg", tags: ["活力", "亲和", "边界感"], talents: ["网球 NTRP 3.5", "高尔夫下场 30+ 次", "爵士鼓基础曲目 12 首"], intro: "适合轻运动社交。能打开话题，但不会把场子带偏。" },
+          { no: "BA-1260", name: "林予鹿", city: "深圳", img: "golf-01.jpg", tags: ["运动感", "清爽", "高尔夫"], talents: ["高尔夫练习 300 小时", "10 公里 55 分钟", "英语球局寒暄 50 句"], intro: "适合运动场景。懂节奏，懂礼仪，也懂什么时候安静。" },
+          { no: "BA-1489", name: "安予希", city: "成都", img: "golf-05.jpg", tags: ["开朗", "运动", "松弛"], talents: ["羽毛球市级业余赛 8 强", "高尔夫练习 180 小时", "民谣吉他曲目 25 首"], intro: "适合轻社交运动局。把气氛打开，但不显得用力。" },
+          { no: "BA-0266", name: "许知意", city: "北京", img: "business-02.jpg", tags: ["大方", "亲和", "控场"], talents: ["主持训练 120 小时", "网球 NTRP 3.0", "流行钢琴曲目 18 首"], intro: "适合初次运动会面。开口自然，分寸清楚，会后衔接顺。" },
+          { no: "BA-1030", name: "夏知夏", city: "深圳", img: "wine-03.jpg", tags: ["明亮", "会破冰", "不浮夸"], talents: ["声乐舞台 20+ 次", "网球训练 260 小时", "活动主持 30+ 场"], intro: "适合需要自然热度的局。热度够，但不会过火。" },
+          { no: "BA-1721", name: "谢云舒", city: "深圳", img: "city-03.jpg", tags: ["高效", "国际化", "反应快"], talents: ["英语商务沟通 100+ 场", "网球 NTRP 3.0", "展会接待 50+ 场"], intro: "适合节奏快的客户。运动、轻餐、改程都能衔接清楚。" }
+        ],
+        brand: [
+          { no: "BA-0918", name: "陈若白", city: "上海", img: "wine-01.jpg", tags: ["成熟", "利落", "酒会感"], talents: ["WSET 二级", "爵士乐歌单 300 首", "商务沙龙协同 40+ 场"], intro: "适合品牌私享会。能照应，能退场，不制造多余热闹。" },
+          { no: "BA-1086", name: "何映宁", city: "北京", img: "wine-04.jpg", tags: ["冷静", "高级", "审美型"], talents: ["美术馆导览 90+ 场", "法语寒暄 60 句", "普拉提训练 200 小时"], intro: "适合高端体验局。气质冷静，话题有质感，不急着靠近。" },
+          { no: "BA-0317", name: "周予安", city: "深圳", img: "business-03.jpg", tags: ["干练", "清爽", "礼宾"], talents: ["半马 2小时05分", "英语寒暄 80+ 句", "摄影修图 300+ 张"], intro: "适合品牌贵宾接待。逻辑清楚，反应快，执行不拖泥带水。" },
+          { no: "BA-1602", name: "沈南枝", city: "上海", img: "city-01.jpg", tags: ["可靠", "本地通", "细节控"], talents: ["上海接待动线 120+ 条", "英语接待 80+ 场", "摄影修图 500+ 张"], intro: "适合外地贵宾参加私享会。路线、时间、称呼都能提前稳住。" },
+          { no: "BA-1151", name: "孟听澜", city: "杭州", img: "wine-05.jpg", tags: ["温柔", "细致", "礼宾"], talents: ["小提琴曲目 15 首", "插花作品 100+ 件", "礼仪培训 120 小时"], intro: "适合规格高但不宜张扬的活动。细节好，存在感刚好。" },
+          { no: "BA-0560", name: "程以安", city: "广州", img: "business-06.jpg", tags: ["利落", "商务感", "细节控"], talents: ["商务接待复盘 70+ 场", "普拉提训练 180 小时", "粤语普通话双语切换"], intro: "适合目标明确的私享会。提前做功课，现场少出错。" }
+        ]
+      };
 
       function showToast(message) {
         toast.textContent = message;
@@ -1170,15 +2510,248 @@
         window.__toastTimer = window.setTimeout(() => toast.classList.remove("show"), 1800);
       }
 
-      function go(pageId) {
-        pages.forEach(page => page.classList.toggle("active", page.id === pageId));
-        navItems.forEach(item => item.classList.toggle("active", item.dataset.go === pageId));
+      function openCustomerService(type) {
+        const sceneTitle = sceneContent[currentSceneKey]?.title || "商务宴请";
+        const [title, note] = supportCopy[type] || supportCopy.contact_service;
+        document.getElementById("customerServiceTitle").textContent = title;
+        document.getElementById("customerServiceNote").value = note;
+        document.getElementById("customerServiceScene").textContent = sceneTitle;
+        customerServiceSheet.classList.add("show");
+        customerServiceSheet.setAttribute("aria-hidden", "false");
       }
 
+      function closeCustomerService() {
+        customerServiceSheet.classList.remove("show");
+        customerServiceSheet.setAttribute("aria-hidden", "true");
+      }
+
+      function renderRatingGroup(field, score) {
+        document.querySelectorAll(`[data-rating-group="${field}"]`).forEach(group => {
+          group.innerHTML = [1, 2, 3, 4, 5].map(value => (
+            `<button class="review-star ${value <= score ? "active" : ""}" data-rate="${field}" data-score="${value}" aria-label="${value}分">★</button>`
+          )).join("");
+        });
+      }
+
+      function setRating(field, score) {
+        renderRatingGroup(field, score);
+        if (field === "overall") document.getElementById("overallScoreText").textContent = String(score);
+        if (field === "assistantA") document.getElementById("assistantScoreA").textContent = `${score} / 5`;
+        if (field === "assistantB") document.getElementById("assistantScoreB").textContent = `${score} / 5`;
+      }
+
+      function initReviewRatings() {
+        setRating("overall", 5);
+        setRating("atmosphere", 4);
+        setRating("professional", 5);
+        setRating("boundary", 5);
+        setRating("punctuality", 5);
+        setRating("assistantA", 5);
+        setRating("assistantB", 4);
+      }
+
+      function updateBackButton() {
+        backButton.classList.toggle("show", pageHistory.length > 1);
+      }
+
+      function go(pageId, options = {}) {
+        const shouldPush = options.push !== false;
+        if (!document.getElementById(pageId)) return;
+        if (shouldPush && currentPage !== pageId) {
+          pageHistory.push(pageId);
+        }
+        currentPage = pageId;
+        pages.forEach(page => page.classList.toggle("active", page.id === pageId));
+        navItems.forEach(item => item.classList.toggle("active", item.dataset.go === pageId));
+        updateBackButton();
+      }
+
+      function assistantCard(profile, compact = false) {
+        const safeTags = profile.tags.includes("形象合规") ? profile.tags : [...profile.tags, "形象合规"];
+        return `
+          <div class="card assistant-row" data-go="assistant-profile" data-assistant="${profile.no}">
+            <img class="avatar-img" src="./assets/assistants/${profile.img}" alt="" />
+            <div class="content">
+              <h3>${profile.no} · ${profile.name}</h3>
+              <p class="muted">${profile.city} · ${profile.intro}</p>
+              <div class="talent-line"><span class="talent-label">可展示特长：</span>${profile.talents.join(" · ")}</div>
+              <div class="tag-row">${safeTags.map(tag => `<span class="tag">${tag}</span>`).join("")}<span class="tag gold">公开资料已审</span></div>
+            </div>
+          </div>
+        `;
+      }
+
+      function renderAssistantProfiles(sceneKey) {
+        const profiles = assistantProfiles[sceneKey] || assistantProfiles.business;
+        document.getElementById("assistantSceneLabel").textContent = sceneContent[sceneKey]?.title || "商务宴请";
+        document.getElementById("assistantList").innerHTML = profiles.map(profile => assistantCard(profile)).join("");
+        document.getElementById("sceneAssistantPreview").innerHTML = profiles.slice(0, 2).map(profile => assistantCard(profile, true)).join("");
+      }
+
+      function findAssistantProfile(profileNo) {
+        const profiles = assistantProfiles[currentSceneKey] || assistantProfiles.business;
+        return profiles.find(profile => profile.no === profileNo) || profiles[0];
+      }
+
+      function renderAssistantProfile(profileNo) {
+        currentAssistant = findAssistantProfile(profileNo);
+        if (!currentAssistant) return;
+        const sceneTitle = sceneContent[currentSceneKey]?.title || "商务宴请";
+        document.getElementById("profileTitle").textContent = `${sceneTitle} · 公开资料`;
+        document.getElementById("profileHeroName").textContent = currentAssistant.name;
+        document.getElementById("profileCity").textContent = currentAssistant.city;
+        document.getElementById("profileImage").src = `./assets/assistants/${currentAssistant.img}`;
+        document.getElementById("profileNo").textContent = currentAssistant.no;
+        document.getElementById("profileScenePill").textContent = sceneTitle;
+        document.getElementById("profileTags").innerHTML = currentAssistant.tags.map(tag => `<span class="tag">${tag}</span>`).join("") + '<span class="tag gold">形象合规</span>';
+        document.getElementById("profileIntro").textContent = currentAssistant.intro;
+        const fitReason = currentAssistant.intro.replace(new RegExp(`^适合${sceneTitle}[。；，,：:]*`), "") || currentAssistant.intro;
+        document.getElementById("profileDecision").textContent = `适合${sceneTitle}：${fitReason}`;
+        document.getElementById("profileSignals").innerHTML = [
+          ["适配场景", sceneTitle],
+          ["服务城市", currentAssistant.city],
+          ["公开能力", `${currentAssistant.talents.length} 项`]
+        ].map(([label, value]) => `<div class="profile-signal"><span>${label}</span><strong>${value}</strong></div>`).join("");
+        document.getElementById("profileTalents").innerHTML = currentAssistant.talents.map((item, index) => `
+          <div class="profile-capability"><span>0${index + 1}</span><strong>${item}</strong></div>
+        `).join("");
+      }
+
+      function getExecutionDefaults(sceneKey, city) {
+        const sceneDefaults = sceneExecutionDefaults[sceneKey] || sceneExecutionDefaults.business;
+        const district = cityDistrictDefaults[city] || "核心商圈 / 客户指定区域";
+        return {
+          ...sceneDefaults,
+          district,
+          meetingPoint: `${district}，具体场地、包间与入场动线由平台客服确认后同步。`
+        };
+      }
+
+      function updateBookingForm() {
+        const sceneTitle = sceneContent[currentSceneKey]?.title || "商务宴请";
+        const city = currentAssistant?.city || "上海";
+        const defaults = getExecutionDefaults(currentSceneKey, city);
+        document.getElementById("bookingCity").value = city;
+        document.getElementById("bookingDistrict").value = defaults.district;
+        document.getElementById("bookingScene").value = sceneTitle;
+        document.getElementById("bookingVenueType").value = defaults.venueType;
+        document.getElementById("bookingMeetingPoint").value = defaults.meetingPoint;
+        document.getElementById("bookingArrivalWindow").value = defaults.arrivalWindow;
+        document.getElementById("bookingGoal").value = defaults.goal;
+        document.getElementById("bookingGuestProfile").value = defaults.guestProfile;
+        document.getElementById("bookingBudget").value = (sceneDeposits[currentSceneKey] || 1200) * 5;
+        document.getElementById("bookingPreference").value = currentAssistant
+          ? `意向商务助理：${currentAssistant.name}（${currentAssistant.no}）。${currentAssistant.intro}`
+          : `希望平台按${sceneTitle}场景推荐商务助理，风格稳妥、边界清晰。`;
+      }
+
+      function updateConfirm() {
+        const sceneTitle = sceneContent[currentSceneKey]?.title || "商务宴请";
+        const city = document.getElementById("bookingCity").value || currentAssistant?.city || "上海";
+        const district = document.getElementById("bookingDistrict").value || getExecutionDefaults(currentSceneKey, city).district;
+        const date = document.getElementById("bookingDate").value || "2026-06-02";
+        const time = document.getElementById("bookingTime").value || "19:00";
+        const guestCount = document.getElementById("bookingGuestCount").value || "6";
+        const assistantCount = document.getElementById("bookingAssistantCount").value || "1";
+        const budget = document.getElementById("bookingBudget").value || `${(sceneDeposits[currentSceneKey] || 1200) * 5}`;
+        const defaults = getExecutionDefaults(currentSceneKey, city);
+        document.getElementById("confirmLocationTitle").textContent = `${city} · ${district}`;
+        document.getElementById("confirmVenueType").textContent = document.getElementById("bookingVenueType").value || defaults.venueType;
+        document.getElementById("confirmArrivalWindow").textContent = document.getElementById("bookingArrivalWindow").value || defaults.arrivalWindow;
+        document.getElementById("confirmServiceTime").textContent = `${date} ${time}`;
+        document.getElementById("confirmTransportNote").textContent = defaults.transportNote;
+        document.getElementById("confirmMeetingPoint").textContent = document.getElementById("bookingMeetingPoint").value || defaults.meetingPoint;
+        document.getElementById("confirmScene").textContent = sceneTitle;
+        document.getElementById("confirmGuestCount").textContent = `${guestCount} 位嘉宾`;
+        document.getElementById("confirmAssistantCount").textContent = `${assistantCount} 位`;
+        document.getElementById("confirmAssistant").textContent = currentAssistant
+          ? `${currentAssistant.name}（${currentAssistant.no}）`
+          : "平台推荐匹配";
+        document.getElementById("confirmBudget").textContent = `¥${budget}`;
+        document.getElementById("confirmDeposit").textContent = `¥${sceneDeposits[currentSceneKey] || 1200}`;
+        document.getElementById("confirmGoal").textContent = document.getElementById("bookingGoal").value || defaults.goal;
+        document.getElementById("confirmGuestProfile").textContent = document.getElementById("bookingGuestProfile").value || defaults.guestProfile;
+        document.getElementById("confirmTaboos").textContent = document.getElementById("bookingTaboos").value || "暂无补充禁忌，客服仍会在餐前简报中复核。";
+      }
+
+      function updateOrderAfterPayment() {
+        const sceneTitle = sceneContent[currentSceneKey]?.title || "商务宴请";
+        const assistantText = currentAssistant
+          ? `${currentAssistant.name}（${currentAssistant.no}）`
+          : "平台推荐匹配";
+        document.getElementById("orderStatusText").textContent = "预约金已支付 · 餐前准备中";
+        document.getElementById("reviewStatusText").textContent = "服务完成后开放";
+        document.getElementById("orderSceneText").textContent = sceneTitle;
+        document.getElementById("orderAssistantText").textContent = assistantText;
+        document.getElementById("orderTeamText").textContent = currentAssistant
+          ? `${currentAssistant.no} 公开资料已审核，平台将复核档期与服务边界。`
+          : "平台将按场景、城市、档期与公开资料完成推荐匹配。";
+      }
+
+      function updateSceneDetail(sceneKey) {
+        currentSceneKey = sceneKey || "business";
+        currentAssistant = null;
+        const detail = sceneContent[sceneKey] || sceneContent.business;
+        document.getElementById("sceneDetailTitle").textContent = detail.title;
+        document.getElementById("sceneDetailDesc").textContent = detail.desc;
+        document.getElementById("sceneDetailArt").style.setProperty("--scene-image", detail.image);
+        document.getElementById("sceneDetailScope").innerHTML = detail.scope.map(item => `<div class="scope-card">${item}</div>`).join("");
+        renderAssistantProfiles(currentSceneKey);
+      }
+
+      updateSceneDetail("business");
+      initReviewRatings();
+      updateBackButton();
+
+      backButton.addEventListener("click", () => {
+        if (pageHistory.length <= 1) return;
+        pageHistory.pop();
+        const previous = pageHistory[pageHistory.length - 1] || "home";
+        go(previous, { push: false });
+      });
+
       document.addEventListener("click", event => {
+        const supportTrigger = event.target.closest("[data-support]");
+        if (supportTrigger) {
+          openCustomerService(supportTrigger.dataset.support);
+          return;
+        }
+        const ratingTrigger = event.target.closest("[data-rate]");
+        if (ratingTrigger) {
+          setRating(ratingTrigger.dataset.rate, Number(ratingTrigger.dataset.score));
+          return;
+        }
+        const selectableTag = event.target.closest(".tag.selectable");
+        if (selectableTag) {
+          selectableTag.classList.toggle("active");
+          return;
+        }
+        const repurchase = event.target.closest("[data-repurchase]");
+        if (repurchase) {
+          document.querySelectorAll("[data-repurchase]").forEach(item => item.classList.remove("active"));
+          repurchase.classList.add("active");
+          return;
+        }
         const trigger = event.target.closest("[data-go]");
         if (trigger) {
+          if (trigger.dataset.go === "scene-detail") {
+            updateSceneDetail(trigger.dataset.scene || "business");
+          } else if (trigger.dataset.go === "assistants") {
+            if (trigger.dataset.scene) updateSceneDetail(trigger.dataset.scene);
+            renderAssistantProfiles(currentSceneKey);
+          } else if (trigger.dataset.go === "assistant-profile") {
+            renderAssistantProfile(trigger.dataset.assistant);
+          } else if (trigger.dataset.go === "booking") {
+            if (trigger.dataset.scene) updateSceneDetail(trigger.dataset.scene);
+            updateBookingForm();
+          } else if (trigger.dataset.go === "confirm") {
+            updateConfirm();
+          }
           go(trigger.dataset.go);
+        }
+        const toastTrigger = event.target.closest("[data-toast]");
+        if (toastTrigger) {
+          showToast(toastTrigger.dataset.toast);
         }
       });
 
@@ -1187,16 +2760,32 @@
           showToast("请先确认服务边界协议");
           return;
         }
+        updateOrderAfterPayment();
         showToast("预约金支付成功，进入餐前准备");
         go("orders");
       });
 
+      document.getElementById("customerServiceClose").addEventListener("click", closeCustomerService);
+      document.getElementById("customerServiceOpen").addEventListener("click", () => {
+        closeCustomerService();
+        showToast("客服需求已留痕，正式版将拉起企业微信客服");
+      });
+
       document.getElementById("staffConfirm").addEventListener("click", () => {
         if (!document.getElementById("staffBoundary").checked) {
-          showToast("商务助理需先确认服务边界协议");
+          showToast("服务团队需先确认服务边界协议");
           return;
         }
-        showToast("Brief 已确认，任务清单已同步");
+        showToast("简报已确认，任务清单已同步");
+      });
+
+      document.getElementById("reviewSubmit").addEventListener("click", () => {
+        document.getElementById("orderStatusText").textContent = "已评价 · 待复盘";
+        document.getElementById("reviewStatusText").textContent = "已评价";
+        document.getElementById("reviewSubmit").textContent = "评价已提交";
+        document.getElementById("reviewSubmit").disabled = true;
+        showToast("评价已提交，订单进入服务复盘");
+        go("orders");
       });
     </script>
   </body>

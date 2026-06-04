@@ -2,6 +2,7 @@
   "pages": [
     "pages/home/index",
     "pages/scenes/index",
+    "pages/scene-detail/index",
     "pages/assistants/index",
     "pages/assistant-detail/index",
     "pages/booking-form/index",
@@ -10,6 +11,8 @@
     "pages/payment-result/index",
     "pages/orders/index",
     "pages/order-detail/index",
+    "pages/service-review/index",
+    "pages/staff-workbench/index",
     "pages/staff-brief/index",
     "pages/staff-task-list/index",
     "pages/profile/index",

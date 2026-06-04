@@ -1,8 +1,8 @@
 <view class="page safe-bottom">
   <view class="section-head top">
     <view>
-      <view class="eyebrow">Request</view>
-      <view class="h2">提交饭局需求</view>
+      <view class="eyebrow">需求提交</view>
+      <view class="h2">提交场景需求</view>
     </view>
   </view>
 
@@ -22,6 +22,12 @@
       </picker>
     </view>
 
+    <view class="field">
+      <view class="label">区域/商圈</view>
+      <input class="input" placeholder="例如：静安区 · 南京西路 / 朝阳区 · 国贸" value="{{form.district}}" data-field="district" bindinput="onTextInput" />
+      <view class="field-hint">这是服务团队判断档期、通勤和是否接单的关键信息。</view>
+    </view>
+
     <view class="grid-2">
       <view class="field">
         <view class="label">服务日期</view>
@@ -38,9 +44,14 @@
     </view>
 
     <view class="field">
-      <view class="label">饭局类型</view>
+      <view class="label">到场时间窗口</view>
+      <input class="input" placeholder="例如：18:30-18:50 到场确认" value="{{form.arrivalWindow}}" data-field="arrivalWindow" bindinput="onTextInput" />
+    </view>
+
+    <view class="field">
+      <view class="label">场景类型</view>
       <picker mode="selector" range="{{dinnerTypes}}" data-field="dinnerType" data-options="dinnerTypes" bindchange="onOptionChange">
-        <view class="picker">{{form.dinnerType || '请选择饭局类型'}}</view>
+        <view class="picker">{{form.dinnerType || '请选择服务场景'}}</view>
       </picker>
     </view>
 
@@ -50,7 +61,7 @@
         <input class="input" type="number" value="{{form.guestCount}}" data-field="guestCount" bindinput="onNumberInput" />
       </view>
       <view class="field">
-        <view class="label">助理人数</view>
+        <view class="label">服务人员</view>
         <input class="input" type="number" value="{{form.assistantCount}}" data-field="assistantCount" bindinput="onNumberInput" />
       </view>
     </view>
@@ -65,12 +76,12 @@
   <view class="card form-card" wx:if="{{currentStep === 1}}">
     <view class="form-section-title">关系与目标</view>
     <view class="field">
-      <view class="label">你的饭局角色</view>
-      <input class="input" placeholder="例如：主陪、邀约方、项目负责人" value="{{form.hostRole}}" data-field="hostRole" bindinput="onTextInput" />
+      <view class="label">你的现场角色</view>
+      <input class="input" placeholder="例如：主陪、邀约方、项目负责人、接待负责人" value="{{form.hostRole}}" data-field="hostRole" bindinput="onTextInput" />
     </view>
 
     <view class="field">
-      <view class="label">本次饭局目标</view>
+      <view class="label">本次场景目标</view>
       <textarea class="textarea" maxlength="160" placeholder="例如：首次接待外地客户，希望氛围自然，推进后续合作沟通" value="{{form.banquetGoal}}" data-field="banquetGoal" bindinput="onTextInput" />
     </view>
 
@@ -80,8 +91,20 @@
     </view>
 
     <view class="field">
-      <view class="label">餐厅/包间偏好</view>
-      <textarea class="textarea compact-textarea" maxlength="160" placeholder="已有餐厅、区域偏好、包间要求、停车/动线需求" value="{{form.venuePreference}}" data-field="venuePreference" bindinput="onTextInput" />
+      <view class="label">场地类型</view>
+      <picker mode="selector" range="{{venueTypeOptions}}" data-field="venueType" data-options="venueTypeOptions" bindchange="onOptionChange">
+        <view class="picker">{{form.venueType || '请选择场地类型'}}</view>
+      </picker>
+    </view>
+
+    <view class="field">
+      <view class="label">具体会合点</view>
+      <textarea class="textarea compact-textarea" maxlength="180" placeholder="例如：餐厅包间外等候区、酒店大堂东侧、会所前台。未定也需填写目标区域和确认方式" value="{{form.meetingPoint}}" data-field="meetingPoint" bindinput="onTextInput" />
+    </view>
+
+    <view class="field">
+      <view class="label">场地/动线补充</view>
+      <textarea class="textarea compact-textarea" maxlength="160" placeholder="已有餐厅、茶室、酒会场地、球场、停车/动线需求" value="{{form.venuePreference}}" data-field="venuePreference" bindinput="onTextInput" />
     </view>
 
     <view class="grid-2">
@@ -90,7 +113,7 @@
         <input class="input" placeholder="姓名" value="{{form.contactName}}" data-field="contactName" bindinput="onTextInput" />
       </view>
       <view class="field">
-        <view class="label">手机号</view>
+        <view class="label">联系电话</view>
         <input class="input" type="number" placeholder="用于客服确认" value="{{form.contactPhone}}" data-field="contactPhone" bindinput="onTextInput" />
       </view>
     </view>
@@ -99,7 +122,7 @@
   <view class="card form-card" wx:if="{{currentStep === 2}}">
     <view class="form-section-title">风格与边界</view>
     <view class="field">
-      <view class="label">商务助理风格</view>
+      <view class="label">服务团队风格</view>
       <picker mode="selector" range="{{styleOptions}}" data-field="preferredAssistantStyle" data-options="styleOptions" bindchange="onOptionChange">
         <view class="picker">{{form.preferredAssistantStyle || '请选择偏好风格'}}</view>
       </picker>
@@ -129,7 +152,12 @@
 
     <view class="field">
       <view class="label">到场与接待安排</view>
-      <textarea class="textarea compact-textarea" maxlength="160" placeholder="例如：助理提前 20 分钟到场，先由主陪介绍，不主动触碰核心议题" value="{{form.arrivalPlan}}" data-field="arrivalPlan" bindinput="onTextInput" />
+      <textarea class="textarea compact-textarea" maxlength="160" placeholder="例如：团队提前 20 分钟到场，先由主陪介绍，不主动触碰核心议题" value="{{form.arrivalPlan}}" data-field="arrivalPlan" bindinput="onTextInput" />
+    </view>
+
+    <view class="field">
+      <view class="label">交通/动线说明</view>
+      <textarea class="textarea compact-textarea" maxlength="160" placeholder="例如：停车位、接驳点、电梯路线、是否避免与主宾同时进场" value="{{form.transportNote}}" data-field="transportNote" bindinput="onTextInput" />
     </view>
 
     <view class="field">
@@ -141,7 +169,7 @@
 
     <view class="field">
       <view class="label">偏好补充</view>
-      <textarea class="textarea" maxlength="220" placeholder="例如：希望助理沉稳克制，适合正式客户晚宴" value="{{form.preference}}" data-field="preference" bindinput="onTextInput" />
+      <textarea class="textarea" maxlength="220" placeholder="例如：希望团队沉稳克制，适合正式客户晚宴、茶会或酒会场景" value="{{form.preference}}" data-field="preference" bindinput="onTextInput" />
     </view>
 
     <view class="field">
@@ -157,7 +185,7 @@
 
   <view class="notice card">
     <view class="notice-title">服务边界提示</view>
-    <view class="muted">平台只提供正规商务社交氛围协同、餐前准备与礼宾接待服务。所有沟通、支付和履约确认均通过平台完成。</view>
+    <view class="muted">平台只提供正规商务社交氛围协同、餐前准备、礼宾接待与现场流程协同服务。所有沟通、支付和履约确认均通过平台完成。</view>
   </view>
 
   <view class="form-actions">

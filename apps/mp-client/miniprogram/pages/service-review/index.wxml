@@ -1,0 +1,181 @@
+<view class="page safe-bottom">
+  <view class="review-header card">
+    <view class="brand-lockup">
+      <view class="brand-mark small">
+        <view class="brand-symbol-inner">
+          <image class="brand-symbol-image" src="/assets/brand/logo-symbol-dark.png" mode="aspectFit"></image>
+        </view>
+      </view>
+      <view>
+        <view class="eyebrow">服务评价</view>
+        <view class="h2">本次服务评价</view>
+      </view>
+    </view>
+    <view class="header-copy">评价只用于服务复盘、质量改进与风控质检，不公开展示客户身份。</view>
+  </view>
+
+  <view class="page-state card" wx:if="{{loading}}">
+    <view class="skeleton-line"></view>
+    <view class="skeleton-line"></view>
+    <view class="skeleton-line short"></view>
+  </view>
+
+  <view class="page-state card" wx:elif="{{error}}">
+    <view class="h2">评价页面不可用</view>
+    <view class="muted">{{error}}</view>
+  </view>
+
+  <block wx:elif="{{review}}">
+    <view class="section card order-summary">
+      <view class="summary-head">
+        <view>
+          <view class="order-no">{{review.orderNo}}</view>
+          <view class="muted">{{review.sceneName}} · {{review.city}}</view>
+        </view>
+        <view class="status-pill">{{isSubmitted ? '已评价' : isReviewable ? '待评价' : '未开放'}}</view>
+      </view>
+      <view class="divider"></view>
+      <view class="info-line">
+        <text>服务时间</text>
+        <text>{{review.serviceTime}}</text>
+      </view>
+      <view class="info-line">
+        <text>服务人员</text>
+        <text>{{review.assistantCount}} 人</text>
+      </view>
+      <view class="review-privacy-note">本页可转发给客户独立填写；不会展示服务人员私人联系方式。</view>
+    </view>
+
+    <view class="section card locked-card" wx:if="{{!isReviewable && !isSubmitted}}">
+      <view class="h2">服务完成后开放评价</view>
+      <view class="muted">该链接已生成，可提前转发给客户；服务完成后客户可直接通过此页面完成评价。</view>
+      <button class="btn ghost" open-type="share">转发评价页</button>
+    </view>
+
+    <view class="section card submitted-card" wx:elif="{{isSubmitted}}">
+      <view class="h2">评价已提交</view>
+      <view class="submitted-score">{{review.overallRating}}</view>
+      <view class="muted">综合评分 / 5</view>
+      <view class="tag-row review-tags">
+        <view class="tag gold" wx:for="{{review.highlightTags}}" wx:key="*this">{{item}}</view>
+      </view>
+      <view class="submitted-comment" wx:if="{{review.comment}}">{{review.comment}}</view>
+      <button class="btn ghost" open-type="share">转发评价页</button>
+    </view>
+
+    <block wx:else>
+      <view class="section card score-card">
+        <view class="score-head">
+          <view>
+            <view class="h2">整体感受</view>
+            <view class="muted">先给整体分，再细分到执行维度。</view>
+          </view>
+          <view class="score-number">{{form.overallRating || '-'}}</view>
+        </view>
+        <view class="rating-list">
+          <view class="rating-row featured">
+            <view>
+              <view class="rating-title">综合体验</view>
+              <view class="rating-hint">这场服务是否稳妥、省心、得体</view>
+            </view>
+            <view class="stars">
+              <text class="star {{item <= form.overallRating ? 'active' : ''}}" wx:for="{{ratingNumbers}}" wx:key="*this" data-field="overallRating" data-score="{{item}}" bindtap="onRate">★</text>
+            </view>
+          </view>
+          <view class="rating-row">
+            <view>
+              <view class="rating-title">氛围协同</view>
+              <view class="rating-hint">是否让现场更自然</view>
+            </view>
+            <view class="stars">
+              <text class="star {{item <= form.atmosphereRating ? 'active' : ''}}" wx:for="{{ratingNumbers}}" wx:key="*this" data-field="atmosphereRating" data-score="{{item}}" bindtap="onRate">★</text>
+            </view>
+          </view>
+          <view class="rating-row">
+            <view>
+              <view class="rating-title">专业表达</view>
+              <view class="rating-hint">表达、礼仪、反应是否到位</view>
+            </view>
+            <view class="stars">
+              <text class="star {{item <= form.professionalismRating ? 'active' : ''}}" wx:for="{{ratingNumbers}}" wx:key="*this" data-field="professionalismRating" data-score="{{item}}" bindtap="onRate">★</text>
+            </view>
+          </view>
+          <view class="rating-row">
+            <view>
+              <view class="rating-title">分寸边界</view>
+              <view class="rating-hint">是否克制、不越界、不抢主位</view>
+            </view>
+            <view class="stars">
+              <text class="star {{item <= form.boundarySenseRating ? 'active' : ''}}" wx:for="{{ratingNumbers}}" wx:key="*this" data-field="boundarySenseRating" data-score="{{item}}" bindtap="onRate">★</text>
+            </view>
+          </view>
+          <view class="rating-row">
+            <view>
+              <view class="rating-title">准时可靠</view>
+              <view class="rating-hint">时间、准备、执行是否稳定</view>
+            </view>
+            <view class="stars">
+              <text class="star {{item <= form.punctualityRating ? 'active' : ''}}" wx:for="{{ratingNumbers}}" wx:key="*this" data-field="punctualityRating" data-score="{{item}}" bindtap="onRate">★</text>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <view class="section card">
+        <view class="section-title-row">
+          <view>
+            <view class="h2">服务人员评价</view>
+            <view class="muted">逐一评价公开编号对应的服务表现。</view>
+          </view>
+        </view>
+        <view class="assistant-review" wx:for="{{review.assistants}}" wx:for-index="assistantIndex" wx:key="assistantId">
+          <view class="assistant-head">
+            <image class="assistant-avatar" src="{{item.avatarUrl}}" mode="aspectFill"></image>
+            <view>
+              <view class="assistant-name">{{item.workName}}</view>
+              <view class="muted">{{item.assistantNo}} · {{item.city}}</view>
+            </view>
+          </view>
+          <view class="assistant-score-line">
+            <view class="stars assistant-stars">
+              <text class="star {{star <= form.assistantReviews[assistantIndex].rating ? 'active' : ''}}" wx:for="{{ratingNumbers}}" wx:for-item="star" wx:key="*this" data-index="{{assistantIndex}}" data-score="{{star}}" bindtap="onAssistantRate">★</text>
+            </view>
+            <view class="assistant-score">{{form.assistantReviews[assistantIndex].rating || '-'}} / 5</view>
+          </view>
+          <textarea class="textarea assistant-comment" maxlength="160" placeholder="可补充这位服务人员的表现，例如表达、分寸、现场协同等" value="{{form.assistantReviews[assistantIndex].comment}}" data-index="{{assistantIndex}}" bindinput="onAssistantCommentInput" />
+        </view>
+      </view>
+
+      <view class="section card">
+        <view class="h2">复盘重点</view>
+        <view class="muted review-section-copy">选择客户感知最强的亮点，便于平台后续匹配更准确。</view>
+        <view class="tag-row review-tags">
+          <view class="tag selectable {{item.selected ? 'active' : ''}}" wx:for="{{highlightOptions}}" wx:key="label" data-index="{{index}}" bindtap="toggleHighlight">
+            {{item.label}}
+          </view>
+        </view>
+        <textarea class="textarea main-comment" maxlength="500" placeholder="可填写你对本次服务的具体感受，建议围绕专业度、氛围、分寸、餐前准备执行情况反馈" value="{{form.comment}}" bindinput="onCommentInput" />
+        <view class="repurchase-block">
+          <view class="follow-title">后续是否愿意继续使用</view>
+          <view class="repurchase-options">
+            <view class="repurchase-option {{form.repurchaseIntent === 'yes' ? 'active' : ''}}" data-value="yes" bindtap="onRepurchaseChange">愿意</view>
+            <view class="repurchase-option {{form.repurchaseIntent === 'maybe' ? 'active' : ''}}" data-value="maybe" bindtap="onRepurchaseChange">视场景</view>
+            <view class="repurchase-option {{form.repurchaseIntent === 'no' ? 'active' : ''}}" data-value="no" bindtap="onRepurchaseChange">暂不</view>
+          </view>
+        </view>
+        <view class="follow-row">
+          <view>
+            <view class="follow-title">允许平台客服回访</view>
+            <view class="muted">仅用于服务复盘，不会公开展示</view>
+          </view>
+          <switch checked="{{form.allowFollowUp}}" color="#B08A3A" bindchange="onFollowUpChange" />
+        </view>
+      </view>
+
+      <view class="review-actions">
+        <button class="btn ghost" open-type="share">转发评价页</button>
+        <button class="btn gold" loading="{{submitting}}" bindtap="submitReview">提交评价</button>
+      </view>
+    </block>
+  </block>
+</view>

@@ -19,6 +19,10 @@
   text-align: center;
 }
 
+.scene-hint {
+  margin-top: 10rpx;
+}
+
 .result-line {
   display: flex;
   justify-content: space-between;
@@ -68,4 +72,38 @@
   margin-top: 14rpx;
   color: #e2c77e;
   font-size: 21rpx;
+}
+
+.recommend-line {
+  margin-top: 14rpx;
+  padding: 14rpx;
+  border: 1rpx solid rgba(216, 183, 106, 0.18);
+  border-radius: 14rpx;
+  background: rgba(216, 183, 106, 0.08);
+  color: #d8cfb6;
+  font-size: 21rpx;
+  line-height: 1.55;
+}
+
+.talent-box {
+  margin-top: 14rpx;
+  padding: 14rpx;
+  border-radius: 14rpx;
+  background: rgba(5, 13, 24, 0.58);
+}
+
+.talent-label {
+  color: #b08a3a;
+  font-size: 19rpx;
+  letter-spacing: 2rpx;
+}
+
+.talent-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10rpx;
+  margin-top: 10rpx;
+  color: #f1e2bd;
+  font-size: 20rpx;
+  line-height: 1.45;
 }

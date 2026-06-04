@@ -37,8 +37,17 @@
   max-width: 430rpx;
 }
 
-.hero-brand {
-  margin-bottom: 28rpx;
+.home-brand-logo {
+  width: 520rpx;
+  max-width: 100%;
+  height: 128rpx;
+  margin-bottom: 26rpx;
+}
+
+.home-brand-logo-image {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
 .hero-eyebrow {
@@ -58,6 +67,110 @@
   grid-template-columns: 1fr 1fr;
   gap: 14rpx;
   margin-top: 30rpx;
+}
+
+.service-matrix {
+  border-color: rgba(176, 138, 58, 0.22);
+}
+
+.matrix-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14rpx;
+}
+
+.matrix-item {
+  position: relative;
+  min-height: 132rpx;
+  padding: 18rpx;
+  border: 1rpx solid rgba(246, 234, 208, 0.08);
+  border-radius: 14rpx;
+  overflow: hidden;
+  background: rgba(5, 13, 24, 0.55);
+}
+
+.matrix-item.primary {
+  border-color: rgba(216, 183, 106, 0.28);
+}
+
+.matrix-item.wide {
+  grid-column: 1 / -1;
+}
+
+.matrix-bg,
+.matrix-shade {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.matrix-bg {
+  opacity: 0.68;
+}
+
+.matrix-shade {
+  background:
+    linear-gradient(180deg, rgba(2, 5, 6, 0.08), rgba(2, 5, 6, 0.72)),
+    linear-gradient(90deg, rgba(2, 5, 6, 0.74), rgba(2, 5, 6, 0.18));
+}
+
+.matrix-content {
+  position: relative;
+  z-index: 1;
+}
+
+.matrix-title {
+  color: #fff6de;
+  font-size: 24rpx;
+  font-weight: 650;
+}
+
+.matrix-item .muted {
+  margin-top: 8rpx;
+  font-size: 21rpx;
+  line-height: 1.48;
+}
+
+.home-assurance {
+  border-color: rgba(176, 138, 58, 0.24);
+}
+
+.compact-head {
+  margin-bottom: 18rpx;
+}
+
+.assurance-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14rpx;
+}
+
+.assurance-item {
+  min-height: 144rpx;
+  padding: 18rpx;
+  border: 1rpx solid rgba(246, 234, 208, 0.07);
+  border-radius: 14rpx;
+  background: rgba(5, 13, 24, 0.55);
+}
+
+.assurance-no {
+  color: #b08a3a;
+  font-size: 18rpx;
+  letter-spacing: 2rpx;
+}
+
+.assurance-title {
+  margin-top: 10rpx;
+  color: #ffffff;
+  font-size: 24rpx;
+  font-weight: 600;
+}
+
+.assurance-item .muted {
+  margin-top: 8rpx;
+  font-size: 21rpx;
+  line-height: 1.45;
 }
 
 .link {

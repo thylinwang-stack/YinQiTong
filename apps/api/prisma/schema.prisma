@@ -384,6 +384,11 @@ model Booking {
   servicePackage             ServicePackage?    @relation(fields: [packageId], references: [id])
   status                     BookingStatus      @default(submitted)
   city                       String
+  district                   String             @default("")
+  venueType                  String?            @map("venue_type")
+  meetingPoint               String             @default("") @map("meeting_point")
+  arrivalWindow              String             @default("") @map("arrival_window")
+  transportNote              String?            @map("transport_note")
   serviceDate                DateTime?          @map("service_date")
   serviceTimeText            String             @default("") @map("service_time_text")
   dinnerType                 String             @map("dinner_type")

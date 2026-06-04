@@ -3,17 +3,11 @@
     <view class="brand-lockup">
       <view class="brand-mark small">
         <view class="brand-symbol-inner">
-          <view class="brand-stroke brand-m-left"></view>
-          <view class="brand-stroke brand-m-down"></view>
-          <view class="brand-stroke brand-m-up"></view>
-          <view class="brand-stroke brand-e-vert"></view>
-          <view class="brand-stroke brand-e-top"></view>
-          <view class="brand-stroke brand-e-mid"></view>
-          <view class="brand-stroke brand-e-bottom"></view>
+          <image class="brand-symbol-image" src="/assets/brand/logo-symbol-dark.png" mode="aspectFit"></image>
         </view>
       </view>
       <view>
-      <view class="eyebrow">Orders</view>
+      <view class="eyebrow">我的订单</view>
       <view class="h2">我的订单</view>
       </view>
     </view>
@@ -52,12 +46,15 @@
         <text>{{item.serviceTime}}</text>
       </view>
       <view class="order-line">
-        <text>助理人数</text>
+        <text>服务人员</text>
         <text>{{item.assistantCount}} 人</text>
       </view>
       <view class="order-line">
         <text>预约金</text>
         <text class="gold-text">¥{{item.depositAmount}}</text>
+      </view>
+      <view class="order-actions" wx:if="{{item.showReviewAction}}">
+        <button class="order-action" catchtap="openReview" data-id="{{item.id}}">{{item.reviewActionText}}</button>
       </view>
     </view>
   </block>

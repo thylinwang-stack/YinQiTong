@@ -54,7 +54,7 @@ Page({
       brief,
       statusText: brief ? statusText[brief.status] || brief.status : ''
     });
-    wx.showToast({ title: '已确认 brief', icon: 'success' });
+    wx.showToast({ title: '已确认简报', icon: 'success' });
   },
 
   openTasks() {

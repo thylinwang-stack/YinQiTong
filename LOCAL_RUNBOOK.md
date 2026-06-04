@@ -97,7 +97,7 @@ postgresql://postgres:postgres@127.0.0.1:5432/business_concierge
 文件：
 
 ```text
-apps/mp-client/miniprogram/app.ts
+apps/mp-client/miniprogram/config/runtime.ts
 ```
 
 把：
@@ -119,6 +119,21 @@ apiBaseUrl: 'http://127.0.0.1:3000'
 ```
 
 在真机和微信审核环境中，API 必须换成 HTTPS 合法域名。
+
+生产配置参考：
+
+```text
+apps/mp-client/miniprogram/config/runtime.production.example.ts
+apps/api/.env.production.example
+apps/admin-web/.env.production.example
+docs/production-launch-checklist.md
+```
+
+生产预检：
+
+```bash
+./scripts/production-preflight.sh
+```
 
 ## 下一步阻塞项
 

@@ -2,13 +2,7 @@
   <view class="profile-card card">
     <view class="brand-mark small">
       <view class="brand-symbol-inner">
-        <view class="brand-stroke brand-m-left"></view>
-        <view class="brand-stroke brand-m-down"></view>
-        <view class="brand-stroke brand-m-up"></view>
-        <view class="brand-stroke brand-e-vert"></view>
-        <view class="brand-stroke brand-e-top"></view>
-        <view class="brand-stroke brand-e-mid"></view>
-        <view class="brand-stroke brand-e-bottom"></view>
+        <image class="brand-symbol-image" src="/assets/brand/logo-symbol-dark.png" mode="aspectFit"></image>
       </view>
     </view>
     <view>
@@ -26,11 +20,11 @@
       <text>›</text>
     </view>
     <view class="menu-item" bindtap="goBooking">
-      <text>提交饭局需求</text>
+      <text>提交场景需求</text>
       <text>›</text>
     </view>
     <view class="menu-item" wx:if="{{isStaff}}" bindtap="goStaffBrief">
-      <text>员工端餐前 Brief</text>
+      <text>员工端移动工作台</text>
       <text>›</text>
     </view>
     <view class="menu-item" bindtap="goPolicy" data-tab="service">
@@ -45,6 +39,6 @@
 
   <view class="section card">
     <view class="brand-chip">体面饭局 自然发生</view>
-    <view class="muted">公开资料仅展示编号、工作名、城市、风格标签与商务能力；支付对象统一为平台服务预约金或服务费。</view>
+    <view class="muted">公开资料仅展示编号、工作名、城市、风格标签与服务能力；支付对象统一为平台服务预约金或服务费。</view>
   </view>
 </view>

@@ -86,6 +86,11 @@ export class MealBriefsController {
     return this.mealBriefService.getAssistantBrief(id);
   }
 
+  @Get('/staff/work-items')
+  listStaffWorkItems() {
+    return this.mealBriefService.listStaffWorkItems();
+  }
+
   @Post('/staff/meal-briefs/:id/confirm')
   async assistantConfirm(@Param('id') id: string, @Body() dto: AssistantConfirmBriefDto) {
     await this.mealBriefService.assistantConfirm(id, dto);
@@ -102,5 +107,11 @@ export class MealBriefsController {
   async submitAssistantFeedback(@Param('id') id: string, @Body() dto: AssistantFeedbackDto) {
     await this.mealBriefService.submitAssistantFeedback(id, dto);
     return this.mealBriefService.getAssistantBrief(id);
+  }
+
+  @Post('/staff/meal-briefs/:id/check-in')
+  async checkIn(@Param('id') id: string, @Body() body: { action: 'check_in' | 'check_out'; assistantId?: string }) {
+    await this.mealBriefService.recordStaffCheckIn(id, body.action, body.assistantId);
+    return { accepted: true };
   }
 }

@@ -6,6 +6,7 @@
         <div class="page-desc">聚合今日订单、待办审批、异常提醒和核心经营指标。</div>
       </div>
       <a-space>
+        <a-button @click="go('/operations')">履约中台</a-button>
         <a-button @click="go('/orders')">查看订单</a-button>
         <a-button type="primary" @click="writeAudit">记录巡检审计</a-button>
       </a-space>

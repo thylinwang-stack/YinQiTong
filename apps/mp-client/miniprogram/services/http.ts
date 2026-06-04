@@ -1,16 +1,16 @@
 import { ApiMode } from './types';
+import { runtimeConfig } from '../config/runtime';
 
-const DEFAULT_BASE_URL = 'http://127.0.0.1:3000';
 const REQUEST_TIMEOUT = 15000;
 type RequestMethod = NonNullable<WechatMiniprogram.RequestOption['method']> | 'PATCH';
 type AppRequestOption = Omit<WechatMiniprogram.RequestOption, 'method'> & { method?: RequestMethod };
 
 export const getApiMode = (): ApiMode => {
-  return (wx.getStorageSync('apiMode') as ApiMode) || 'mock';
+  return (wx.getStorageSync('apiMode') as ApiMode) || runtimeConfig.apiMode;
 };
 
 export const getApiBaseUrl = (): string => {
-  return wx.getStorageSync('apiBaseUrl') || DEFAULT_BASE_URL;
+  return wx.getStorageSync('apiBaseUrl') || runtimeConfig.apiBaseUrl;
 };
 
 export function request<T>(options: AppRequestOption): Promise<T> {

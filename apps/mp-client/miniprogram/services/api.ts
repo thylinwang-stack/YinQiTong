@@ -9,7 +9,11 @@ import {
   CreatePaymentResult,
   LoginResult,
   ProtocolConfirmationInput,
+  ServiceReview,
+  ServiceReviewSubmitInput,
   StaffMealBrief,
+  StaffCheckInAction,
+  StaffWorkItem,
   StaffReviewInput,
   SupportRequestType,
   ServicePackage,
@@ -117,9 +121,29 @@ export const api = {
     });
   },
 
+  getServiceReview(orderId: string, token?: string): Promise<ServiceReview> {
+    if (getApiMode() === 'mock') return mockService.getServiceReview(orderId, token);
+    const query = token ? `?token=${encodeURIComponent(token)}` : '';
+    return request<ServiceReview>({ url: `/orders/${orderId}/service-review${query}`, method: 'GET' });
+  },
+
+  submitServiceReview(orderId: string, input: ServiceReviewSubmitInput, token?: string): Promise<ServiceReview> {
+    if (getApiMode() === 'mock') return mockService.submitServiceReview(orderId, input, token);
+    return request<ServiceReview>({
+      url: `/orders/${orderId}/service-review`,
+      method: 'POST',
+      data: { ...input, token }
+    });
+  },
+
   getStaffMealBrief(id: string): Promise<StaffMealBrief | undefined> {
     if (getApiMode() === 'mock') return mockService.getStaffMealBrief(id);
     return request<StaffMealBrief>({ url: `/staff/meal-briefs/${id}`, method: 'GET' });
+  },
+
+  listStaffWorkItems(): Promise<StaffWorkItem[]> {
+    if (getApiMode() === 'mock') return mockService.listStaffWorkItems();
+    return request<StaffWorkItem[]>({ url: '/staff/work-items', method: 'GET' });
   },
 
   confirmStaffMealBrief(id: string): Promise<StaffMealBrief | undefined> {
@@ -137,9 +161,14 @@ export const api = {
     return request<StaffMealBrief>({ url: `/staff/meal-briefs/${id}/review`, method: 'POST', data: input });
   },
 
+  checkInStaffWorkItem(id: string, action: StaffCheckInAction): Promise<{ accepted: boolean }> {
+    if (getApiMode() === 'mock') return mockService.checkInStaffWorkItem(id, action);
+    return request<{ accepted: boolean }>({ url: `/staff/meal-briefs/${id}/check-in`, method: 'POST', data: { action } });
+  },
+
   confirmServiceBoundary(input: ProtocolConfirmationInput): Promise<{ confirmed: boolean }> {
     if (getApiMode() === 'mock') return mockService.confirmServiceBoundary(input);
-    return request<{ confirmed: boolean }>({ url: '/protocol-confirmations', method: 'POST', data: input });
+    return request<unknown>({ url: '/protocol-confirmations', method: 'POST', data: input }).then(() => ({ confirmed: true }));
   }
 };
 
@@ -151,16 +180,21 @@ export async function ensureCustomerLogin(): Promise<void> {
 function toBackendBookingPayload(input: BookingDraft) {
   const extra = [
     ['客户角色', input.hostRole],
-    ['饭局目标', input.banquetGoal],
+    ['场景目标', input.banquetGoal],
     ['嘉宾背景', input.guestProfile],
-    ['餐厅/包间偏好', input.venuePreference],
+    ['区域/商圈', input.district],
+    ['场地类型', input.venueType],
+    ['具体会合点', input.meetingPoint],
+    ['到场时间窗口', input.arrivalWindow],
+    ['场地/动线偏好', input.venuePreference],
     ['联系人', input.contactName],
     ['联系电话', input.contactPhone],
-    ['助理风格', input.preferredAssistantStyle],
+    ['服务团队风格', input.preferredAssistantStyle],
     ['隐私级别', input.privacyLevel],
     ['着装要求', input.dressCode],
     ['语言要求', input.languageRequirement],
     ['到场安排', input.arrivalPlan],
+    ['交通/动线说明', input.transportNote],
     ['可回访时段', input.callbackWindow]
   ]
     .filter(([, value]) => Boolean(value))
@@ -169,6 +203,10 @@ function toBackendBookingPayload(input: BookingDraft) {
 
   return {
     city: input.city,
+    district: input.district,
+    venueType: input.venueType,
+    meetingPoint: input.meetingPoint,
+    arrivalWindow: input.arrivalWindow,
     date: input.date,
     time: input.time,
     dinnerType: input.dinnerType,

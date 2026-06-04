@@ -1,9 +1,15 @@
 <view class="page safe-bottom">
   <view class="section-head top">
     <view>
-      <view class="eyebrow">Service Scenes</view>
-      <view class="h2">选择适合的接待场景</view>
+      <view class="eyebrow">场景矩阵</view>
+      <view class="h2">选一种会面方式</view>
     </view>
+  </view>
+
+  <view class="category-intro card">
+    <view class="brand-chip">按场景配置</view>
+    <view class="intro-title">饭局只是入口</view>
+    <view class="muted">茶会、酒会、球局、展览、沙龙与城市礼宾，统一由平台团队、餐前简报、服务协议和客服留痕承接。</view>
   </view>
 
   <view class="page-state card" wx:if="{{loading}}">
@@ -19,12 +25,12 @@
   </view>
 
   <block wx:else>
-    <view class="scene-card card" wx:for="{{scenes}}" wx:key="id">
+    <view class="scene-card card" wx:for="{{scenes}}" wx:key="id" bindtap="openScene" data-id="{{item.id}}">
       <image class="cover" src="{{item.cover}}" mode="aspectFill" />
       <view class="body">
         <view class="title-row">
           <view class="title">{{item.name}}</view>
-          <view class="status-pill">合规服务</view>
+          <view class="status-pill">平台承接</view>
         </view>
         <view class="muted">{{item.description}}</view>
         <view class="tag-row">
@@ -34,8 +40,8 @@
           <view wx:for="{{item.serviceScope}}" wx:key="*this">· {{item}}</view>
         </view>
         <view class="actions">
-          <button class="btn ghost" bindtap="openPackages" data-id="{{item.id}}">查看套餐</button>
-          <button class="btn gold" bindtap="createBooking" data-id="{{item.id}}">提交需求</button>
+          <button class="btn ghost" catchtap="openScene" data-id="{{item.id}}">详情</button>
+          <button class="btn gold" catchtap="chooseAssistants" data-id="{{item.id}}" data-name="{{item.name}}">选助理</button>
         </view>
       </view>
     </view>

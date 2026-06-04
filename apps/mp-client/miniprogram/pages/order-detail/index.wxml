@@ -18,6 +18,20 @@
     </view>
   </view>
 
+  <view class="section card assurance-panel">
+    <view class="h2">安心履约</view>
+    <view class="muted">平台把场景前、中、后的关键动作拆成可追踪节点，减少临场不确定性。</view>
+    <view class="assurance-list">
+      <view class="assurance-item {{item.status}}" wx:for="{{assuranceItems}}" wx:key="title">
+        <view class="assurance-top">
+          <view class="assurance-title">{{item.title}}</view>
+          <view class="assurance-status">{{item.statusText}}</view>
+        </view>
+        <view class="muted">{{item.desc}}</view>
+      </view>
+    </view>
+  </view>
+
   <view class="section card">
     <view class="h2">服务信息</view>
     <view class="info-line">
@@ -25,7 +39,7 @@
       <text>{{order.serviceTime}}</text>
     </view>
     <view class="info-line">
-      <text>商务助理</text>
+      <text>服务人员</text>
       <text>{{order.assistantCount}} 人</text>
     </view>
     <view class="info-line">
@@ -40,6 +54,15 @@
       <text>已支付</text>
       <text>¥{{order.paidAmount}}</text>
     </view>
+    <view class="assistant-summary-list" wx:if="{{assistantSummaries.length}}">
+      <view class="assistant-summary" wx:for="{{assistantSummaries}}" wx:key="assistantId">
+        <image class="assistant-avatar" src="{{item.avatarUrl}}" mode="aspectFill"></image>
+        <view>
+          <view class="assistant-name">{{item.assistantNo}} · {{item.workName}}</view>
+          <view class="muted">{{item.city}} · 公开资料已审核</view>
+        </view>
+      </view>
+    </view>
   </view>
 
   <view class="section card compliance">
@@ -47,9 +70,22 @@
     <view class="muted">该订单沟通通过平台客服或受控消息系统完成。服务内容仅限商务接待氛围服务、商务社交助理服务、餐前准备与现场协同服务。</view>
   </view>
 
+  <view class="section card review-panel">
+    <view class="panel-head">
+      <view class="h2">服务评价</view>
+      <view class="status-pill">{{reviewStatusText}}</view>
+    </view>
+    <view class="muted">每个订单服务完成后都需要完成服务团队评价。评价页可单独转发给客户，客户可直接提交反馈。</view>
+    <view class="review-actions-inline">
+      <button class="service-btn primary" wx:if="{{canOpenReview}}" bindtap="openReview">{{reviewActionText}}</button>
+      <button class="service-btn disabled" wx:else disabled>服务完成后开放</button>
+      <button class="service-btn" open-type="share" data-share-type="service-review">转发评价页</button>
+    </view>
+  </view>
+
   <view class="section card service-panel">
     <view class="h2">订单服务</view>
-    <view class="muted">改期、补充需求、发票和退款均需平台客服确认后生效。</view>
+    <view class="muted">改期、补充需求、发票和退款均需平台客服确认后生效。正式环境将拉起企业微信客服，当前请求会先写入平台留痕。</view>
     <view class="service-grid">
       <button class="service-btn" wx:for="{{serviceActions}}" wx:key="type" data-type="{{item.type}}" bindtap="onServiceAction">
         {{item.label}}
@@ -63,6 +99,7 @@
   <view class="actions">
     <button class="btn ghost" bindtap="contactService">联系平台客服</button>
     <button class="btn gold" wx:if="{{order.status === 'pending_payment'}}" bindtap="payAgain">继续支付</button>
+    <button class="btn gold" wx:elif="{{canOpenReview}}" bindtap="openReview">{{reviewActionText}}</button>
     <button class="btn gold" wx:else bindtap="onServiceAction" data-type="add_requirement">补充需求</button>
   </view>
 </view>

@@ -5,14 +5,25 @@ Page({
   data: {
     assistants: [] as AssistantPublicProfile[],
     filters: {} as AssistantFilters,
+    sceneId: '',
+    packageId: '',
+    sceneName: '',
     loading: false,
     error: '',
     cityOptions: ['不限', '上海', '北京', '深圳'],
-    sceneOptions: ['不限', '商务宴请', '客户接待', '项目沟通', '朋友小聚', '城市到访'],
-    styleOptions: ['不限', '沉稳', '知性', '商务感', '大方', '亲和', '控场', '干练', '国际化', '礼宾']
+    sceneOptions: ['不限', '商务宴请', '私人茶会', '高端酒会', '高尔夫商务同场', '城市临时管家', '闭门沙龙', '艺术展览', '运动社交', '品牌私享会'],
+    styleOptions: ['不限', '沉稳', '知性', '商务感', '大方', '亲和', '控场', '干练', '国际化', '礼宾', '茶艺', '侍酒', '球局礼仪']
   },
 
-  async onLoad() {
+  async onLoad(query: { scene?: string; sceneId?: string; packageId?: string }) {
+    const sceneName = query.scene ? decodeURIComponent(query.scene) : '';
+    this.setData({
+      sceneName,
+      sceneId: query.sceneId || '',
+      packageId: query.packageId || '',
+      filters: sceneName ? { ...this.data.filters, scene: sceneName } : this.data.filters
+    });
+    wx.setNavigationBarTitle({ title: sceneName ? `${sceneName}助理` : '选择助理' });
     await this.loadAssistants();
   },
 
@@ -51,7 +62,13 @@ Page({
   },
 
   openDetail(event: WechatMiniprogram.BaseEvent) {
-    wx.navigateTo({ url: `/pages/assistant-detail/index?id=${event.currentTarget.dataset.id}` });
+    const query = [
+      `id=${encodeURIComponent(event.currentTarget.dataset.id || '')}`,
+      this.data.sceneName ? `scene=${encodeURIComponent(this.data.sceneName)}` : '',
+      this.data.sceneId ? `sceneId=${encodeURIComponent(this.data.sceneId)}` : '',
+      this.data.packageId ? `packageId=${encodeURIComponent(this.data.packageId)}` : ''
+    ].filter(Boolean).join('&');
+    wx.navigateTo({ url: `/pages/assistant-detail/index?${query}` });
   },
 
   retry() {

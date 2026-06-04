@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="780" viewBox="0 0 1200 780">
+  
+    <defs>
+      <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+        <stop offset="0%" stop-color="#0b2027"/>
+        <stop offset="44%" stop-color="#061116"/>
+        <stop offset="100%" stop-color="#020607"/>
+      </linearGradient>
+      <radialGradient id="softGlow" cx="68%" cy="30%" r="64%">
+        <stop offset="0%" stop-color="#26394a" stop-opacity="0.62"/>
+        <stop offset="42%" stop-color="#26394a" stop-opacity="0.18"/>
+        <stop offset="100%" stop-color="#020607" stop-opacity="0"/>
+      </radialGradient>
+      <linearGradient id="goldLine" x1="0" x2="1">
+        <stop offset="0%" stop-color="#b98f57" stop-opacity="0"/>
+        <stop offset="42%" stop-color="#b98f57" stop-opacity="0.86"/>
+        <stop offset="100%" stop-color="#ead5b9" stop-opacity="0.22"/>
+      </linearGradient>
+      <linearGradient id="floor" x1="0" x2="0" y1="0" y2="1">
+        <stop offset="0%" stop-color="#10252a" stop-opacity="0.14"/>
+        <stop offset="100%" stop-color="#000000" stop-opacity="0.72"/>
+      </linearGradient>
+      <pattern id="grain" width="96" height="96" patternUnits="userSpaceOnUse">
+        <circle cx="12" cy="18" r="1" fill="#f5e9cc" opacity="0.06"/>
+        <circle cx="58" cy="42" r="0.8" fill="#f5e9cc" opacity="0.035"/>
+        <circle cx="81" cy="74" r="0.9" fill="#ffffff" opacity="0.026"/>
+      </pattern>
+      <filter id="blur28">
+        <feGaussianBlur stdDeviation="28"/>
+      </filter>
+    </defs>
+  <rect width="1200" height="780" fill="url(#bg)"/>
+  <rect width="1200" height="780" fill="url(#softGlow)"/>
+  <rect width="1200" height="780" fill="url(#grain)" opacity="0.48"/>
+  <path d="M0 600 C260 540 445 560 640 596 C820 632 1010 614 1200 548 L1200 780 L0 780 Z" fill="url(#floor)"/>
+  
+    <g fill="#07161c" stroke="#ead5b9" stroke-opacity="0.18" stroke-width="2">
+      <path d="M214 502 C214 432 296 398 378 430 L430 452 V536 H238 C225 536 214 525 214 502 Z"/>
+      <path d="M986 502 C986 432 904 398 822 430 L770 452 V536 H962 C975 536 986 525 986 502 Z"/>
+      <ellipse cx="600" cy="520" rx="170" ry="44"/>
+    </g>
+    <path d="M426 520 H774" stroke="url(#goldLine)" stroke-width="3" opacity="0.72"/>
+    <circle cx="600" cy="450" r="72" fill="#b98f57" opacity="0.05" filter="url(#blur28)"/>
+    <g stroke="#b98f57" stroke-opacity="0.4" stroke-width="1.5">
+      <path d="M508 446 C552 412 648 412 692 446"/>
+      <path d="M484 474 C540 430 660 430 716 474"/>
+    </g>
+  <rect width="1200" height="780" fill="url(#bg)" opacity="0.08"/>
+  <rect width="1200" height="780" fill="#020607" opacity="0.18"/>
+  <path d="M0 0 H1200 V780 H0 Z" fill="none" stroke="#f6ead0" stroke-opacity="0.025" stroke-width="2"/>
+</svg>

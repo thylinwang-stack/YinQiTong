@@ -1,5 +1,6 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException, Optional } from '@nestjs/common';
 import { BusinessException } from '@/common/errors/business.exception';
+import { PrismaService } from '@/prisma/prisma.service';
 import {
   ApproveMealBriefDto,
   AssistantFeedbackDto,
@@ -21,11 +22,15 @@ import {
   MealBriefTaskRecord
 } from './repositories/meal-brief.repository';
 
+type PrismaLike = PrismaService & { [key: string]: any };
+
 @Injectable()
 export class MealBriefService {
   constructor(
     @Inject(MEAL_BRIEF_REPOSITORY)
-    private readonly repository: MealBriefRepository
+    private readonly repository: MealBriefRepository,
+    @Optional() @Inject(PrismaService)
+    private readonly db?: PrismaLike
   ) {}
 
   create(dto: CreateMealBriefDto): Promise<MealBriefRecord> {
@@ -120,8 +125,12 @@ export class MealBriefService {
   async getAssistantBrief(id: string): Promise<{
     id: string;
     orderId: string;
+    orderNo?: string;
     status: MealBriefStatus;
     banquetTheme?: string | null;
+    sceneName?: string;
+    city?: string;
+    serviceTime?: string;
     attendeeCount?: number | null;
     dressCode?: string | null;
     assistantVisibleBrief: string;
@@ -133,11 +142,16 @@ export class MealBriefService {
   }> {
     const brief = await this.repository.transaction(repo => this.findOrThrow(repo, id));
     const tasks = await this.repository.transaction(repo => repo.listTasks(id));
+    const meta = await this.loadBriefOrderMeta(brief.orderId);
     return {
       id: brief.id,
       orderId: brief.orderId,
+      orderNo: meta.orderNo,
       status: brief.status,
       banquetTheme: brief.banquetTheme,
+      sceneName: meta.sceneName,
+      city: meta.city,
+      serviceTime: meta.serviceTime,
       attendeeCount: brief.attendeeCount,
       dressCode: brief.dressCode,
       assistantVisibleBrief: brief.assistantVisibleBrief,
@@ -147,6 +161,47 @@ export class MealBriefService {
       attentionPoints: brief.attentionPoints,
       tasks
     };
+  }
+
+  async listStaffWorkItems() {
+    if (!this.db) return [];
+    const briefs = await this.db.mealBrief.findMany({
+      where: {
+        status: { in: [MealBriefStatus.Approved, MealBriefStatus.AssistantConfirmed, MealBriefStatus.ReminderSent, MealBriefStatus.Reviewed] }
+      },
+      include: {
+        tasks: true,
+        order: {
+          include: {
+            booking: { include: { scene: true } },
+            settlements: true
+          }
+        }
+      },
+      orderBy: [{ updatedAt: 'desc' }],
+      take: 20
+    });
+
+    return briefs.map((brief: any) => {
+      const taskTotal = brief.tasks?.length || 0;
+      const taskDone = (brief.tasks || []).filter((task: any) => task.status === 'done').length;
+      const settlementStatus = this.toStaffSettlementStatus(brief.order?.settlements?.[0]?.status);
+      return {
+        id: `work_${brief.id}`,
+        briefId: brief.id,
+        orderNo: brief.order?.orderNo || '',
+        sceneName: brief.order?.booking?.scene?.name || brief.order?.booking?.dinnerType || '商务接待',
+        city: brief.order?.booking?.city || '',
+        serviceTime: brief.order?.booking?.serviceTimeText || this.formatDateTime(brief.order?.booking?.serviceDate),
+        banquetTheme: brief.banquetTheme || brief.order?.booking?.dinnerType || '商务接待',
+        status: brief.status,
+        taskTotal,
+        taskDone,
+        checkInStatus: this.toStaffCheckInStatus(brief.status, brief.order?.status),
+        settlementStatus,
+        boundaryConfirmed: Boolean(brief.assistantConfirmedAt)
+      };
+    });
   }
 
   updateAssistantTask(id: string, taskId: string, dto: UpdateMealBriefTaskDto): Promise<MealBriefTaskRecord[]> {
@@ -173,6 +228,15 @@ export class MealBriefService {
         createdBy: dto.assistantId
       });
       await this.audit(repo, 'meal_brief.assistant_feedback', id, undefined, { assistantFeedback: dto.assistantFeedback }, MealBriefActorType.Assistant, dto.assistantId);
+    });
+  }
+
+  recordStaffCheckIn(id: string, action: 'check_in' | 'check_out', assistantId?: string): Promise<void> {
+    return this.repository.transaction(async repo => {
+      await this.findOrThrow(repo, id);
+      await this.audit(repo, `meal_brief.${action}`, id, undefined, { action }, MealBriefActorType.Assistant, assistantId, {
+        channel: 'staff_mp'
+      });
     });
   }
 
@@ -262,6 +326,40 @@ export class MealBriefService {
     const brief = await repo.findById(id);
     if (!brief) throw new NotFoundException('餐前 brief 不存在');
     return brief;
+  }
+
+  private async loadBriefOrderMeta(orderId: string): Promise<{ orderNo?: string; sceneName?: string; city?: string; serviceTime?: string }> {
+    if (!this.db) return {};
+    const order = await this.db.order.findUnique({
+      where: { id: orderId },
+      include: { booking: { include: { scene: true } } }
+    });
+    return {
+      orderNo: order?.orderNo,
+      sceneName: order?.booking?.scene?.name || order?.booking?.dinnerType,
+      city: order?.booking?.city,
+      serviceTime: order?.booking?.serviceTimeText || this.formatDateTime(order?.booking?.serviceDate)
+    };
+  }
+
+  private toStaffCheckInStatus(briefStatus: string, orderStatus?: string) {
+    if (briefStatus === MealBriefStatus.Reviewed || orderStatus === 'completed' || orderStatus === 'reviewed') return 'checked_out';
+    if (briefStatus === MealBriefStatus.ReminderSent || orderStatus === 'executing') return 'checked_in';
+    return 'not_started';
+  }
+
+  private toStaffSettlementStatus(status?: string) {
+    if (status === 'paid') return 'settled';
+    if (status === 'approved') return 'processing';
+    return 'pending';
+  }
+
+  private formatDateTime(value?: Date | string | null) {
+    if (!value) return '';
+    const date = value instanceof Date ? value : new Date(value);
+    if (Number.isNaN(date.getTime())) return '';
+    const pad = (input: number) => String(input).padStart(2, '0');
+    return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(date.getHours())}:${pad(date.getMinutes())}`;
   }
 
   private composeAssistantVisibleBrief(input: Partial<MealBriefRecord | CreateMealBriefDto | UpsertMealBriefDto>): string {

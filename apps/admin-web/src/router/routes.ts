@@ -17,6 +17,7 @@ export const routes: RouteRecordRaw[] = [
       { path: 'customers', name: 'customers', component: () => import('@/views/common/CrudListView.vue'), meta: { title: '客户 CRM', permission: 'customer:read', moduleKey: 'customers' } },
       { path: 'leads', name: 'leads', component: () => import('@/views/common/CrudListView.vue'), meta: { title: '需求/线索管理', permission: 'lead:read', moduleKey: 'leads' } },
       { path: 'orders', name: 'orders', component: () => import('@/views/orders/OrderListPage.vue'), meta: { title: '订单管理', permission: 'booking:read' } },
+      { path: 'operations', name: 'operations', component: () => import('@/views/operations/OperationsHubPage.vue'), meta: { title: '履约中台', permission: 'operations:read' } },
       { path: 'assistants', name: 'assistants', component: () => import('@/views/assistants/AssistantListPage.vue'), meta: { title: '商务助理管理', permission: 'assistant:read' } },
       { path: 'availability', name: 'availability', component: () => import('@/views/common/CrudListView.vue'), meta: { title: '助理档期', permission: 'availability:read', moduleKey: 'availability' } },
       { path: 'matching', name: 'matching', component: () => import('@/views/common/CrudListView.vue'), meta: { title: '排班匹配', permission: 'matching:read', moduleKey: 'matching' } },

@@ -55,6 +55,24 @@
   font-weight: 700;
 }
 
+.order-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 18rpx;
+}
+
+.order-action {
+  min-width: 144rpx;
+  height: 56rpx;
+  padding: 0 22rpx;
+  border: 1rpx solid rgba(216, 183, 106, 0.34);
+  border-radius: 999rpx;
+  background: rgba(216, 183, 106, 0.12);
+  color: #e2c77e;
+  font-size: 21rpx;
+  line-height: 56rpx;
+}
+
 .empty {
   margin-top: 64rpx;
   text-align: center;

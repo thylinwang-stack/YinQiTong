@@ -3,13 +3,7 @@
     <view class="brand-lockup result-brand">
       <view class="brand-mark small">
         <view class="brand-symbol-inner">
-          <view class="brand-stroke brand-m-left"></view>
-          <view class="brand-stroke brand-m-down"></view>
-          <view class="brand-stroke brand-m-up"></view>
-          <view class="brand-stroke brand-e-vert"></view>
-          <view class="brand-stroke brand-e-top"></view>
-          <view class="brand-stroke brand-e-mid"></view>
-          <view class="brand-stroke brand-e-bottom"></view>
+          <image class="brand-symbol-image" src="/assets/brand/logo-symbol-dark.png" mode="aspectFit"></image>
         </view>
       </view>
       <view>

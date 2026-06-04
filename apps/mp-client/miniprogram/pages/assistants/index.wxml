@@ -1,8 +1,9 @@
 <view class="page safe-bottom">
   <view class="section-head top">
     <view>
-      <view class="eyebrow">Assistants</view>
-      <view class="h2">公开商务助理资料</view>
+      <view class="eyebrow">商务助理</view>
+      <view class="h2">{{sceneName ? sceneName + ' · 选择助理' : '选择助理'}}</view>
+      <view class="muted scene-hint" wx:if="{{sceneName}}">已按当前服务场景筛选，可继续按城市与风格缩小范围。</view>
     </view>
   </view>
 
@@ -36,7 +37,7 @@
   </view>
 
   <view class="page-state card" wx:elif="{{assistants.length === 0}}">
-    <view class="h2">暂无符合条件的助理</view>
+    <view class="h2">暂无符合条件的商务助理</view>
     <view class="muted">可以放宽城市、场景或风格筛选。</view>
     <button class="btn ghost" bindtap="resetFilters">重置筛选</button>
   </view>
@@ -50,6 +51,13 @@
           <view class="status-pill">{{item.city}}</view>
         </view>
         <view class="muted">{{item.assistantNo}} · {{item.intro}}</view>
+        <view class="recommend-line" wx:if="{{item.recommendReason}}">{{item.recommendReason}}</view>
+        <view class="talent-box" wx:if="{{item.talents && item.talents.length}}">
+          <view class="talent-label">可展示特长</view>
+          <view class="talent-list">
+            <text wx:for="{{item.talents}}" wx:key="*this">{{item}}</text>
+          </view>
+        </view>
         <view class="tag-row">
           <view class="tag" wx:for="{{item.styleTags}}" wx:key="*this">{{item}}</view>
         </view>

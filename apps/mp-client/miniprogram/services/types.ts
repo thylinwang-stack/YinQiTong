@@ -1,6 +1,15 @@
 export type ApiMode = 'mock' | 'real';
 
-export type SceneCode = 'business_dinner' | 'client_reception' | 'city_visit' | 'project_meeting' | 'private_gathering';
+export type SceneCode =
+  | 'business_dinner'
+  | 'private_tea'
+  | 'wine_reception'
+  | 'golf_social'
+  | 'city_concierge'
+  | 'closed_salon'
+  | 'art_preview'
+  | 'tennis_social'
+  | 'brand_private_event';
 
 export interface ServiceScene {
   id: string;
@@ -34,8 +43,20 @@ export interface AssistantPublicProfile {
   styleTags: string[];
   sceneSkills: string[];
   businessSkills: string[];
+  talents?: string[];
   intro: string;
   complianceNote: string;
+  recommendReason?: string;
+}
+
+export interface ReviewAssistantSummary {
+  assistantId: string;
+  assistantNo: string;
+  workName: string;
+  city?: string;
+  avatarUrl?: string;
+  styleTags?: string[];
+  sceneSkills?: string[];
 }
 
 export interface AssistantFilters {
@@ -55,6 +76,11 @@ export interface BookingDraft {
   hostRole?: string;
   banquetGoal?: string;
   guestProfile?: string;
+  district?: string;
+  venueType?: string;
+  meetingPoint?: string;
+  arrivalWindow?: string;
+  transportNote?: string;
   venuePreference?: string;
   contactName?: string;
   contactPhone?: string;
@@ -79,6 +105,10 @@ export interface BookingOrder {
   status: BookingStatus;
   sceneName: string;
   city: string;
+  district?: string;
+  venueType?: string;
+  meetingPoint?: string;
+  arrivalWindow?: string;
   serviceTime: string;
   assistantCount: number;
   depositAmount: number;
@@ -86,6 +116,10 @@ export interface BookingOrder {
   paidAmount: number;
   createdAt: string;
   boundaryConfirmed: boolean;
+  reviewStatus?: ServiceReviewStatus;
+  reviewToken?: string;
+  reviewSubmittedAt?: string;
+  assistants?: ReviewAssistantSummary[];
 }
 
 export type BookingStatus =
@@ -96,7 +130,46 @@ export type BookingStatus =
   | 'ready_for_service'
   | 'in_service'
   | 'completed'
+  | 'reviewed'
   | 'cancelled';
+
+export type ServiceReviewStatus = 'not_available' | 'pending' | 'submitted';
+
+export interface AssistantServiceReviewInput {
+  assistantId: string;
+  assistantNo: string;
+  rating: number;
+  comment?: string;
+}
+
+export interface ServiceReviewSubmitInput {
+  overallRating: number;
+  atmosphereRating: number;
+  professionalismRating: number;
+  boundarySenseRating: number;
+  punctualityRating: number;
+  assistantReviews: AssistantServiceReviewInput[];
+  highlightTags: string[];
+  comment?: string;
+  allowFollowUp?: boolean;
+  repurchaseIntent?: 'yes' | 'maybe' | 'no';
+}
+
+export interface ServiceReview extends ServiceReviewSubmitInput {
+  id: string;
+  orderId: string;
+  orderNo: string;
+  status: ServiceReviewStatus;
+  sceneName: string;
+  city: string;
+  serviceTime: string;
+  assistantCount: number;
+  assistants: ReviewAssistantSummary[];
+  reviewToken: string;
+  shareTitle: string;
+  sharePath: string;
+  submittedAt?: string;
+}
 
 export interface CreateBookingResult {
   bookingId: string;
@@ -173,6 +246,24 @@ export interface StaffMealBrief {
   attentionPoints: string[];
   tasks: AssistantBriefTask[];
 }
+
+export interface StaffWorkItem {
+  id: string;
+  briefId: string;
+  orderNo: string;
+  sceneName: string;
+  city: string;
+  serviceTime: string;
+  banquetTheme: string;
+  status: MealBriefStatus;
+  taskTotal: number;
+  taskDone: number;
+  checkInStatus: 'not_started' | 'checked_in' | 'checked_out';
+  settlementStatus: 'pending' | 'processing' | 'settled';
+  boundaryConfirmed: boolean;
+}
+
+export type StaffCheckInAction = 'check_in' | 'check_out';
 
 export interface StaffReviewInput {
   assistantFeedback: string;
